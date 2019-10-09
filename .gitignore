@@ -1,0 +1,13 @@
+answer-generation-env/
+data/**
+gpt_models/
+models/
+notebooks/
+out/
+raw_data/
+__pycache__/
+samples/
+tests/data/*
+tests/out*
+
+*.ipynb
