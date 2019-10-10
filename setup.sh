@@ -1,8 +1,8 @@
 ### Run in root directory of repository ###
 
-# #########################################
-# ### Sets up a virtualenv, activates the env, and installs pip packages
-# ##########################################
+#########################################
+### Sets up a virtualenv, activates the env, and installs pip packages
+##########################################
 virtualenv -p python3 answer-generation-env
 source answer-generation-env/bin/activate
 
@@ -32,6 +32,12 @@ unzip 'download?id=DhAhE8B5'
 rm 'download?id=DhAhE8B5'
 rm -r __MACOSX
 mv MCScript mcscript
+
+# Download NarrativeQA
+git clone https://github.com/deepmind/narrativeqa.git
+cd narrativeqa
+./download_stories.sh
+cd ../
 
 # Download SocialIQA
 mkdir socialiqa
