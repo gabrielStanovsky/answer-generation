@@ -26,6 +26,12 @@ wget https://github.com/wilburOne/cosmosqa/raw/master/data/train.csv
 wget https://github.com/wilburOne/cosmosqa/raw/master/data/valid.csv
 cd ..
 
+# Download DROP
+wget https://s3-us-west-2.amazonaws.com/allennlp/datasets/drop/drop_dataset.zip
+unzip drop_dataset.zip
+mv drop_dataset drop
+rm drop_dataset.zip
+
 # Download MCScript
 wget https://my.hidrive.com/api/sharelink/download?id=DhAhE8B5
 unzip 'download?id=DhAhE8B5'
@@ -38,6 +44,14 @@ git clone https://github.com/deepmind/narrativeqa.git
 cd narrativeqa
 ./download_stories.sh
 cd ../
+
+# Download QUOREF
+wget https://quoref-dataset.s3-us-west-2.amazonaws.com/train_and_dev/quoref-train-dev-v0.1.zip
+unzip quoref-train-dev-v0.1.zip
+mv quoref-train-dev-v0.1 quoref
+rm quoref-train-dev-v0.1.zip
+
+# Download RACE by filling out the online form
 
 # Download SocialIQA
 mkdir socialiqa
