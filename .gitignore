@@ -1,6 +1,6 @@
 answer-generation-env/
 data/**
-gpt_models/
+gpt_models/*/model*
 models/
 notebooks/
 out/
