@@ -1,14 +1,15 @@
 __pycache__/
 *bin
+*tar.gz
 answer-generation-env/
 data/**
 gpt_models/*/model*
 models/
 nabert_models/*/*th
-nabert_models/*/model*
+nabert_models/*/model*th
 nabert_models/*/log/*
 naqanet_models/*/*th
-naqanet_models/*/model*
+naqanet_models/*/model*th
 naqanet_models/*/log/*
 notebooks/
 out/
