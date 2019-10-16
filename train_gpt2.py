@@ -1,6 +1,7 @@
 import gpt_2_simple as gpt2
 import os
 from os.path import isdir, join
+import tensorflow as tf
 
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
 

@@ -76,11 +76,24 @@ def generate_gpt2_on_mcscript():
 	generate_samples_for_file('data/mcscript/dev.csv', 'mcscript', 'gpt_models', length=15)
 	generate_samples_for_file('data/mcscript/test.csv', 'mcscript', 'gpt_models', length=15)
 
+def generate_gpt2_on_narrativeqa():
+	generate_samples_for_file('data/narrativeqa/dev.csv', 'narrativeqa', 'gpt_models', length=15)
+	generate_samples_for_file('data/narrativeqa/test.csv', 'narrativeqa', 'gpt_models', length=15)
+
 def generate_gpt2_on_socialiqa():
 	generate_samples_for_file('data/socialiqa/dev.csv', 'socialiqa', 'gpt_models', length=15)
 	generate_samples_for_file('data/socialiqa/test.csv', 'socialiqa', 'gpt_models', length=15)
 
 if __name__ == '__main__':
-	generate_gpt2_on_cosmosqa()
-	generate_gpt2_on_mcscript()
-	generate_gpt2_on_socialiqa()
+	# generate_gpt2_on_cosmosqa()
+	# tf.reset_default_graph()
+	
+	# generate_gpt2_on_mcscript()
+	# tf.reset_default_graph()
+
+	generate_gpt2_on_narrativeqa()
+	tf.reset_default_graph()
+	
+	# generate_gpt2_on_socialiqa()
+	# tf.reset_default_graph()
+
