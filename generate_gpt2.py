@@ -17,8 +17,10 @@ def get_generated_answer(prefix, output):
 	output = [o[len(prefix):] for o in output]
 	return output
 
-def generate_samples_for_file(data_file, run_name, checkpoint_dir, length):
+def generate_samples_for_file(data_file, run_name, checkpoint_dir, length, ckpt=None):
 	csv_filename = join(checkpoint_dir, run_name, data_file.split('/')[-1] + '_generation')
+	if ckpt != None:
+		csv_filename += '-'+ckpt
 
 	if isfile(csv_filename):
 		return
@@ -28,7 +30,7 @@ def generate_samples_for_file(data_file, run_name, checkpoint_dir, length):
 
 	tf.reset_default_graph()
 	sess = gpt2.start_tf_sess()
-	gpt2.load_gpt2(sess, run_name=run_name, checkpoint_dir=checkpoint_dir)
+	gpt2.load_gpt2(sess, run_name=run_name, checkpoint_dir=checkpoint_dir, ckpt=ckpt)
 
 	with open(data_file) as f:
 		# Skip header line
@@ -42,7 +44,7 @@ def generate_samples_for_file(data_file, run_name, checkpoint_dir, length):
 				tf.reset_default_graph()
 				sess.close()
 				sess = gpt2.start_tf_sess()
-				gpt2.load_gpt2(sess, run_name=run_name, checkpoint_dir=checkpoint_dir)
+				gpt2.load_gpt2(sess, run_name=run_name, checkpoint_dir=checkpoint_dir, ckpt=None)
 
 			gpt2_input = line[0].strip()
 
@@ -85,15 +87,15 @@ def generate_gpt2_on_socialiqa():
 	generate_samples_for_file('data/socialiqa/test.csv', 'socialiqa', 'gpt_models', length=15)
 
 if __name__ == '__main__':
-	# generate_gpt2_on_cosmosqa()
-	# tf.reset_default_graph()
+	generate_gpt2_on_cosmosqa()
+	tf.reset_default_graph()
 	
-	# generate_gpt2_on_mcscript()
-	# tf.reset_default_graph()
+	generate_gpt2_on_mcscript()
+	tf.reset_default_graph()
 
 	generate_gpt2_on_narrativeqa()
 	tf.reset_default_graph()
 	
-	# generate_gpt2_on_socialiqa()
-	# tf.reset_default_graph()
+	generate_gpt2_on_socialiqa()
+	tf.reset_default_graph()
 

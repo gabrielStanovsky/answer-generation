@@ -6,6 +6,7 @@ __pycache__/
 answer-generation-env/
 data/**
 gpt_models/*/model*
+gpt_models/narrativeqa_bak/
 models/
 nabert_models/*/log/*
 naqanet_models/*/log/*

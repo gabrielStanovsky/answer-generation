@@ -3,7 +3,7 @@ import os
 from os.path import isdir, join
 import tensorflow as tf
 
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
+os.environ["CUDA_VISIBLE_DEVICES"]="1"
 
 def train_gpt2_on_cosmosqa():
 	print('Training a model on COSMOSQA')
@@ -43,7 +43,7 @@ def train_gpt2_on_narrativeqa():
 		sess = gpt2.start_tf_sess()
 		gpt2.finetune(sess, model_name='124M', dataset='data/narrativeqa/train.csv', 
 					  steps=10000, checkpoint_dir=checkpoint_dir, run_name=run_name, 
-					  print_every=10, sample_every=1000, save_every=3000, batch_size=1, max_checkpoints=10)
+					  print_every=10, sample_every=1000, save_every=500, batch_size=1, max_checkpoints=20)
 	else:
 		print('Trained NarrativeQA directory already exists')
 
