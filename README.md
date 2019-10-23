@@ -5,10 +5,6 @@ To train a GPT2 model on MCScript, NarrativeQA, SocialIQA, and COSMOSQA, run:
 python gpt/train_gpt2.py
 ```
 
-To train a BiDAF model on QUOREF, run: 
-```
-```
-
 To train a BERT model on QUOREF, run:
 ```
 python pytorch-pretrained-BERT/examples/run_squad.py \
@@ -43,10 +39,6 @@ allennlp train nabert/drop_config.json --include-package nabert -s nabert_models
 To get predictions on MCScript, NarrativeQA, SocialIQA, and COSMOSQA from a trained GPT2 model run:
 ```
 python gpt/generate_gpt2.py
-```
-
-To get predictions on QUOREF from a trained BiDAF model, run :
-```
 ```
 
 To get predictions on QUOREF from a trained BERT model, run :
@@ -88,11 +80,13 @@ python mt_html/create_hits.py \
     --csv merge_predictions/to_label/narrativeqa.csv \
     --out mt_html/narrativeqa/ \
     --num_hits 10
+    --shuffle
 
 python mt_html/create_hits.py \
     --html mt_html/mcscript.html \
     --csv merge_predictions/to_label/mcscript.csv \
     --out mt_html/mcscript/ \
     --num_hits 10
+    --shuffle
 
 ```
