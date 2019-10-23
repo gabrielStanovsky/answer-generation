@@ -40,33 +40,37 @@ def load_narrativeqa_data():
 	NARRATIVEQA_DEV_FILE = '/home/tony/answer-generation/data/narrativeqa/dev.csv'
 	NARRATIVEQA_TEST_FILE = '/home/tony/answer-generation/data/narrativeqa/test.csv'
 
-	def load_file(NARRATIVEQA_FILE, narrativeqa_data={}):
+	def load_file(NARRATIVEQA_FILE, data={}):
 		with open(NARRATIVEQA_FILE, 'r', encoding='utf8', errors='ignore') as fp:
 			fp.readline()   # skip header
 			for row in csv.reader(fp):
-				context, question, references = row[1], row[2], [row[3], row[4]]
-				if context not in narrativeqa_data:
-					narrativeqa_data[context] = {}
+				context = clean_string(row[1])
+				question = clean_string(row[2])
+				references = [clean_string(row[3]), clean_string(row[4])]
+
+				if context not in data:
+					data[context] = {}
 				
-				if question not in narrativeqa_data[context]:
-					narrativeqa_data[context][question] = {'references': references, 'candidates': set()}
+				if question not in data[context]:
+					data[context][question] = {'references': references, 'candidates': set()}
 
-			return narrativeqa_data
+			return data
 
-	narrativeqa_data = load_file(NARRATIVEQA_DEV_FILE)
-	narrativeqa_data = load_file(NARRATIVEQA_TEST_FILE, narrativeqa_data)
+	data = load_file(NARRATIVEQA_DEV_FILE)
+	data = load_file(NARRATIVEQA_TEST_FILE, data)
 
-	return narrativeqa_data
+	return data
 
 def load_mhpg_predictions(file):
 	lines = []
 	for line in Reader(open(file)):
-		context = line['raw_summary'].replace('\n', ' ').strip()
-		question = line['raw_ques'].strip()
-		candidate = line['pred'].replace(" n't", "n't")
+		context = clean_string(line['raw_summary'])
+		question = clean_string(line['raw_ques'].strip())
+		candidate = clean_string(line['pred']).replace(" n't", "n't").replace(" 's", "'s")
 
 		if 'UNK' not in candidate:
 			lines.append((context, question, candidate))
+			
 	return lines
 
 def write_data_to_label(data_dict):
@@ -113,14 +117,14 @@ def main():
 							 join(MHPG_PREDICTIONS_DIR, 'narrative_qa_test.jsonl.merged1'),
 							 join(MHPG_PREDICTIONS_DIR, 'narrative_qa_test.jsonl.merged2')]
 
-	narrativeqa_data = load_narrativeqa_data()
+	data = load_narrativeqa_data()
 
 	for f in MHPG_PREDICTIONS_FILE:
 		for context, question, candidate in load_mhpg_predictions(f):
-			if context in narrativeqa_data and question in narrativeqa_data[context]:
-				narrativeqa_data[context][question]['candidates'].add(candidate)
+			if context in data and question in data[context]:
+				data[context][question]['candidates'].add(candidate)
 
-	write_data_to_label(narrativeqa_data)
+	write_data_to_label(data)
 
 if __name__ == '__main__':
 	main()

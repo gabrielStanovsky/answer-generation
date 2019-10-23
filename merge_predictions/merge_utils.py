@@ -29,6 +29,9 @@ def check_data_and_return_hash(context, question, reference, candidate):
 
 	return hash_id
 
+def clean_string(s):
+	return s.replace('\n', ' ').strip()
+	
 def is_number(s):
 	try:
 		float(s)
@@ -47,8 +50,8 @@ def match(references, candidate):
 		if is_number(reference) and is_number(candidate) and float(reference) == float(candidate):
 			return True
 
-		tokenized_reference 	 = [token.lemma_ for token in nlp(reference.lower())]
-		tokenized_candidate 	 = [token.lemma_ for token in nlp(candidate.lower())]
+		tokenized_reference 	 = [token.lemma_.strip() for token in nlp(reference.lower())]
+		tokenized_candidate 	 = [token.lemma_.strip() for token in nlp(candidate.lower())]
 		tokenized_reference 	  = [token for token in tokenized_reference if token not in STOP_WORDS]
 		tokenized_candidate 	  = [token for token in tokenized_candidate if token not in STOP_WORDS]
 

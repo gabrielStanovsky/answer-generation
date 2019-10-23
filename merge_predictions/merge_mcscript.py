@@ -4,82 +4,84 @@ from os.path import isfile, join
 import random
 random.seed(0)
 
-from merge_utils import bert_tokenization_length, match, strip_gpt_endtag, prune_candidates
+from merge_utils import *
 
 def load_mcscript_data():
 	MCSCRIPT_DEV_FILE = '/home/tony/answer-generation/data/mcscript/dev.csv'
 	MCSCRIPT_TEST_FILE = '/home/tony/answer-generation/data/mcscript/test.csv'
 	
-	data = {}
+	def load_file(MCSCRIPT_FILE, data={}):
+		with open(MCSCRIPT_FILE, 'r', encoding='utf8', errors='ignore') as fp:
+			fp.readline()   # skip header
+			for row in csv.reader(fp):
+				context = clean_string(row[1])
+				question = clean_string(row[2])
+				reference = clean_string(row[3])
 
-	with open(MCSCRIPT_DEV_FILE, 'r', encoding='utf8', errors='ignore') as fp:
-		fp.readline()   # skip header
-		for row in csv.reader(fp):
-			context, question, reference = row[1], row[2], row[3]
-			if context not in data:
-				data[context] = {}
-			
-			if question not in data[context]:
-				data[context][question] = {'reference': reference, 'candidates': set()}
+				if context not in data:
+					data[context] = {}
+				
+				if question not in data[context]:
+					data[context][question] = {'reference': reference, 'candidates': set()}
+		return data
 
-	with open(MCSCRIPT_TEST_FILE, 'r', encoding='utf8', errors='ignore') as fp:
-		fp.readline()   # skip header
-		for row in csv.reader(fp):
-			context, question, reference = row[1], row[2], row[3]
-			if context not in data:
-				data[context] = {}
-			
-			if question not in data[context]:
-				data[context][question] = {'reference': reference, 'candidates': set()}
+	data = load_file(MCSCRIPT_DEV_FILE)
+	data = load_file(MCSCRIPT_TEST_FILE, data)
 
 	return data
 
 def load_gpt2_predictions(file):
 	lines = []
-
 	with open(file, 'r', encoding='utf8', errors='ignore') as fp:
 		for row in csv.reader(fp):
-			context, question, candidates = row[1], row[2], row[4:]
-			candidates = strip_gpt_endtag(candidates)
+			context = clean_string(row[1])
+			question = clean_string(row[2])
+			candidates = strip_gpt_endtag([clean_string(c) for c in row[4:]])
 			lines.append((context, question, candidates))
 	return lines
 
 def load_mhpg_predictions(file):
 	lines = []
 	for line in Reader(open(file)):
-		context = line['raw_summary'].replace('\n', ' ').strip()
-		question = line['raw_ques'].strip()
-		candidate = line['pred'].replace(" n't", "n't").replace(" 's", "'s")
+		context = clean_string(line['raw_summary'])
+		question = clean_string(line['raw_ques'])
+		candidate = clean_string(line['pred']).replace(" n't", "n't").replace(" 's", "'s")
 
 		if 'UNK' not in candidate:
 			lines.append((context, question, candidate))
 	return lines
 
 def write_data_to_label(data_dict):
-	data_list = []
+	samples = []
 
 	# First converts the dictionary to entries in a list
 	for context in data_dict:
 		for question in data_dict[context]:
 			reference = data_dict[context][question]['reference']
 			candidates = prune_candidates(reference, data_dict[context][question]['candidates'])
-
+			# print(reference)
+			# print(candidates)
+			# print('\n')
 			for candidate in candidates:
 				# Filter instances that wouldn't fit into BERT
-				if bert_tokenization_length(context, question, candidate, reference) < 512 - 4:
-					data_list.append([context, question, reference, candidate])
+				if bert_tokenization_length(context, question, reference, candidate) + 4 > 512:
+					continue
 
-	# Sorts the entries by context
-	data_list = sorted(data_list, key = lambda x: x[1])
-	data_list = sorted(data_list, key = lambda x: x[0])
+				# Check the data instances and get a sample hash id
+				hash_id = check_data_and_return_hash(context, question, reference, candidate)
+				if hash_id == None:
+					continue
+
+				samples.append([context, question, reference, candidate, hash_id])
+
+	samples = prune_and_sort_samples(samples)
 
 	# Write to CSV file
-	csvfile = open('merge_predictions/to_label/mcscript.csv', 'w')
-	writer = csv.writer(csvfile)
-	writer.writerow(['context', 'question', 'reference', 'candidate'])
-	for line in data_list:
-		writer.writerow(line)
-	csvfile.close()
+	with open('merge_predictions/to_label/mcscript.csv', 'w') as csvfile:
+		writer = csv.writer(csvfile)
+		writer.writerow(['context', 'question', 'reference', 'candidate', 'id'])
+		for line in samples:
+			writer.writerow(line)
 
 def main():
 	# Paths to prediction files
