@@ -1,1 +1,0 @@
-https://htmlpreview.github.io/?https://github.com/anthonywchen/answer-generation/blob/master/mt_html/narrativeqa/10.html
