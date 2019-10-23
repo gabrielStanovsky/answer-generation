@@ -6,7 +6,7 @@ from os.path import isfile, join
 import random
 random.seed(0)
 
-from merge_utils import bert_tokenization_length, match, prune_candidates
+from merge_utils import *
 
 def most_frequent(l): 
 	occurence_count = Counter(l) 
@@ -21,10 +21,10 @@ def load_drop_data():
 		dataset = json.load(dataset_file)
 	
 	for passage_id, passage_info in dataset.items():
-		passage = passage_info["passage"]
+		passage = clean_string(passage_info["passage"])
 		for question_answer in passage_info["qa_pairs"]:
 			question_id = question_answer["query_id"]
-			question = question_answer["question"].strip()
+			question = clean_string(question_answer["question"])
 			answer_annotations = []
 			if "answer" in question_answer:
 				answer_annotations.append(question_answer["answer"])
@@ -35,7 +35,7 @@ def load_drop_data():
 			answer_annotations = [' '.join(DropReader.extract_answer_info_from_annotation(a)[1]) for a in answer_annotations]
 			
 			# Get the most common answer as the gold answer
-			reference = str(most_frequent(answer_annotations))
+			reference = clean_string(str(most_frequent(answer_annotations)))
 			
 			data[question_id] = {'context': passage, 'question': question, 'reference': reference, 'candidates': set()}
 
@@ -43,12 +43,10 @@ def load_drop_data():
 
 def load_predictions(file):
 	with open(file) as dataset_file:
-		predictions = json.load(dataset_file)
-
-	return predictions
+		return json.load(dataset_file)
 
 def write_data_to_label(data_dict):
-	data_list = []
+	samples = []
 
 	# First converts the dictionary to entries in a list
 	for question_id in data_dict:
@@ -59,21 +57,24 @@ def write_data_to_label(data_dict):
 
 		for candidate in candidates:
 			# Filter instances that wouldn't fit into BERT
-			if bert_tokenization_length(context, question, candidate, reference) < 512 - 4:
-				data_list.append([context, question, reference, candidate])
+			if bert_tokenization_length(context, question, candidate, reference) + 4 > 512:
+				continue
 
-	# Sorts the entries by context
-	data_list = sorted(data_list, key = lambda x: x[3])
-	data_list = sorted(data_list, key = lambda x: x[1])
-	data_list = sorted(data_list, key = lambda x: x[0])
+			# Check the data instances and get a sample hash id
+			hash_id = check_data_and_return_hash(context, question, reference, candidate)
+			if hash_id == None:
+				continue
+
+			samples.append([context, question, reference, candidate, hash_id])
+
+	samples = prune_and_sort_samples(samples)
 
 	# Write to CSV file
-	csvfile = open('merge_predictions/to_label/drop.csv', 'w')
-	writer = csv.writer(csvfile)
-	writer.writerow(['context', 'question', 'reference', 'candidate'])
-	for line in data_list:
-		writer.writerow(line)
-	csvfile.close()
+	with open('merge_predictions/to_label/drop.csv', 'w') as csvfile:
+		writer = csv.writer(csvfile)
+		writer.writerow(['context', 'question', 'reference', 'candidate'])
+		for line in samples:
+			writer.writerow(line)
 
 def main():
 	# Paths to prediction files

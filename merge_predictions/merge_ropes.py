@@ -1,15 +1,9 @@
-from collections import Counter 
 import csv
 import json
-from os.path import isfile, join
 import random
 random.seed(0)
 
-from merge_utils import bert_tokenization_length, match, prune_candidates
-
-def most_frequent(l): 
-	occurence_count = Counter(l) 
-	return occurence_count.most_common(1)[0][0] 
+from merge_utils import *
 
 def load_ropes_data():
 	ROPES_DEV_FILE = '/home/tony/answer-generation/raw_data/ropes/dev-v0.4.json'
@@ -22,12 +16,12 @@ def load_ropes_data():
 			dataset = json.load(dataset_file)
 
 		for line in dataset['data'][0]['paragraphs']:
-			context = line['context'].split('[SEP]')[0].strip().replace('\n', ' ').replace('__SEP__', ' ')
-			question = line['context'].split('[SEP]')[1].strip().replace('\n', ' ')
+			context = clean_string(line['context'].split('[SEP]')[0]).replace('__SEP__', ' ')
+			question = clean_string(line['context'].split('[SEP]')[1])
 
 			for question_dict in line['qas']:
 				question_id = str(question_dict['id'])
-				reference = question_dict['answers'][0]['text']
+				reference = clean_string(question_dict['answers'][0]['text'])
 
 				data[question_id] = {'context': context, 'question': question, 'reference': reference, 'candidates': set()}
 
@@ -35,38 +29,42 @@ def load_ropes_data():
 
 def load_predictions(file):
 	with open(file) as dataset_file:
-		predictions = json.load(dataset_file)
-
-	return predictions
+		return json.load(dataset_file)
 
 def write_data_to_label(data_dict):
-	data_list = []
+	samples = []
 
 	# First converts the dictionary to entries in a list
 	for question_id in data_dict:
 		context = data_dict[question_id]['context']
 		question = data_dict[question_id]['question']
 		reference = data_dict[question_id]['reference']
-
 		candidates = prune_candidates(reference, data_dict[question_id]['candidates'])
 
 		for candidate in candidates:
-			# Filter instances that wouldn't fit into BERT
-			if bert_tokenization_length(context, question, candidate, reference) < 512 - 4:
-				data_list.append([context, question, reference, candidate])
+			if 'SEP' in candidate:
+				continue
 
-	# Sorts the entries by context
-	data_list = sorted(data_list, key = lambda x: x[3])
-	data_list = sorted(data_list, key = lambda x: x[1])
-	data_list = sorted(data_list, key = lambda x: x[0])
+			# Filter instances that wouldn't fit into BERT
+			if bert_tokenization_length(context, question, candidate, reference) + 4 > 512:
+				continue
+
+			# Check the data instances and get a sample hash id
+			hash_id = check_data_and_return_hash(context, question, reference, candidate)
+			if hash_id == None:
+				continue
+
+			samples.append([context, question, reference, candidate, hash_id])
+
+
+	samples = prune_and_sort_samples(samples)
 
 	# Write to CSV file
-	csvfile = open('merge_predictions/to_label/ropes.csv', 'w')
-	writer = csv.writer(csvfile)
-	writer.writerow(['context', 'question', 'reference', 'candidate'])
-	for line in data_list:
-		writer.writerow(line)
-	csvfile.close()
+	with open('merge_predictions/to_label/ropes.csv', 'w') as csvfile:
+		writer = csv.writer(csvfile)
+		writer.writerow(['context', 'question', 'reference', 'candidate', 'id'])
+		for line in samples:
+			writer.writerow(line)
 
 def main():
 	# Paths to prediction files
@@ -77,8 +75,8 @@ def main():
 	data = load_ropes_data()
 
 	for f in PREDICTION_FILES:
-		for question_id, candidate in load_predictions(f).items():
-			data[question_id]['candidates'].update(candidate)
+		for question_id, candidates in load_predictions(f).items():
+			data[question_id]['candidates'].update(candidates)
 
 	write_data_to_label(data)
 

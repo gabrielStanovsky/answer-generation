@@ -1,6 +1,6 @@
 import csv
 from jsonlines import Reader
-from os.path import isfile, join
+from os.path import join
 import random
 random.seed(0)
 
@@ -59,9 +59,7 @@ def write_data_to_label(data_dict):
 		for question in data_dict[context]:
 			reference = data_dict[context][question]['reference']
 			candidates = prune_candidates(reference, data_dict[context][question]['candidates'])
-			# print(reference)
-			# print(candidates)
-			# print('\n')
+
 			for candidate in candidates:
 				# Filter instances that wouldn't fit into BERT
 				if bert_tokenization_length(context, question, reference, candidate) + 4 > 512:

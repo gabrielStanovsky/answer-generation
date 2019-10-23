@@ -1,15 +1,9 @@
-from collections import Counter 
 import csv
 import json
-from os.path import isfile, join
 import random
 random.seed(0)
 
-from merge_utils import bert_tokenization_length, match, prune_candidates
-
-def most_frequent(l): 
-	occurence_count = Counter(l) 
-	return occurence_count.most_common(1)[0][0] 
+from merge_utils import *
 
 def load_quoref_data():
 	QUAREL_DEV_FILE = '/home/tony/answer-generation/raw_data/quoref/quoref-dev-v0.1.json'
@@ -21,12 +15,12 @@ def load_quoref_data():
 
 	for line in dataset['data']:
 		for paragraph_dict in line['paragraphs']:
-			context = paragraph_dict['context'].replace('\n', ' ')
+			context = clean_string(paragraph_dict['context'])
 
 			for question_dict in paragraph_dict['qas']:
 				question_id = question_dict['id']
-				question = question_dict['question']
-				reference = question_dict['answers'][0]['text']
+				question = clean_string(question_dict['question'])
+				reference = clean_string(question_dict['answers'][0]['text'])
 
 				data[question_id] = {'context': context, 'question': question, 'reference': reference, 'candidates': set()}
 
@@ -34,38 +28,38 @@ def load_quoref_data():
 
 def load_predictions(file):
 	with open(file) as dataset_file:
-		predictions = json.load(dataset_file)
-
-	return predictions
+		return json.load(dataset_file)
 
 def write_data_to_label(data_dict):
-	data_list = []
+	samples = []
 
 	# First converts the dictionary to entries in a list
 	for question_id in data_dict:
 		context = data_dict[question_id]['context']
 		question = data_dict[question_id]['question']
 		reference = data_dict[question_id]['reference']
-
 		candidates = prune_candidates(reference, data_dict[question_id]['candidates'])
 
 		for candidate in candidates:
 			# Filter instances that wouldn't fit into BERT
-			if bert_tokenization_length(context, question, candidate, reference) < 512 - 4:
-				data_list.append([context, question, reference, candidate])
+			if bert_tokenization_length(context, question, candidate, reference) + 4 > 512:
+				continue
 
-	# Sorts the entries by context
-	data_list = sorted(data_list, key = lambda x: x[3])
-	data_list = sorted(data_list, key = lambda x: x[1])
-	data_list = sorted(data_list, key = lambda x: x[0])
+			# Check the data instances and get a sample hash id
+			hash_id = check_data_and_return_hash(context, question, reference, candidate)
+			if hash_id == None:
+				continue
+
+			samples.append([context, question, reference, candidate, hash_id])
+
+	samples = prune_and_sort_samples(samples)
 
 	# Write to CSV file
-	csvfile = open('merge_predictions/to_label/quoref.csv', 'w')
-	writer = csv.writer(csvfile)
-	writer.writerow(['context', 'question', 'reference', 'candidate'])
-	for line in data_list:
-		writer.writerow(line)
-	csvfile.close()
+	with open('merge_predictions/to_label/quoref.csv', 'w') as csvfile:
+		writer = csv.writer(csvfile)
+		writer.writerow(['context', 'question', 'reference', 'candidate', 'id'])
+		for line in samples:
+			writer.writerow(line)
 
 def main():
 	# Paths to prediction files
@@ -74,8 +68,8 @@ def main():
 	# Load in data and prediction files 	
 	data = load_quoref_data()
 
-	for question_id, candidate in load_predictions(PREDICTION_FILE).items():
-		data[question_id]['candidates'].update(candidate)
+	for question_id, candidates in load_predictions(PREDICTION_FILE).items():
+		data[question_id]['candidates'].update(candidates)
 
 	write_data_to_label(data)
 
