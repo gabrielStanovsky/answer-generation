@@ -2,7 +2,7 @@
 
 To train a GPT2 model on MCScript, NarrativeQA, SocialIQA, and COSMOSQA, run:
 ```
-python train_gpt2.py
+python gpt/train_gpt2.py
 ```
 
 To train a BiDAF model on QUOREF, run: 
@@ -42,7 +42,7 @@ allennlp train nabert/drop_config.json --include-package nabert -s nabert_models
 ### Predictions
 To get predictions on MCScript, NarrativeQA, SocialIQA, and COSMOSQA from a trained GPT2 model run:
 ```
-python generate_gpt2.py
+python gpt/generate_gpt2.py
 ```
 
 To get predictions on QUOREF from a trained BiDAF model, run :
@@ -77,4 +77,22 @@ python naqanet/drop_predict.py -d <device_num> -w <weights_file>
 To get predictions on DROP from a trained NABERT+ model, run:
 ```
 python nabert/drop_predict.py -d <device_num> -w <weights_file>
+```
+
+### Creating Hits
+To create HITS on the datasets, run the following dataset-specific commands
+
+```
+python mt_html/create_hits.py \
+    --html mt_html/narrativeqa.html \
+    --csv merge_predictions/to_label/narrativeqa.csv \
+    --out mt_html/narrativeqa/ \
+    --num_hits 10
+
+python mt_html/create_hits.py \
+    --html mt_html/mcscript.html \
+    --csv merge_predictions/to_label/mcscript.csv \
+    --out mt_html/mcscript/ \
+    --num_hits 10
+
 ```

@@ -1,6 +1,7 @@
 __pycache__/
 *.bin
 *.log
+*.swp
 *.tar.gz
 *.th
 answer-generation-env/

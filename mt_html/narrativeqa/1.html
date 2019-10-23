@@ -1,0 +1,203 @@
+<!-- HIT template: DataCollection-v3.0 --><!-- The following snippet enables the 'responsive' behavior on smaller screens -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" rel="stylesheet" /><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
+    </style>
+</script>
+<meta content="width=device-width,initial-scale=1" name="viewport" />
+<section class="container" id="DataCollection"><!-- Instructions -->
+<div style="padding-left: 3em; border:solid #000; border-width: 1px;">&nbsp;
+
+<!--*********************************
+        Task Instructions
+*********************************-->
+<h3><u><strong>Task Instruction:</strong></u></h3>
+<h5>In this task, you are given a passage, a question, a correct answer, and a predicted answer.
+    The task is to <span style="color:#FF0000;"><em>score how closely a predicted answer captures the same information as a correct answer</em></span> using the <em><strong><u>passage</u></strong></em>, <em><strong><u>question</u></strong></em>, and human <em><strong><u>commonsense knowledge</u></strong></em>.
+
+    <br /> <br /> 
+    Scoring is on a scale <span style="color:#FF0000;"><em> from 1 to 5 </em></span>. 
+    <br />
+    A score of <span style="color:#FF0000;"><em>1</em></span> means the predicted answer captures none of the information of the correct answer, and thus is a completely wrong answer.
+    <br /> 
+    A score of <span style="color:#FF0000;"><em>5</em></span> means the predicted answer captures the same information as the correct answer, and thus is a completely right answer.
+
+    <br /><br />
+    <u>Note:</u> A predicted answer may be a correct answer, but to be given a score of 5, it must be equivalent to the correct answer. An example is provided below of this case.
+</h5>
+
+<!--*********************************
+        Examples
+*********************************-->
+<h3><u><strong>Examples:</strong></u><br /></h3>
+
+<strong><u>Passage:</u></strong> &hellip;He goes to prison to serve out a five years' sentence, but after three years have passed is pardoned out through the efforts of Maria Wyndham, Mr. Fletcher's granddaughter, whom he has loved for years.&hellip; <br />
+<strong><u>Question:</u></strong> What is the relationship of Maria Wyndham to Mr. Fletcher? <br />
+<strong><u>Correct Answer:</u></strong> grandaughter <br /><br />
+    
+    <div style="padding-left: 3em;">
+        <strong><u>Predicted Answer:</u></strong> Maria is Mr. Fletcher's granddaughter. <br />
+        <strong><u>Score:</u></strong>  5 <br />
+        <strong><u>Justification:</u></strong> The predicted answer captures the same information as the correct answer when taking into account the passage and question. <br />
+    </div><br />
+
+    <div style="padding-left: 3em;">
+        <strong><u>Predicted Answer:</u></strong> maria is maria 's granddaughter <br />
+        <strong><u>Score:</u></strong>  1 <br />
+        <strong><u>Justification:</u></strong> While the prediction has the word granddaughter, it has additional information that makes it nonsensical (one cannnot be their own granddaughter).<br />
+    </div><br />
+
+<strong><u>Passage:</u></strong> &hellip;On the way she sees the minister, Mr. Miles, and her friend Liff Hyatt. They are on their way to the mountain because Charity’s mother is dying. When they arrive, Charity’s mother is already dead, and the three of them bury her.&hellip; <br />
+<strong><u>Question:</u></strong> What happened to Charity's mother? <br />
+<strong><u>Correct Answer:</u></strong> Charity's mother dies. <br /><br />
+    
+    <div style="padding-left: 3em;">
+        <strong><u>Predicted Answer:</u></strong> She dies. <br />
+        <strong><u>Score:</u></strong>  5 <br />
+        <strong><u>Justification:</u></strong> The predicted answer captures the same information as the correct answer when taking into account the passage and question. <br />
+    </div><br />
+
+    <div style="padding-left: 3em;">
+        <strong><u>Predicted Answer:</u></strong> she is dying <br />
+        <strong><u>Score:</u></strong>  3 <br />
+        <strong><u>Justification:</u></strong> While this is technically a correct answer, it is not exactly the same as the correct answer. However, it is not completely different from the correct answer. <br />
+    </div><br />
+
+<strong><u>Passage:</u></strong> &hellip;The next day, two men, John and Jim (who are drug dealers), arrive at the apartment to pick up the package. Peter and Michael mistakenly give Mary to them instead, and shortly after they leave, Peter discovers the actual package.&hellip; <br />
+<strong><u>Question:</u></strong> Who comes to pick up the package the next day ? <br />
+<strong><u>Correct Answer:</u></strong> Drug Dealers <br /><br />
+
+    <div style="padding-left: 3em;">
+        <strong><u>Predicted Answer:</u></strong> two men <br />
+        <strong><u>Score:</u></strong>  4 <br />
+        <strong><u>Justification:</u></strong> In the passage, the two men are the same people as the drug dealers. However, two men could be any two people (for example, Peter and Michael), so we will say that it isn't completely equivalent. <br />
+    </div><br />
+
+    <div style="padding-left: 3em;">
+        <strong><u>Predicted Answer:</u></strong> the drug drug dealers <br />
+        <strong><u>Score:</u></strong>  4 <br />
+        <strong><u>Justification:</u></strong> The predicted answer is correct, though slightly ungrammatical, so we give it a 4. <br />
+    </div><br />
+
+    <div style="padding-left: 3em;">
+        <strong><u>Predicted Answer:</u></strong> John, Jim, and Peter <br />
+        <strong><u>Score:</u></strong>  3 <br />
+        <strong><u>Justification:</u></strong> "John, Jim" would be a 5, however the prediction includes Peter, who is not a drug dealer. We therefore consider this answer half correct. <br />
+    </div><br />
+
+    <div style="padding-left: 3em;">
+        <strong><u>Predicted Answer:</u></strong> Peter and Michael <br />
+        <strong><u>Score:</u></strong>  1 <br />
+        <strong><u>Justification:</u></strong> Completely wrong names of the drug dealers. <br />
+    </div><br />
+
+</div>
+<h7>&nbsp;</h7>
+
+<!--*********************************
+        Task
+*********************************-->
+
+<h4><strong>Part 1. Read the following passage: </strong></h4>
+
+<p hidden="">43d98b852a9535bf6ab341c92211ae70</p>
+
+<p style="font-weight: bold;font-size: 15pt;color: crimson;"><b>"Tom Bailey" is born in the fictitious town of Rivermouth, New Hampshire, but moves to New Orleans with his family when he is 18 months old. In his boyhood, his father wants his to be educated in the North and sent him back to Rivermouth to live with his grandfather, Captain Nutter. Nutter lives with his sister and an Irish servant. There, Tom becomes a member of a boys' club called the Centipedes. Together, the boys become involved in a series of adventures. In one prank, the boys steal an old carriage and push it into a bonfire for the [Fourth of July. During the winter, several boys build a snow fort on Slatter's Hill, inciting rival boys into a battle of snowballs. Later, Tom and three other boys combine their money to buy a boat named Dolphin and sneak away to an island. Tom also befriends a man nicknamed Sailor Ben, whom Tom originally meets on the ship that took him away from New Orleans. Revealed as the long-lost husband of Captain Nutter's Irish servant, Ben settles in Rivermouth in a boat-like cabin. Sailor Ben helps the boys fire off a series of old cannon at the pier, much to the confusion of the local townspeople. When his father's banking job fails, Tom is invited by an uncle to work in a counting-house in New York. </b></p>
+<h7>&nbsp;</h7>
+
+
+<h4><strong>Part 2. Given the following question, correct answer, and predicted answer, select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer given the passage and question.</span></strong></h4>
+<h7>&nbsp;</h7>
+
+<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;"><strong>Question: </strong> <span style="color:#FF8C00;"><strong><em><u>How old was Tom Bailey when he moves from New Hampshire to New Orleans?</u></em></strong></span> </span></div>
+<h7>&nbsp;</h7>
+
+<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;"><strong>Correct Answer: </strong> <span style="color:#FF8C00;"><strong><em><u>18 months old</u></em></strong></span> </span></div>
+<h7>&nbsp;</h7>
+
+<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;"><strong>Predicted Answer: </strong> <span style="color:#FF8C00;"><strong><em><u>18</u></em></strong></span> </span></div>
+<h7>&nbsp;</h7>
+
+<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;"><strong>Score: (you may only select one) <span style="color:#FF0000;"><em>1</em></span> means the predicted answer captures none of the information of the correct answer, and <span style="color:#FF0000;"><em>5</em></span> means the predicted answer is equivalent to the correct answer.</strong> </span></div>
+
+<div style="padding-left: 6em;font-size: 12pt;">
+<div class="checkbox"><input id="score" name="score" type="radio" value="1" />1</div>
+
+<div class="checkbox"><input id="score" name="score" type="radio" value="2" />2</div>
+
+<div class="checkbox"><input id="score" name="score" type="radio" value="3" />3</div>
+
+<div class="checkbox"><input id="score" name="score" type="radio" value="4" />4</div>
+
+<div class="checkbox"><input id="score" name="score" type="radio" value="5" />5</div>
+<!--</div>--></div>
+
+<div class="form-group">&nbsp;</div>
+<style type="text/css">.btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
+        color: black !important;
+        background-color: lightyellow  !important;
+    }
+    .btn-success:active, .btn-success.active, .open .dropdown-toggle.btn-success {
+        color: black !important;
+        background-color: lightyellow !important;
+    }
+    .btn-warning:active, .btn-warning.active, .open .dropdown-toggle.btn-warning {
+        color: black !important;
+        background-color: lightyellow !important;
+    }
+</style>
+</section>
+
+<!-- End Data Collection Layout --><!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->
+<link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" integrity="sha384-IS73LIqjtYesmURkDE9MXKbXqYA8rvKEp/ghicjem7Vc3mGRdQRptJSz60tvrB6+" rel="stylesheet" /><!-- Open internal style sheet -->
+<style type="text/css">#collapseTrigger{
+    color:#fff;
+    display: block;
+    text-decoration: none;
+}
+#submitButton{
+    white-space: normal;
+}
+.image{
+    margin-bottom: 15px;
+}
+</style>
+<!-- End internal style sheet --><!-- External JS references --><script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" integrity="sha384-s1ITto93iSMDxlp/79qhWHi+LsIi9Gx6yL+cOKDuymvihkfol83TYbLbOw+W/wv4" crossorigin="anonymous"></script><!-- Open internal javascript --><script>
+    $(document).ready(function() {
+        // Instructions expand/collapse
+        var content = $('#instructionBody');
+        var trigger = $('#collapseTrigger');
+        content.hide();
+        $('.collapse-text').text('(Click here to expand)');
+        trigger.click(function(){
+            content.toggle();
+            var isVisible = content.is(':visible');
+            if(isVisible){
+                $('.collapse-text').text('(Click here to collapse)');
+            }else{
+                $('.collapse-text').text('(Click here to expand)');
+            }
+        });
+        // end expand/collapse
+    });
+</script><!-- Close internal javascript --><script>
+    window.onload = function() {document.getElementById('submitButton').setAttribute('onClick', 'return validateForm()'); }
+
+    function validateForm(){
+        var flag = true;
+        ans1_value = document.getElementById('answer0').checked;
+        ans2_value = document.getElementById('answer1').checked;
+        ans3_value = document.getElementById('answer2').checked;
+        ans4_value = document.getElementById('answer3').checked;
+        ans5_value = document.getElementById('answer4').checked;
+
+        if(ans1_value==false && ans2_value==false && ans3_value==false && ans4_value==false && ans5_value==false){
+            alert("Please select ONE answer!!!!")
+            flag = false;
+        }
+        if((ans1_value!=false || ans2_value!=false || ans3_value!=false || ans4_value!=false) && ans5_value!=false){
+            alert("Please don't select both the plausible answers and None of the above !!!!")
+            flag = false;
+        }
+
+        return flag;
+    }
+</script>
