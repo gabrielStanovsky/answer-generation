@@ -11,12 +11,12 @@ def main():
 	# First dataset directories, get links
 	for dataset_dir in dataset_dirs:
 		dataset = dataset_dir.split('/')[1]
-		writer.write('###' + dataset + '\n')
+		writer.write('### ' + dataset.upper())
 
 		# Write HTML rendered page to markdown file
-		html_preview_extension = 'https://htmlpreview.github.io/?github.com/anthonywchen/answer-generation/blob/master/mt_html/'
+		html_preview_extension = 'https://htmlpreview.github.io/?https://github.com/anthonywchen/answer-generation/blob/master/mt_html/'
 		for i, hit in enumerate(sorted(glob(join(dataset_dir, '*')))):
-			writer.write('[' + str(i) + ']' + '(' + join(html_preview_extension, dataset, basename(hit)) + ') ')
+			writer.write(' [' + str(i) + ']' + '(' + join(html_preview_extension, dataset, basename(hit)) + ') ')
 		writer.write('\n')
 
 	writer.close()
