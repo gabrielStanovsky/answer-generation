@@ -15,10 +15,6 @@ from tqdm import tqdm
 import pandas as pd
 import os
 
-# Local imports
-
-#=-----
-
 if __name__ == "__main__":
     # Parse command line arguments
     args = docopt(__doc__)
@@ -28,24 +24,21 @@ if __name__ == "__main__":
     num_hits = args["--num_hits"]
     debug = args["--debug"]
 
+    num_hits = 999999999 if not num_hits else int(num_hits)
+
     if debug:
         logging.basicConfig(level = logging.DEBUG)
     else:
         logging.basicConfig(level = logging.INFO)
-
-    if not num_hits:
-        num_hits = 999999999
-    else:
-        num_hits = int(num_hits)
 
     df = pd.read_csv(csv_fn, sep = ",", header = 0)
     template_html = open(html_fn).read()
     keys = df.keys()
 
     for hit_num, (hit_index, row) in enumerate(df.iterrows()):
-        if hit_num > num_hits:
+        if hit_num >= num_hits:
             break
-            
+        
         hit_fn = os.path.join(out_fn, "{}.html".format(hit_index))
         logging.info("Writing {}".format(hit_fn))
         with open(hit_fn, "w") as fout:
