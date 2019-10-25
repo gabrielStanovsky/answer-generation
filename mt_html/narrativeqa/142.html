@@ -4,93 +4,129 @@
 </script>
 <meta content="width=device-width,initial-scale=1" name="viewport" />
 <section class="container" id="DataCollection"><!-- Instructions -->
-<div style="padding-left: 3em; border:solid #000; border-width: 1px;">&nbsp;
+<style>
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
 
+.active, .collapsible:hover {
+  background-color: #555;
+}
+
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+</style>
+
+
+<div style="padding-left: 3em; border:solid #000; border-width: 1px;">&nbsp;
 <!--*********************************
         Task Instructions
 *********************************-->
 <h3><u><strong>Task Instruction:</strong></u></h3>
+<button type="button" class="collapsible">Click to Expand Instructions. READ IF THIS IS YOUR FIRST HIT FOR THIS TASK.</button>
+<div class="content">
 <h5>In this task, you are given a passage, a question, a correct answer, and a predicted answer.
-    The task is to <span style="color:#FF0000;"><em>score how closely a predicted answer captures the same information as a correct answer</em></span> using the <em><strong><u>passage</u></strong></em>, <em><strong><u>question</u></strong></em>, and human <em><strong><u>commonsense knowledge</u></strong></em>.
-
+    The task is to <span style="color:#FF0000;"><em>score how closely a predicted answer captures the same information as a correct answer</em></span> using the <em><strong><u>passage</u></strong></em>, <em><strong><u>question</u></strong></em>, and human <em><strong><u>commonsense knowledge</u></strong></em>. 
     <br /> <br /> 
     Scoring is on a scale <span style="color:#FF0000;"><em> from 1 to 5 </em></span>. 
     <br />
     A score of <span style="color:#FF0000;"><em>1</em></span> means the predicted answer captures none of the information of the correct answer, and thus is a completely wrong answer.
     <br /> 
-    A score of <span style="color:#FF0000;"><em>5</em></span> means the predicted answer captures the same information as the correct answer, and thus is a completely right answer.
+    A score of <span style="color:#FF0000;"><em>5</em></span> means the predicted answer captures the same information as the correct answer, and thus is a completely right answer.<br /> <br /> 
+
+    Each HIT will contain multiple questions and predictions for the same context so it needs to only be read once per HIT.<br /> 
+
 
     <br /><br />
-    <u>Note:</u> A predicted answer may be a correct answer, but to be given a score of 5, it must be equivalent to the correct answer. An example is provided below of this case.
+    <u>Note:</u> A predicted answer may be a correct answer, but to be given a score of 5, it must be equivalent to the correct answer. An example is provided below of this case. <br/><br/>
+    <u>Note:</u> The score you give should not depend on the capitalization of the correct and predicted answer.<br/><br/>
+    <u>Note:</u> A helpful tip for searching for the correct answer in the passage is using Control+F to seearch for it.<br/><br/>
 </h5>
+</div>
 
 <!--*********************************
         Examples
 *********************************-->
 <h3><u><strong>Examples:</strong></u><br /></h3>
+    <button type="button" class="collapsible">Click to Expand Examples. READ IF THIS IS YOUR FIRST HIT FOR THIS TASK.</button>
+    <div class="content">
 
-<strong><u>Passage:</u></strong> &hellip;He goes to prison to serve out a five years' sentence, but after three years have passed is pardoned out through the efforts of Maria Wyndham, Mr. Fletcher's granddaughter, whom he has loved for years.&hellip; <br />
-<strong><u>Question:</u></strong> What is the relationship of Maria Wyndham to Mr. Fletcher? <br />
-<strong><u>Correct Answer:</u></strong> grandaughter <br /><br />
-    
-    <div style="padding-left: 3em;">
-        <strong><u>Predicted Answer:</u></strong> Maria is Mr. Fletcher's granddaughter. <br />
-        <strong><u>Score:</u></strong>  5 <br />
-        <strong><u>Justification:</u></strong> The predicted answer captures the same information as the correct answer when taking into account the passage and question. <br />
-    </div><br />
+    <strong><u>Passage:</u></strong> &hellip;He goes to prison to serve out a five years' sentence, but after three years have passed is pardoned out through the efforts of Maria Wyndham, Mr. Fletcher's granddaughter, whom he has loved for years.&hellip; <br />
+    <strong><u>Question:</u></strong> What is the relationship of Maria Wyndham to Mr. Fletcher? <br />
+    <strong><u>Correct Answer:</u></strong> grandaughter <br /><br />
+        
+        <div style="padding-left: 3em;">
+            <strong><u>Predicted Answer:</u></strong> Maria is Mr. Fletcher's granddaughter. <br />
+            <strong><u>Score:</u></strong>  5 <br />
+            <strong><u>Justification:</u></strong> The predicted answer captures the same information as the correct answer when taking into account the passage and question. <br />
+        </div><br />
 
-    <div style="padding-left: 3em;">
-        <strong><u>Predicted Answer:</u></strong> maria is maria 's granddaughter <br />
-        <strong><u>Score:</u></strong>  1 <br />
-        <strong><u>Justification:</u></strong> While the prediction has the word granddaughter, it has additional information that makes it nonsensical (one cannnot be their own granddaughter).<br />
-    </div><br />
+        <div style="padding-left: 3em;">
+            <strong><u>Predicted Answer:</u></strong> maria is maria 's granddaughter <br />
+            <strong><u>Score:</u></strong>  1 <br />
+            <strong><u>Justification:</u></strong> While the prediction has the word granddaughter, it has additional information that makes it nonsensical (one cannnot be their own granddaughter).<br />
+        </div><br />
 
-<strong><u>Passage:</u></strong> &hellip;On the way she sees the minister, Mr. Miles, and her friend Liff Hyatt. They are on their way to the mountain because Charity’s mother is dying. When they arrive, Charity’s mother is already dead, and the three of them bury her.&hellip; <br />
-<strong><u>Question:</u></strong> What happened to Charity's mother? <br />
-<strong><u>Correct Answer:</u></strong> Charity's mother dies. <br /><br />
-    
-    <div style="padding-left: 3em;">
-        <strong><u>Predicted Answer:</u></strong> She dies. <br />
-        <strong><u>Score:</u></strong>  5 <br />
-        <strong><u>Justification:</u></strong> The predicted answer captures the same information as the correct answer when taking into account the passage and question. <br />
-    </div><br />
+    <strong><u>Passage:</u></strong> &hellip;On the way she sees the minister, Mr. Miles, and her friend Liff Hyatt. They are on their way to the mountain because Charity’s mother is dying. When they arrive, Charity’s mother is already dead, and the three of them bury her.&hellip; <br />
+    <strong><u>Question:</u></strong> What happened to Charity's mother? <br />
+    <strong><u>Correct Answer:</u></strong> Charity's mother dies. <br /><br />
+        
+        <div style="padding-left: 3em;">
+            <strong><u>Predicted Answer:</u></strong> She dies. <br />
+            <strong><u>Score:</u></strong>  5 <br />
+            <strong><u>Justification:</u></strong> The predicted answer captures the same information as the correct answer when taking into account the passage and question. <br />
+        </div><br />
 
-    <div style="padding-left: 3em;">
-        <strong><u>Predicted Answer:</u></strong> she is dying <br />
-        <strong><u>Score:</u></strong>  3 <br />
-        <strong><u>Justification:</u></strong> While this is technically a correct answer, it is not exactly the same as the correct answer. However, it is not completely different from the correct answer. <br />
-    </div><br />
+        <div style="padding-left: 3em;">
+            <strong><u>Predicted Answer:</u></strong> she is dying <br />
+            <strong><u>Score:</u></strong>  3 <br />
+            <strong><u>Justification:</u></strong> While this is technically a correct answer, it is not exactly the same as the correct answer. However, it is not completely different from the correct answer. <br />
+        </div><br />
 
-<strong><u>Passage:</u></strong> &hellip;The next day, two men, John and Jim (who are drug dealers), arrive at the apartment to pick up the package. Peter and Michael mistakenly give Mary to them instead, and shortly after they leave, Peter discovers the actual package.&hellip; <br />
-<strong><u>Question:</u></strong> Who comes to pick up the package the next day ? <br />
-<strong><u>Correct Answer:</u></strong> Drug Dealers <br /><br />
+    <strong><u>Passage:</u></strong> &hellip;The next day, two men, John and Jim (who are drug dealers), arrive at the apartment to pick up the package. Peter and Michael mistakenly give Mary to them instead, and shortly after they leave, Peter discovers the actual package.&hellip; <br />
+    <strong><u>Question:</u></strong> Who comes to pick up the package the next day ? <br />
+    <strong><u>Correct Answer:</u></strong> Drug Dealers <br /><br />
 
-    <div style="padding-left: 3em;">
-        <strong><u>Predicted Answer:</u></strong> two men <br />
-        <strong><u>Score:</u></strong>  4 <br />
-        <strong><u>Justification:</u></strong> In the passage, the two men are the same people as the drug dealers. However, two men could be any two people (for example, Peter and Michael), so we will say that it isn't completely equivalent. <br />
-    </div><br />
+        <div style="padding-left: 3em;">
+            <strong><u>Predicted Answer:</u></strong> two men <br />
+            <strong><u>Score:</u></strong>  4 <br />
+            <strong><u>Justification:</u></strong> In the passage, the two men are the same people as the drug dealers. However, two men could be any two people (for example, Peter and Michael), so we will say that it isn't completely equivalent. <br />
+        </div><br />
 
-    <div style="padding-left: 3em;">
-        <strong><u>Predicted Answer:</u></strong> the drug drug dealers <br />
-        <strong><u>Score:</u></strong>  4 <br />
-        <strong><u>Justification:</u></strong> The predicted answer is correct, though slightly ungrammatical, so we give it a 4. <br />
-    </div><br />
+        <div style="padding-left: 3em;">
+            <strong><u>Predicted Answer:</u></strong> the drug drug dealers <br />
+            <strong><u>Score:</u></strong>  4 <br />
+            <strong><u>Justification:</u></strong> The predicted answer is correct, though slightly ungrammatical, so we give it a 4. <br />
+        </div><br />
 
-    <div style="padding-left: 3em;">
-        <strong><u>Predicted Answer:</u></strong> John, Jim, and Peter <br />
-        <strong><u>Score:</u></strong>  3 <br />
-        <strong><u>Justification:</u></strong> "John, Jim" would be a 5, however the prediction includes Peter, who is not a drug dealer. We therefore consider this answer half correct. <br />
-    </div><br />
+        <div style="padding-left: 3em;">
+            <strong><u>Predicted Answer:</u></strong> John, Jim, and Peter <br />
+            <strong><u>Score:</u></strong>  3 <br />
+            <strong><u>Justification:</u></strong> "John, Jim" would be a 5, however the prediction includes Peter, who is not a drug dealer. We therefore consider this answer half correct. <br />
+        </div><br />
 
-    <div style="padding-left: 3em;">
-        <strong><u>Predicted Answer:</u></strong> Peter and Michael <br />
-        <strong><u>Score:</u></strong>  1 <br />
-        <strong><u>Justification:</u></strong> Completely wrong names of the drug dealers. <br />
-    </div><br />
+        <div style="padding-left: 3em;">
+            <strong><u>Predicted Answer:</u></strong> Peter and Michael <br />
+            <strong><u>Score:</u></strong>  1 <br />
+            <strong><u>Justification:</u></strong> Completely wrong names of the drug dealers. <br />
+        </div><br />
 
-</div>
+    </div>
+</div> 
 <h7>&nbsp;</h7>
+<!-- End Instructions -->
 
 <!--*********************************
         Task
@@ -100,23 +136,28 @@
 
 <p hidden="">7591f4c0b779a8f17ea8576040505752</p>
 
-<p style="font-weight: bold;font-size: 15pt;color: crimson;"><b>After having haughtily refused a number of suitors, under the pretext that they are not peers of France, Émilie de Fontaine falls in love with a mysterious young man who quietly appeared at the village dance at Sceaux. Despite his refined appearance and aristocratic bearing, the unknown (Maximilien Longueville) never tells his identity and seems interested in nobody but his sister, a sickly young girl. But he is not insensible to the attention Émilie gives him and he accepts the invitation of Émilie’s father, the Comte de Fontaine. Émilie and Maximilien soon fall in love. The Comte de Fontaine, concerned for his daughter, decides to investigate this mysterious young man, and he discovers him on the Rue du Sentier, a simple cloth merchant, which horrifies Émilie. Piqued, she marries a 72-year-old uncle for his title of Vice Admiral, the Comte de Kergarouët. Several years after her marriage, Émilie discovers that Maximilien is not a clothier at all, but in fact a Vicomte de Longueville who has become a Peer of France. The young man finally explains why he secretly tended a store: he did it in order to support his family, sacrificing himself for his sick sister and for his brother, who had departed the country. </b></p>
+<p style="font-size: 12pt;font-family:comic sans ms;color: black;">After having haughtily refused a number of suitors, under the pretext that they are not peers of France, Émilie de Fontaine falls in love with a mysterious young man who quietly appeared at the village dance at Sceaux. Despite his refined appearance and aristocratic bearing, the unknown (Maximilien Longueville) never tells his identity and seems interested in nobody but his sister, a sickly young girl. But he is not insensible to the attention Émilie gives him and he accepts the invitation of Émilie’s father, the Comte de Fontaine. Émilie and Maximilien soon fall in love. The Comte de Fontaine, concerned for his daughter, decides to investigate this mysterious young man, and he discovers him on the Rue du Sentier, a simple cloth merchant, which horrifies Émilie. Piqued, she marries a 72-year-old uncle for his title of Vice Admiral, the Comte de Kergarouët. Several years after her marriage, Émilie discovers that Maximilien is not a clothier at all, but in fact a Vicomte de Longueville who has become a Peer of France. The young man finally explains why he secretly tended a store: he did it in order to support his family, sacrificing himself for his sick sister and for his brother, who had departed the country.</p>
 <h7>&nbsp;</h7>
 
 
-<h4><strong>Part 2. Given the following question, correct answer, and predicted answer, select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer given the passage and question.</span></strong></h4>
+<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
 <h7>&nbsp;</h7>
 
-<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;"><strong>Question: </strong> <span style="color:#FF8C00;"><strong><em><u>What is Maximilien's occupation?</u></em></strong></span> </span></div>
+<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;">Question: 
+    <span style="color:#FF8C00;">What is Maximilien's occupation?</span> </span></div>
 <h7>&nbsp;</h7>
 
-<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;"><strong>Correct Answer: </strong> <span style="color:#FF8C00;"><strong><em><u>Cloth merchant.</u></em></strong></span> </span></div>
+<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;">Correct Answer:
+    <span style="color:#FF8C00;">Cloth merchant.</span> </span></div>
 <h7>&nbsp;</h7>
 
-<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;"><strong>Predicted Answer: </strong> <span style="color:#FF8C00;"><strong><em><u>a clothier</u></em></strong></span> </span></div>
+<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;">Predicted Answer:
+    <span style="color:#FF8C00;">a clothier</span> </span></div>
 <h7>&nbsp;</h7>
 
-<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;"><strong>Score: (you may only select one) <span style="color:#FF0000;"><em>1</em></span> means the predicted answer captures none of the information of the correct answer, and <span style="color:#FF0000;"><em>5</em></span> means the predicted answer is equivalent to the correct answer.</strong> </span></div>
+<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
+<h7>&nbsp;</h7>
+
 
 <div style="padding-left: 6em;font-size: 12pt;">
 <div class="checkbox"><input id="score" name="score" type="radio" value="1" />1</div>
@@ -146,6 +187,10 @@
 </style>
 </section>
 
+<!--*********************************
+    End Data Collection Layout
+*********************************-->
+
 <!-- End Data Collection Layout --><!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->
 <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" integrity="sha384-IS73LIqjtYesmURkDE9MXKbXqYA8rvKEp/ghicjem7Vc3mGRdQRptJSz60tvrB6+" rel="stylesheet" /><!-- Open internal style sheet -->
 <style type="text/css">#collapseTrigger{
@@ -160,6 +205,29 @@
     margin-bottom: 15px;
 }
 </style>
+
+<!--*********************************
+            Scripts
+*********************************-->
+
+<!-- Script for expanding button -->
+<script>
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+</script>
+
 <!-- End internal style sheet --><!-- External JS references --><script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" integrity="sha384-s1ITto93iSMDxlp/79qhWHi+LsIi9Gx6yL+cOKDuymvihkfol83TYbLbOw+W/wv4" crossorigin="anonymous"></script><!-- Open internal javascript --><script>
     $(document).ready(function() {
         // Instructions expand/collapse
