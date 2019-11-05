@@ -9,12 +9,12 @@
   background-color: #777;
   color: white;
   cursor: pointer;
-  padding: 18px;
+  padding: 10px;
   width: 100%;
   border: none;
   text-align: left;
   outline: none;
-  font-size: 15px;
+  font-size: 11px;
 }
 
 .active, .collapsible:hover {
@@ -22,7 +22,7 @@
 }
 
 .content {
-  padding: 0 18px;
+  padding: 0 10px;
   display: none;
   overflow: hidden;
   background-color: #f1f1f1;
@@ -34,7 +34,7 @@
 <!--*********************************
         Task Instructions
 *********************************-->
-<h3><u><strong>Task Instruction:</strong></u></h3>
+<h4><u><strong>Task Instruction:</strong></u></h4>
 <button type="button" class="collapsible">Click to Expand Instructions. READ IF THIS IS YOUR FIRST HIT FOR THIS TASK.</button>
 <div class="content">
 <h5>In this task, you are given a passage, a question, a correct answer, and a predicted answer.
@@ -52,14 +52,14 @@
     <br /><br />
     <u>Note:</u> A predicted answer may be a correct answer, but to be given a score of 5, it must be equivalent to the correct answer. An example is provided below of this case. <br/><br/>
     <u>Note:</u> The score you give should not depend on the capitalization of the correct and predicted answer.<br/><br/>
-    <u>Note:</u> A helpful tip for searching for the correct answer in the passage is using Control+F to seearch for it.<br/><br/>
+    <u>Note:</u> A helpful tip for searching for the correct answer in the passage is using Control+F to search for it.<br/><br/>
 </h5>
 </div>
 
 <!--*********************************
         Examples
 *********************************-->
-<h3><u><strong>Examples:</strong></u><br /></h3>
+<h4><u><strong>Examples:</strong></u><br /></h4>
     <button type="button" class="collapsible">Click to Expand Examples. READ IF THIS IS YOUR FIRST HIT FOR THIS TASK.</button>
     <div class="content">
 
@@ -169,7 +169,7 @@
 <div class="checkbox"><input id="score" name="score" type="radio" value="4" />4</div>
 
 <div class="checkbox"><input id="score" name="score" type="radio" value="5" />5</div>
-<!--</div>--></div>
+</div>
 
 <div class="form-group">&nbsp;</div>
 <style type="text/css">.btn-primary:active, .btn-primary.active, .open .dropdown-toggle.btn-primary {
@@ -185,6 +185,11 @@
         background-color: lightyellow !important;
     }
 </style>
+
+
+<h4><strong>Part 4 (Optional). Comments about the task or about this specific example. </strong></h4>
+<input id="comment" name="comment" size="100%" type="text" />
+<br /><br /><br />
 </section>
 
 <!--*********************************
