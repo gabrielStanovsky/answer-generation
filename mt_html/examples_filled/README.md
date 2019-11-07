@@ -12,3 +12,5 @@ A couple of things I'm not sure about or that maybe we should clarify?
 * The JavaScript code will be added directly to the HTML page right?
 
 * If the task isn't being used, is it possible to add in Javascript an option to fill in one of the scores?
+
+* Right now, I've hardcoded the tasks that are valid (ie that have something to label). I think it might be best to have JavaScript dynamically generate this list by seeing if the question, reference, and context are "none". 
