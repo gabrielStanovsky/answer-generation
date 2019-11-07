@@ -1,11 +1,11 @@
 ## Welcome Sameer!
 
 Here's the starting point for adding Javascript. 
-Each task <div> is identified by which number task it is, e.g. task1, task2, etc. 
+Each task `<div>` is identified by which number task it is, e.g. task1, task2, etc. 
 
 I have three tasks, the first two of which have something to label, the third of which is empty (as denoted by the question, reference, and candidate have a value of "none"). Also the tasks which need labeling are in a variable `tasks`.
 
-Each <div> task block at the end has a next and previous button. The buttons also have the id appended to the end. 
+Each `<div>` task block at the end has a next and previous button. The buttons also have the id appended to the end. 
 
 A couple of things I'm not sure about or that maybe we should clarify?
 
