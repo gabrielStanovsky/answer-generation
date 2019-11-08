@@ -72,19 +72,19 @@ def generate_samples_for_file(data_file, run_name, checkpoint_dir, length, ckpt=
 		csvfile.close()
 
 def generate_gpt2_on_cosmosqa():
-	generate_samples_for_file('data/cosmosqa/dev.csv', 'cosmosqa', 'gpt_models', length=25)
+	generate_samples_for_file('data/cosmosqa/dev.csv', 'cosmosqa', 'gpt2/models', length=25)
 
 def generate_gpt2_on_mcscript():
-	generate_samples_for_file('data/mcscript/dev.csv', 'mcscript', 'gpt_models', length=15)
-	generate_samples_for_file('data/mcscript/test.csv', 'mcscript', 'gpt_models', length=15)
+	generate_samples_for_file('data/mcscript/dev.csv', 'mcscript', 'gpt2/models', length=15)
+	generate_samples_for_file('data/mcscript/test.csv', 'mcscript', 'gpt2/models', length=15)
 
 def generate_gpt2_on_narrativeqa():
-	generate_samples_for_file('data/narrativeqa/dev.csv', 'narrativeqa', 'gpt_models', length=15)
-	generate_samples_for_file('data/narrativeqa/test.csv', 'narrativeqa', 'gpt_models', length=15)
+	generate_samples_for_file('data/narrativeqa/dev.csv', 'narrativeqa', 'gpt2/models', length=15)
+	generate_samples_for_file('data/narrativeqa/test.csv', 'narrativeqa', 'gpt2/models', length=15)
 
 def generate_gpt2_on_socialiqa():
-	generate_samples_for_file('data/socialiqa/dev.csv', 'socialiqa', 'gpt_models', length=15)
-	generate_samples_for_file('data/socialiqa/test.csv', 'socialiqa', 'gpt_models', length=15)
+	generate_samples_for_file('data/socialiqa/dev.csv', 'socialiqa', 'gpt2/models', length=15)
+	generate_samples_for_file('data/socialiqa/test.csv', 'socialiqa', 'gpt2/models', length=15)
 
 if __name__ == '__main__':
 	generate_gpt2_on_cosmosqa()

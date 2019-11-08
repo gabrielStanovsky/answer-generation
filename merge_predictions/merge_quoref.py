@@ -63,7 +63,7 @@ def write_data_to_label(data_dict):
 
 def main():
 	# Paths to prediction files
-	PREDICTION_FILE = '/home/tony/answer-generation/bert_models/quoref/nbest_dev_predictions.json'
+	PREDICTION_FILE = '/home/tony/answer-generation/bert/models/quoref/nbest_dev_predictions.json'
 
 	# Load in data and prediction files 	
 	data = load_quoref_data()

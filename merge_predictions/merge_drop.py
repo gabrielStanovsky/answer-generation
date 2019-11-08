@@ -78,8 +78,8 @@ def write_data_to_label(data_dict):
 
 def main():
 	# Paths to prediction files
-	PREDICTION_FILES = ['/home/tony/answer-generation/nabert_models/drop/best_dev_pred.json', \
-						'/home/tony/answer-generation/naqanet_models/drop/best_dev_pred.json']
+	PREDICTION_FILES = ['/home/tony/answer-generation/nabert/models/drop/best_dev_pred.json', \
+						'/home/tony/answer-generation/naqanet/models/drop/best_dev_pred.json']
 
 	# Load in data and prediction files 	
 	data = load_drop_data()

@@ -8,7 +8,7 @@ os.environ["CUDA_VISIBLE_DEVICES"]="1"
 def train_gpt2_on_cosmosqa():
 	print('Training a model on COSMOSQA')
 
-	checkpoint_dir='gpt_models'
+	checkpoint_dir='gpt2/models'
 	run_name = 'cosmosqa'
 
 	if not isdir(join(checkpoint_dir, run_name)):
@@ -22,7 +22,7 @@ def train_gpt2_on_cosmosqa():
 def train_gpt2_on_mcscript():
 	print('Training a model on MCScript')
 
-	checkpoint_dir='gpt_models'
+	checkpoint_dir='gpt2/models'
 	run_name = 'mcscript'
 
 	if not isdir(join(checkpoint_dir, run_name)):
@@ -36,7 +36,7 @@ def train_gpt2_on_mcscript():
 def train_gpt2_on_narrativeqa():
 	print('Training a model on NarrativeQA')
 
-	checkpoint_dir='gpt_models'
+	checkpoint_dir='gpt2/models'
 	run_name = 'narrativeqa'
 
 	if not isdir(join(checkpoint_dir, run_name)):
@@ -50,7 +50,7 @@ def train_gpt2_on_narrativeqa():
 def train_gpt2_on_socialiqa():
 	print('Training a model on SocialIQA')
 
-	checkpoint_dir='gpt_models'
+	checkpoint_dir='gpt2/models'
 	run_name = 'socialiqa'
 
 	if not isdir(join(checkpoint_dir, run_name)):

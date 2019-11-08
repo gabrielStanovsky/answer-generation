@@ -83,7 +83,7 @@ def write_data_to_label(data_dict):
 
 def main():
 	# Paths to prediction files
-	GPT_PREDICTIONS_DIR = '/home/tony/answer-generation/gpt_models/mcscript'
+	GPT_PREDICTIONS_DIR = '/home/tony/answer-generation/gpt2/models/mcscript'
 	GPT2_PREDICTIONS_FILE = [join(GPT_PREDICTIONS_DIR, 'dev.csv_generation'), join(GPT_PREDICTIONS_DIR, 'test.csv_generation')]
 
 	MHPG_PREDICTIONS_DIR = '/home/tony/CommonSenseMultiHopQA/out/mcscript_baseline'

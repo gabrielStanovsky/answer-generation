@@ -68,8 +68,8 @@ def write_data_to_label(data_dict):
 
 def main():
 	# Paths to prediction files
-	PREDICTION_FILES = ['/home/tony/answer-generation/bert_models/ropes/nbest_dev_predictions.json', \
-						'/home/tony/answer-generation/bert_models/ropes/nbest_test_predictions.json']
+	PREDICTION_FILES = ['/home/tony/answer-generation/bert/models/ropes/nbest_dev_predictions.json', \
+						'/home/tony/answer-generation/bert/models/ropes/nbest_test_predictions.json']
 
 	# Load in data and prediction files 	
 	data = load_ropes_data()
