@@ -27,6 +27,13 @@
   overflow: hidden;
   background-color: #f1f1f1;
 }
+
+#tasks .task{
+    display: none;
+}
+#tasks .task.current{
+    display: block;
+}
 </style>
 
 
@@ -144,13 +151,15 @@
 </div>
 
 <!-- Tasks -->
+<button id="prev">Previous</button>
+<button id="next">Next</button>
 <div id="tasks">
-	<div id="task1">
+	<div id="task1" class="task">
 		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;">Question: 
-			<span style="color:#FF8C00;">Who comes to pick up the package the next day ? </span> </span></div>
+			<span style="color:#FF8C00;" class="question">Who comes to pick up the package the next day ? </span> </span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;">Correct Answer:
@@ -162,26 +171,21 @@
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
-		<div style="padding-left: 2em;font-size: 12pt;">
-			<div class="checkbox"><input id="score1" name="score" type="radio" value="1" /> 1</div>
-			<div class="checkbox"><input id="score1" name="score" type="radio" value="2" /> 2</div>
-			<div class="checkbox"><input id="score1" name="score" type="radio" value="3" /> 3</div>
-			<div class="checkbox"><input id="score1" name="score" type="radio" value="4" /> 4</div>
-			<div class="checkbox"><input id="score1" name="score" type="radio" value="5" /> 5</div>
-		</div>
-
-		<div style="text-align: center", id="buttons1">
-			<button id="nextBtn1">Next Task </button>
-			<button id="prevBtn1">Previous Task</button>
+		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
+			<div class="checkbox"><input id="score1" name="score1" type="radio" value="1" /> 1</div>
+			<div class="checkbox"><input id="score1" name="score1" type="radio" value="2" /> 2</div>
+			<div class="checkbox"><input id="score1" name="score1" type="radio" value="3" /> 3</div>
+			<div class="checkbox"><input id="score1" name="score1" type="radio" value="4" /> 4</div>
+			<div class="checkbox"><input id="score1" name="score1" type="radio" value="5" /> 5</div>
 		</div>
 	</div> <!-- end of task 1 -->
 
-	<div id="task2">
+	<div id="task2" class="task">
 		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;">Question: 
-			<span style="color:#FF8C00;">What are the names of the drug dealers?</span> </span></div>
+			<span style="color:#FF8C00;" class="question">What are the names of the drug dealers?</span> </span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;">Correct Answer:
@@ -193,26 +197,21 @@
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
-		<div style="padding-left: 2em;font-size: 12pt;">
-			<div class="checkbox"><input id="score2" name="score" type="radio" value="1" /> 1</div>
-			<div class="checkbox"><input id="score2" name="score" type="radio" value="2" /> 2</div>
-			<div class="checkbox"><input id="score2" name="score" type="radio" value="3" /> 3</div>
-			<div class="checkbox"><input id="score2" name="score" type="radio" value="4" /> 4</div>
-			<div class="checkbox"><input id="score2" name="score" type="radio" value="5" /> 5</div>
-		</div>
-
-		<div style="text-align: center", id="buttons2">
-			<button id="nextBtn2">Next Task</button>
-			<button id="prevBtn2">Previous Task</button>
+		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
+			<div class="checkbox"><input id="score2" name="score2" type="radio" value="1" /> 1</div>
+			<div class="checkbox"><input id="score2" name="score2" type="radio" value="2" /> 2</div>
+			<div class="checkbox"><input id="score2" name="score2" type="radio" value="3" /> 3</div>
+			<div class="checkbox"><input id="score2" name="score2" type="radio" value="4" /> 4</div>
+			<div class="checkbox"><input id="score2" name="score2" type="radio" value="5" /> 5</div>
 		</div>
 	</div> <!-- end of task 2 -->
 
-	<div id="task3">
+	<div id="task3" class="task">
 		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;">Question: 
-			<span style="color:#FF8C00;">none</span> </span></div>
+			<span style="color:#FF8C00;" class="question">none</span> </span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:comic sans ms,cursive;">Correct Answer:
@@ -224,17 +223,12 @@
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
-		<div style="padding-left: 2em;font-size: 12pt;">
-			<div class="checkbox"><input id="score3" name="score" type="radio" value="1" /> 1</div>
-			<div class="checkbox"><input id="score3" name="score" type="radio" value="2" /> 2</div>
-			<div class="checkbox"><input id="score3" name="score" type="radio" value="3" /> 3</div>
-			<div class="checkbox"><input id="score3" name="score" type="radio" value="4" /> 4</div>
-			<div class="checkbox"><input id="score3" name="score" type="radio" value="5" /> 5</div>
-		</div>
-
-		<div style="text-align: center", id="buttons3">
-			<button id="nextBtn3">Next Task</button>
-			<button id="prevBtn3">Previous Task</button>
+		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
+			<div class="checkbox"><input id="score3" name="score3" type="radio" value="1" /> 1</div>
+			<div class="checkbox"><input id="score3" name="score3" type="radio" value="2" /> 2</div>
+			<div class="checkbox"><input id="score3" name="score3" type="radio" value="3" /> 3</div>
+			<div class="checkbox"><input id="score3" name="score3" type="radio" value="4" /> 4</div>
+			<div class="checkbox"><input id="score3" name="score3" type="radio" value="5" /> 5</div>
 		</div>
 	</div> <!-- end of task 3 -->
 
@@ -270,6 +264,47 @@
 <!--*********************************
 			Scripts
 *********************************-->
+
+<!-- Script for next/prev -->
+<script>
+
+// go to next/prev
+// from: https://stackoverflow.com/questions/28294145/navigate-through-multiple-divs-using-next-prev
+function updateItems(delta)
+{
+    var $items = $('#tasks').children().filter(function(i,b){
+		return $('#'+b.id).children().find('.question').text()!='none';
+	});
+    var $current = $items.filter('.current');
+    $current = $current.length ? $current : $items.first();
+    var index = $current.index() + delta;
+    // Range check the new index
+    index = (index < 0) ? 0 : ((index > $items.length) ? $items.length : index); 
+    $current.removeClass('current');
+    $current = $items.eq(index).addClass('current');
+	// Hide/show the next/prev
+	$('#prev').prop('disabled', $current.is($items.first()))
+	$('#next').prop('disabled', $current.is($items.last()))
+}
+
+$(function() {	
+	// activate radio buttons for null
+	var nullItems = $('#tasks').children().filter(function(e,b){
+		return $('#'+b.id).children().find('.question').text()=='none';
+	});
+	nullItems.children(".checkboxes").children(".checkbox").children("input").prop('checked', true);
+	// activate next/prev buttons
+	$("#next").click(function () {
+		updateItems(1);
+	});
+	$("#prev").click(function () {
+		updateItems(-1);
+	});
+	// Cause initial selection
+	updateItems(0);
+})
+
+</script>
 
 <!-- Script for expanding button -->
 <script>
