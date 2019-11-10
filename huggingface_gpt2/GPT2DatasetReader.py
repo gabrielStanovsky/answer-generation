@@ -16,13 +16,12 @@ from allennlp.data.instance import Instance
 logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
 @DatasetReader.register("gpt2forqa")
-class GPT2ForQA(DatasetReader):
+class GPT2ForQADatasetReader(DatasetReader):
 	def __init__(self, 
 				 gpt2_model = 'gpt2',
 				 lazy: bool = False) -> None:
 		super().__init__(lazy)
 		self.tokenizer = GPT2Tokenizer.from_pretrained(gpt2_model)
-		self.tokenizer.add_special_tokens({"sep_token": "[SEP]"})
 
 	@overrides
 	def _read(self, file_path: str):
@@ -39,7 +38,7 @@ class GPT2ForQA(DatasetReader):
 		context_tokens 	= self.tokenizer.tokenize(context)
 		question_tokens = self.tokenizer.tokenize(question)
 		
-		input_tokens = context_tokens + [self.tokenizer.sep_token] + question_tokens + [self.tokenizer.sep_token]
+		input_tokens = context_tokens + question_tokens
 		
 		metadata = {'context': context, 
 					'question': question,
@@ -60,7 +59,7 @@ class GPT2ForQA(DatasetReader):
 
 		input_ids = self.tokenizer.convert_tokens_to_ids(input_tokens)
 
-		fields = {'input': ArrayField(np.array(input_ids), dtype=np.int64),
+		fields = {'input_ids': ArrayField(np.array(input_ids), dtype=np.int64),
 				  'metadata': MetadataField(metadata)}
 
 		if answer:
@@ -70,12 +69,11 @@ class GPT2ForQA(DatasetReader):
 		return Instance(fields)
 
 if __name__ == '__main__':
-	reader = GPT2ForQA()
+	reader = GPT2ForQADatasetReader()
 	eos_token = reader.tokenizer.eos_token
-	sep_token = reader.tokenizer.sep_token
 
 	for instance in Tqdm.tqdm(reader._read('/home/tony/answer-generation/data/narrativeqa/train.csv')):
-		input_ids = instance.fields['input'].array
+		input_ids = instance.fields['input_ids'].array
 		input_tokens = instance.fields['metadata'].metadata['input_tokens']
 		context = instance.fields['metadata'].metadata['context']
 		context_tokens = instance.fields['metadata'].metadata['context_tokens']
@@ -90,7 +88,7 @@ if __name__ == '__main__':
 		assert context == reader.tokenizer.convert_tokens_to_string(context_tokens)
 		assert question == reader.tokenizer.convert_tokens_to_string(question_tokens)
 		assert answer == reader.tokenizer.convert_tokens_to_string(answer_tokens)
-		assert input_tokens == context_tokens + [sep_token] + question_tokens + [sep_token] + answer_tokens + [eos_token] 
+		assert input_tokens == context_tokens + question_tokens + answer_tokens + [eos_token] 
 
 		# Check tokens to ids
 		assert input_tokens == reader.tokenizer.convert_ids_to_tokens(input_ids) 
