@@ -7,8 +7,8 @@
 		"type": "gpt2forqa",
 		"lazy": true, 
 	},
-	"train_data_path": "data/narrativeqa/train.csv",
-	"validation_data_path": "data/narrativeqa/dev.csv",
+	"train_data_path": "data/cosmosqa/train.csv",
+	"validation_data_path": "data/cosmosqa/dev.csv",
 	"model": {
 		"type": "gpt2forqa"
 	},

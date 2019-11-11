@@ -20,7 +20,6 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import argparse
 import logging
-from tqdm import trange
 
 import torch
 import torch.nn.functional as F
@@ -105,7 +104,7 @@ def sample_sequence(model, length, context, num_samples=1, temperature=1, top_k=
     context = context.unsqueeze(0).repeat(num_samples, 1)
     generated = context
     with torch.no_grad():
-        for _ in trange(length):
+        for _ in range(length):
 
             inputs = {'input_ids': generated}
             if is_xlnet: 
@@ -145,8 +144,8 @@ def sample_sequence(model, length, context, num_samples=1, temperature=1, top_k=
 
 
 def main():
-    from GPT2DatasetReader import GPT2ForQADatasetReader
-    from GPT2ForQA import GPT2ForQA
+    from dataset_reader import GPT2ForQADatasetReader
+    from model import GPT2ForQA
     parser = argparse.ArgumentParser()
     parser.add_argument("--model_type", default=None, type=str, required=True,
                         help="Model type selected in the list: " + ", ".join(MODEL_CLASSES.keys()))
