@@ -5,7 +5,7 @@ import random
 import torch
 import os
 from os.path import isfile, join
-from tqdm import tqdm 
+from tqdm import tqdm 	
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 numpy.random.seed(0)
@@ -13,12 +13,8 @@ random.seed(0)
 torch.manual_seed(0)
 torch.cuda.manual_seed_all(0)
 
-os.environ["CUDA_VISIBLE_DEVICES"]="1"		
-
-K = [1, 10, 100]
+K = [1, 10, 100, 1000]
 NUM_SAMPLES = 2
-context_sep = '----------------------------------------------------------------'
-question_sep = '================================================================='
 
 def generate_samples_for_file(input_file, model_archive):
 	from generate_gpt2 import sample_sequence
@@ -41,8 +37,7 @@ def generate_samples_for_file(input_file, model_archive):
 		f.readline()
 		for line in tqdm(csv.reader(f)):
 			context, question = line[1], line[2]
-			prompt = tokenizer.eos_token + ' ' + context + ' ' + context_sep + ' ' + question + ' ' + question_sep
-			prompt_ids = tokenizer.encode(prompt)
+			prompt_ids = tokenizer.encode(context + ' ' + question)
 			generated_answers = set()
 
 			if len(prompt_ids) > 1000:
@@ -54,6 +49,7 @@ def generate_samples_for_file(input_file, model_archive):
 				
 				out = sample_sequence(model=model, context=prompt_ids, num_samples=num_samples,
 									  length=20, top_k=k, device=0)
+
 				# Remove prompt IDS from output
 				out = out[:, len(prompt_ids):].tolist()
 				for o in out:
@@ -66,5 +62,13 @@ def generate_samples_for_file(input_file, model_archive):
 	csvfile.close()
 
 if __name__ == '__main__':
-	generate_samples_for_file('data/narrativeqa/dev.csv', 'huggingface_gpt2/models/narrativeqa_sep/model.tar.gz')
-	generate_samples_for_file('data/narrativeqa/test.csv', 'huggingface_gpt2/models/narrativeqa_sep/model.tar.gz')
+	# generate_samples_for_file('data/narrativeqa/dev.csv', 'huggingface_gpt2/models/narrativeqa/model.tar.gz')
+	# generate_samples_for_file('data/narrativeqa/test.csv', 'huggingface_gpt2/models/narrativeqa/model.tar.gz')
+
+	# generate_samples_for_file('data/mcscript/dev.csv', 'huggingface_gpt2/models/mcscript/model.tar.gz')
+	# generate_samples_for_file('data/mcscript/test.csv', 'huggingface_gpt2/models/mcscript/model.tar.gz')
+	
+	generate_samples_for_file('data/socialiqa/dev.csv', 'huggingface_gpt2/models/socialiqa/model.tar.gz')
+	generate_samples_for_file('data/socialiqa/test.csv', 'huggingface_gpt2/models/socialiqa/model.tar.gz')
+
+	generate_samples_for_file('data/cosmosqa/dev.csv', 'huggingface_gpt2/models/cosmosqa/model.tar.gz')

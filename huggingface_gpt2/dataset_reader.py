@@ -23,8 +23,6 @@ class GPT2ForQADatasetReader(DatasetReader):
 		super().__init__(lazy)
 		self.tokenizer = GPT2Tokenizer.from_pretrained(gpt2_model)
 		self.eos_token = self.tokenizer.eos_token
-		self.context_sep = '----------------------------------------------------------------'
-		self.question_sep = '================================================================='
 
 	@overrides
 	def _read(self, file_path: str):
@@ -33,12 +31,11 @@ class GPT2ForQADatasetReader(DatasetReader):
 			f.readline()
 			for line in csv.reader(f):
 				context, question, answer = line[1], line[2], line[3]
-
 				yield self.text_to_instance(context, question, answer)
 
 	@overrides
 	def text_to_instance(self, context, question, answer=None) -> Instance:
-		input_str = self.eos_token + ' ' + context + ' ' + self.context_sep + ' ' + question + ' ' + self.question_sep
+		input_str = context + ' ' + question
 		input_tokens = self.tokenizer.tokenize(input_str)
 		
 		if answer: 
@@ -79,7 +76,7 @@ if __name__ == '__main__':
 		answer_end_pos = instance.fields['answer_end_pos'].array.item()
 
 		# Check tokenization
-		assert input_tokens == reader.tokenizer.tokenize(reader.eos_token + ' ' + context + ' ' + reader.context_sep +' '+ question + ' ' + reader.question_sep + ' ' + answer + ' ' + reader.eos_token)
+		assert input_tokens == reader.tokenizer.tokenize(context + ' ' + question + ' ' + answer + ' ' + reader.eos_token)
 
 		# Check tokens to ids
 		assert input_tokens == reader.tokenizer.convert_ids_to_tokens(input_ids) 
