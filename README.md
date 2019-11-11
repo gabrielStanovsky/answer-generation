@@ -9,7 +9,7 @@ To train the Huggingfaces GPT2 models where we only calculate the loss on the an
 ```
 allennlp train huggingface_gpt2/narrativeqa_config.json \
     --include-package huggingface_gpt2\
-    -s huggingface_gpt2/models/bert
+    -s huggingface_gpt2/models/narrativeqa
 ```
 
 To train a BERT model on QUOREF, run:

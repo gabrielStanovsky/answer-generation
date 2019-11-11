@@ -38,7 +38,7 @@ class GPT2ForQA(Model):
 				metadata = None):
 		batch_size = input_ids.size(0)
 		# logits.size() = [batch_size, seq_len, vocab_size]
-		logits = self.gpt2_model(input_ids=input_ids)[0]
+		logits = self.gpt2_model(input_ids=input_ids)[0].float()
 		output_dict = {'logits': logits, 'metadata': metadata}
 
 		# Iterate over questions, computing the loss over answer tokens

@@ -4,6 +4,7 @@ __pycache__/
 *.swp
 *.tar.gz
 *.th
+apex/
 answer-generation-env/
 data/**
 models/

@@ -22,6 +22,9 @@ class GPT2ForQADatasetReader(DatasetReader):
 				 lazy: bool = False) -> None:
 		super().__init__(lazy)
 		self.tokenizer = GPT2Tokenizer.from_pretrained(gpt2_model)
+		self.eos_token = self.tokenizer.eos_token
+		self.context_sep = '----------------------------------------------------------------'
+		self.question_sep = '================================================================='
 
 	@overrides
 	def _read(self, file_path: str):
@@ -35,25 +38,20 @@ class GPT2ForQADatasetReader(DatasetReader):
 
 	@overrides
 	def text_to_instance(self, context, question, answer=None) -> Instance:
-		context_tokens 	= self.tokenizer.tokenize(context)
-		question_tokens = self.tokenizer.tokenize(question)
+		input_str = self.eos_token + ' ' + context + ' ' + self.context_sep + ' ' + question + ' ' + self.question_sep
+		input_tokens = self.tokenizer.tokenize(input_str)
 		
-		input_tokens = context_tokens + question_tokens
-		
+		if answer: 
+			answer_start_pos = len(input_tokens)
+			input_str += ' ' + answer + ' ' + self.eos_token
+			input_tokens = self.tokenizer.tokenize(input_str)
+			answer_end_pos = len(input_tokens)
+			
 		metadata = {'context': context, 
 					'question': question,
-					'context_tokens': context_tokens,
-					'question_tokens': question_tokens, 
 					'input_tokens': input_tokens}
-
 		if answer:
-			answer_start_pos = len(input_tokens)
-			answer_tokens = self.tokenizer.tokenize(answer)
-			input_tokens += answer_tokens + [self.tokenizer.eos_token]
-			answer_end_pos = len(input_tokens)
-
 			metadata['answer'] 				= answer
-			metadata['answer_tokens'] 		= answer_tokens
 			metadata['answer_start_pos'] 	= answer_start_pos
 			metadata['answer_end_pos'] 		= answer_end_pos
 
@@ -70,28 +68,21 @@ class GPT2ForQADatasetReader(DatasetReader):
 
 if __name__ == '__main__':
 	reader = GPT2ForQADatasetReader()
-	eos_token = reader.tokenizer.eos_token
 
 	for instance in Tqdm.tqdm(reader._read('/home/tony/answer-generation/data/narrativeqa/train.csv')):
 		input_ids = instance.fields['input_ids'].array
 		input_tokens = instance.fields['metadata'].metadata['input_tokens']
 		context = instance.fields['metadata'].metadata['context']
-		context_tokens = instance.fields['metadata'].metadata['context_tokens']
 		question = instance.fields['metadata'].metadata['question']
-		question_tokens = instance.fields['metadata'].metadata['question_tokens']
 		answer = instance.fields['metadata'].metadata['answer']
-		answer_tokens = instance.fields['metadata'].metadata['answer_tokens']
 		answer_start_pos = instance.fields['answer_start_pos'].array.item()
 		answer_end_pos = instance.fields['answer_end_pos'].array.item()
 
 		# Check tokenization
-		assert context == reader.tokenizer.convert_tokens_to_string(context_tokens)
-		assert question == reader.tokenizer.convert_tokens_to_string(question_tokens)
-		assert answer == reader.tokenizer.convert_tokens_to_string(answer_tokens)
-		assert input_tokens == context_tokens + question_tokens + answer_tokens + [eos_token] 
+		assert input_tokens == reader.tokenizer.tokenize(reader.eos_token + ' ' + context + ' ' + reader.context_sep +' '+ question + ' ' + reader.question_sep + ' ' + answer + ' ' + reader.eos_token)
 
 		# Check tokens to ids
 		assert input_tokens == reader.tokenizer.convert_ids_to_tokens(input_ids) 
 
 		# Check answer boundaries
-		assert input_tokens[answer_start_pos:answer_end_pos] == answer_tokens + [eos_token]
+		assert reader.tokenizer.convert_tokens_to_string(input_tokens[answer_start_pos:answer_end_pos]).strip() == answer + reader.eos_token

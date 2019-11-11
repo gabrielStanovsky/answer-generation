@@ -17,9 +17,12 @@
 		"max_instances_in_memory": 1000, 
 	},
 	"trainer": {
-		"cuda_device": 1,
+		"type": "mytrainer",
+		"cuda_device": 0,
 		"num_epochs": 3,
-		"keep_serialized_model_every_num_seconds": 300,
+		"model_save_interval": 300,
+		"half_precision": true,
+		"opt_level": "O2",
 		"num_serialized_models_to_keep": 20,
 		"optimizer": {
 			"type": "adam",
