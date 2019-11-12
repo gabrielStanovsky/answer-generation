@@ -5,6 +5,7 @@ import random
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS 
 import string
+from tqdm import tqdm
 
 nlp = spacy.load('en_core_web_sm', disable=['parser','ner', 'tagger'])	
 STOP_WORDS.update(string.punctuation)
@@ -87,7 +88,7 @@ def write_data_to_label(data_dict):
 	samples = []
 
 	# First converts the dictionary to entries in a list
-	for context in data_dict:
+	for context in tqdm(data_dict):
 		for question in data_dict[context]:
 			references = data_dict[context][question]['references']
 			candidates = data_dict[context][question]['candidates']
@@ -97,7 +98,8 @@ def write_data_to_label(data_dict):
 				references = [references[0]]
 
 			candidates = prune_candidates(references, data_dict[context][question]['candidates'])
-			reference = random.choice(references)
+			# Write out the first reference as the "gold" reference
+			reference = references[0]
 
 			for candidate in candidates:
 				# Filter instances that wouldn't fit into BERT

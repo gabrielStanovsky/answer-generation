@@ -51,7 +51,7 @@ unzip quoref-train-dev-v0.1.zip
 mv quoref-train-dev-v0.1 quoref
 rm quoref-train-dev-v0.1.zip
 
-# Download RACE by filling out the online form
+# Download ROPES by filling out the online form
 
 # Download SocialIQA
 mkdir socialiqa
