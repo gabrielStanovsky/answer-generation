@@ -61,6 +61,16 @@ def load_narrativeqa_data():
 
 	return data
 
+def load_gpt2_predictions(file):
+	lines = []
+	with open(file, 'r', encoding='utf8', errors='ignore') as fp:
+		for row in csv.reader(fp):
+			context = clean_string(row[1])
+			question = clean_string(row[2])
+			candidates = strip_gpt_endtag([clean_string(c) for c in row[4:]])
+			lines.append((context, question, candidates))
+	return lines
+	
 def load_mhpg_predictions(file):
 	lines = []
 	for line in Reader(open(file)):
@@ -111,6 +121,10 @@ def write_data_to_label(data_dict):
 			writer.writerow(line)
 
 def main():
+	# Paths to prediction files
+	GPT_PREDICTIONS_DIR = '/home/tony/answer-generation/huggingface_gpt2/models/narrativeqa'
+	GPT2_PREDICTIONS_FILE = [join(GPT_PREDICTIONS_DIR, 'dev.csv_generation'), join(GPT_PREDICTIONS_DIR, 'test.csv_generation')]
+
 	MHPG_PREDICTIONS_DIR = '/home/tony/CommonSenseMultiHopQA/out/nqa_baseline'
 	MHPG_PREDICTIONS_FILE = [join(MHPG_PREDICTIONS_DIR, 'narrative_qa_valid.jsonl.merged1'), 
 							 join(MHPG_PREDICTIONS_DIR, 'narrative_qa_valid.jsonl.merged2'),
@@ -118,6 +132,10 @@ def main():
 							 join(MHPG_PREDICTIONS_DIR, 'narrative_qa_test.jsonl.merged2')]
 
 	data = load_narrativeqa_data()
+
+	for f in GPT2_PREDICTIONS_FILE:
+		for context, question, candidates in load_gpt2_predictions(f):
+			data[context][question]['candidates'].update(candidates)
 
 	for f in MHPG_PREDICTIONS_FILE:
 		for context, question, candidate in load_mhpg_predictions(f):

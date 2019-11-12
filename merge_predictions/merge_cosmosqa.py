@@ -6,12 +6,11 @@ random.seed(0)
 
 from merge_utils import *
 
-def load_mcscript_data():
-	MCSCRIPT_DEV_FILE = '/home/tony/answer-generation/data/mcscript/dev.csv'
-	MCSCRIPT_TEST_FILE = '/home/tony/answer-generation/data/mcscript/test.csv'
+def load_cosmosqa_data():
+	COSMOSQA_DEV_FILE = '/home/tony/answer-generation/data/cosmosqa/dev.csv'
 	
-	def load_file(MCSCRIPT_FILE, data={}):
-		with open(MCSCRIPT_FILE, 'r', encoding='utf8', errors='ignore') as fp:
+	def load_file(COSMOSQA_FILE, data={}):
+		with open(COSMOSQA_FILE, 'r', encoding='utf8', errors='ignore') as fp:
 			fp.readline()   # skip header
 			for row in csv.reader(fp):
 				context = clean_string(row[1])
@@ -25,8 +24,7 @@ def load_mcscript_data():
 					data[context][question] = {'reference': reference, 'candidates': set()}
 		return data
 
-	data = load_file(MCSCRIPT_DEV_FILE)
-	data = load_file(MCSCRIPT_TEST_FILE, data)
+	data = load_file(COSMOSQA_DEV_FILE)
 
 	return data
 
@@ -36,19 +34,8 @@ def load_gpt2_predictions(file):
 		for row in csv.reader(fp):
 			context = clean_string(row[1])
 			question = clean_string(row[2])
-			candidates = strip_gpt_endtag([clean_string(c) for c in row[4:]])
+			candidates = [clean_string(c) for c in row[4:]]
 			lines.append((context, question, candidates))
-	return lines
-
-def load_mhpg_predictions(file):
-	lines = []
-	for line in Reader(open(file)):
-		context = clean_string(line['raw_summary'])
-		question = clean_string(line['raw_ques'])
-		candidate = clean_string(line['pred']).replace(" n't", "n't").replace(" 's", "'s")
-
-		if 'UNK' not in candidate:
-			lines.append((context, question, candidate))
 	return lines
 
 def write_data_to_label(data_dict):
@@ -75,7 +62,7 @@ def write_data_to_label(data_dict):
 	samples = prune_and_sort_samples(samples)
 
 	# Write to CSV file
-	with open('merge_predictions/to_label/mcscript.csv', 'w') as csvfile:
+	with open('merge_predictions/to_label/cosmosqa.csv', 'w') as csvfile:
 		writer = csv.writer(csvfile)
 		writer.writerow(['context', 'question', 'reference', 'candidate', 'id'])
 		for line in samples:
@@ -83,24 +70,14 @@ def write_data_to_label(data_dict):
 
 def main():
 	# Paths to prediction files
-	GPT_PREDICTIONS_DIR = '/home/tony/answer-generation/huggingface_gpt2/models/mcscript'
-	GPT2_PREDICTIONS_FILE = [join(GPT_PREDICTIONS_DIR, 'dev.csv_generation'), join(GPT_PREDICTIONS_DIR, 'test.csv_generation')]
-
-	MHPG_PREDICTIONS_DIR = '/home/tony/CommonSenseMultiHopQA/out/mcscript_baseline'
-	MHPG_PREDICTIONS_FILE = [join(MHPG_PREDICTIONS_DIR, 'mcscript_valid.jsonl.merged1'), 
-							 join(MHPG_PREDICTIONS_DIR, 'mcscript_test.jsonl.merged1')]
+	GPT_PREDICTIONS_DIR = '/home/tony/answer-generation/huggingface_gpt2/models/cosmosqa'
+	GPT2_PREDICTIONS_FILE = join(GPT_PREDICTIONS_DIR, 'dev.csv_generation')
 
 	# Load in data and prediction files 	
-	data = load_mcscript_data()
+	data = load_cosmosqa_data()
 
-	for f in GPT2_PREDICTIONS_FILE:
-		for context, question, candidates in load_gpt2_predictions(f):
-			data[context][question]['candidates'].update(candidates)
-
-	for f in MHPG_PREDICTIONS_FILE:
-		for context, question, candidate in load_mhpg_predictions(f):
-			if context in data and question in data[context]:
-				data[context][question]['candidates'].add(candidate)
+	for context, question, candidates in load_gpt2_predictions(GPT2_PREDICTIONS_FILE):
+		data[context][question]['candidates'].update(candidates)
 
 	write_data_to_label(data)
 

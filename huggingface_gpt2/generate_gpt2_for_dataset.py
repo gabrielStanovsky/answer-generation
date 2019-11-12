@@ -60,15 +60,21 @@ def generate_samples_for_file(input_file, model_archive):
 			line += generated_answers
 			writer.writerow(line)
 	csvfile.close()
+	del archive
+	del model
 
 if __name__ == '__main__':
-	# generate_samples_for_file('data/narrativeqa/dev.csv', 'huggingface_gpt2/models/narrativeqa/model.tar.gz')
-	# generate_samples_for_file('data/narrativeqa/test.csv', 'huggingface_gpt2/models/narrativeqa/model.tar.gz')
+	print('Generating for NarrativeQA...')
+	generate_samples_for_file('data/narrativeqa/dev.csv', 'huggingface_gpt2/models/narrativeqa/model.tar.gz')
+	generate_samples_for_file('data/narrativeqa/test.csv', 'huggingface_gpt2/models/narrativeqa/model.tar.gz')
 
-	# generate_samples_for_file('data/mcscript/dev.csv', 'huggingface_gpt2/models/mcscript/model.tar.gz')
-	# generate_samples_for_file('data/mcscript/test.csv', 'huggingface_gpt2/models/mcscript/model.tar.gz')
+	print('Generating for MCScript...')
+	generate_samples_for_file('data/mcscript/dev.csv', 'huggingface_gpt2/models/mcscript/model.tar.gz')
+	generate_samples_for_file('data/mcscript/test.csv', 'huggingface_gpt2/models/mcscript/model.tar.gz')
 	
+	print('Generating for SocialIQA...')
 	generate_samples_for_file('data/socialiqa/dev.csv', 'huggingface_gpt2/models/socialiqa/model.tar.gz')
 	generate_samples_for_file('data/socialiqa/test.csv', 'huggingface_gpt2/models/socialiqa/model.tar.gz')
 
+	print('Generating for COSMOSQA...')
 	generate_samples_for_file('data/cosmosqa/dev.csv', 'huggingface_gpt2/models/cosmosqa/model.tar.gz')
