@@ -1,4 +1,8 @@
-### Training
+# Candidate answer generation
+
+### Training Models for Answer generation
+
+##### Training
 
 To train a GPT2 model on MCScript, NarrativeQA, SocialIQA, and COSMOSQA, run:
 ```
@@ -54,7 +58,7 @@ To train a Numerically Augmented BERT (NABERT+) on DROP, run:
 allennlp train nabert/drop_config.json --include-package nabert -s nabert/models/drop/
 ```
 
-### Predictions
+##### Predictions
 To get predictions on MCScript, NarrativeQA, SocialIQA, and COSMOSQA from a trained GPT2 model run:
 ```
 python gpt2/generate_gpt2.py
@@ -90,7 +94,34 @@ To get predictions on DROP from a trained NABERT+ model, run:
 python nabert/drop_predict.py -d <device_num> -w <weights_file>
 ```
 
-### Creating Hits
+### Backtranslation
+To create backtranslations of the generative QA datasets (COSMOSQA, NarrativeQA, MCScript, and SocialIQA), run
+```
+python backtranslation/backtranslate_answers.py
+```
+which creates backtranslations in the `backtranslation/<dataset>` directory. 
+
+### Masked Answer Generation
+To create answer candidates using masked answer fill-in, run:
+```
+
+```
+
+# Merging answer candidate sources
+Given that we have candidate answers from many different sources, we now have to merge them together. 
+Each dataset has its own merging file. The run commmand for all datasets is: 
+```
+python merge_predictions/merge_cosmosqa.py
+python merge_predictions/merge_drop.py
+python merge_predictions/merge_mcscript.py
+python merge_predictions/merge_narrativeqa.py
+python merge_predictions/merge_quoref.py
+python merge_predictions/merge_ropes.py
+python merge_predictions/merge_utils.py
+```
+This puts the merged answer candidates into `merge_predictions/to_label`.
+
+# Creating Hits
 To create HITS on the datasets, run the following dataset-specific commands
 
 ```
