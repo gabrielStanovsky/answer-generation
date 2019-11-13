@@ -19,6 +19,8 @@ def process_cosmosqa(RAW_FILE, OUTPUT_FILE):
 	writer.writerow(['gpt_input', 'context', 'question', 'answer'])
 
 	answer_writer = open(OUTPUT_FILE + '_answers', 'w')
+	question_answer_writer = open(OUTPUT_FILE + '_question_answers', 'w')
+	context_writer = open(OUTPUT_FILE + '_context', 'w')
 
 	with open(RAW_FILE) as f:
 		# Skip header line
@@ -42,9 +44,13 @@ def process_cosmosqa(RAW_FILE, OUTPUT_FILE):
 				
 			writer.writerow([gpt_input, context, question, correct_answer])
 			answer_writer.write(correct_answer + '\n')
+			question_answer_writer.write(question.__repr__() + '\n' + correct_answer.__repr__() + '\n')
+			context_writer.write(context.__repr__() + '\n')
 
 	csvfile.close()
 	answer_writer.close()
+	question_answer_writer.close()
+	context_writer.close()
 
 def process_mcscript(RAW_FILE, OUTPUT_FILE):
 	csvfile = open(OUTPUT_FILE, 'w')
@@ -52,6 +58,8 @@ def process_mcscript(RAW_FILE, OUTPUT_FILE):
 	writer.writerow(['gpt_input', 'context', 'question', 'answer'])
 	
 	answer_writer = open(OUTPUT_FILE + '_answers', 'w')
+	question_answer_writer = open(OUTPUT_FILE + '_question_answers', 'w')
+	context_writer = open(OUTPUT_FILE + '_context', 'w')
 	
 	# Iterate through XML structure of the raw file
 	with open(RAW_FILE) as f:
@@ -78,9 +86,13 @@ def process_mcscript(RAW_FILE, OUTPUT_FILE):
 							
 						writer.writerow([gpt_input, context, question, correct_answer])
 						answer_writer.write(correct_answer + '\n')
+						question_answer_writer.write(question.__repr__() + '\n' + correct_answer.__repr__() + '\n')
+						context_writer.write(context.__repr__() + '\n')
 
 	csvfile.close()
 	answer_writer.close()
+	question_answer_writer.close()
+	context_writer.close()
 
 def process_narrativeqa(OUTPUT_FILE, data_type):
 	csvfile = open(OUTPUT_FILE, 'w')
@@ -88,6 +100,8 @@ def process_narrativeqa(OUTPUT_FILE, data_type):
 	writer.writerow(['gpt_input', 'context', 'question', 'answer1', 'answer2'])
 	
 	answer_writer = open(OUTPUT_FILE + '_answers', 'w')
+	question_answer_writer = open(OUTPUT_FILE + '_question_answers', 'w')
+	context_writer = open(OUTPUT_FILE + '_context', 'w')
 
 	# Contexts are stored in a separate file, so load them first
 	SUMMARIES_FILE = 'raw_data/narrativeqa/third_party/wikipedia/summaries.csv'
@@ -133,9 +147,14 @@ def process_narrativeqa(OUTPUT_FILE, data_type):
 			writer.writerow([gpt_input, context, question] + correct_answers)
 			# Use the first reference as the "correct" answer
 			answer_writer.write(correct_answers[0] + '\n')
+			question_answer_writer.write(question.__repr__() + '\n' + correct_answers[0].__repr__() + '\n')
+			context_writer.write(context.__repr__() + '\n')
+
 
 	csvfile.close()
 	answer_writer.close()
+	question_answer_writer.close()
+	context_writer.close()
 
 def process_socialiqa(RAW_FILE, OUTPUT_FILE):
 	csvfile = open(OUTPUT_FILE, 'w')
@@ -143,6 +162,8 @@ def process_socialiqa(RAW_FILE, OUTPUT_FILE):
 	writer.writerow(['gpt_input', 'context', 'question', 'answer'])
 
 	answer_writer = open(OUTPUT_FILE + '_answers', 'w')
+	question_answer_writer = open(OUTPUT_FILE + '_question_answers', 'w')
+	context_writer = open(OUTPUT_FILE + '_context', 'w')
 
 	for line in Reader(open(RAW_FILE)):
 		context = line['context'].strip()
@@ -157,9 +178,13 @@ def process_socialiqa(RAW_FILE, OUTPUT_FILE):
 			
 		writer.writerow([gpt_input, context, question, correct_answer])
 		answer_writer.write(correct_answer + '\n')
+		question_answer_writer.write(question.__repr__() + '\n' + correct_answer.__repr__() + '\n')
+		context_writer.write(context.__repr__() + '\n')
 
 	csvfile.close()
 	answer_writer.close()
+	question_answer_writer.close()
+	context_writer.close()
 
 if __name__ == '__main__':
 	# COSMOSQA
