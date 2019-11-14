@@ -101,12 +101,6 @@ python backtranslation/backtranslate_answers.py
 ```
 which creates backtranslations in the `backtranslation/<dataset>` directory. 
 
-### Masked Answer Generation
-To create answer candidates using masked answer fill-in, run:
-```
-
-```
-
 # Merging answer candidate sources
 Given that we have candidate answers from many different sources, we now have to merge them together. 
 Each dataset has its own merging file. The run commmand for all datasets is: 
