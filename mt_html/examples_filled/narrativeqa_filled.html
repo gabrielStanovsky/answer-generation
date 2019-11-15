@@ -295,9 +295,11 @@ $(function() {
 	nullItems.children(".checkboxes").children(".checkbox").children("input").prop('checked', true);
 	// activate next/prev buttons
 	$("#next").click(function () {
+		event.preventDefault();
 		updateItems(1);
 	});
 	$("#prev").click(function () {
+		event.preventDefault();
 		updateItems(-1);
 	});
 	// Cause initial selection
