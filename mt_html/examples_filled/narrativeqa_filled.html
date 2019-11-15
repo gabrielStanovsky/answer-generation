@@ -327,25 +327,9 @@ for (i = 0; i < coll.length; i++) {
 }
 </script>
 
-<!-- End internal style sheet --><!-- External JS references --><script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" integrity="sha384-s1ITto93iSMDxlp/79qhWHi+LsIi9Gx6yL+cOKDuymvihkfol83TYbLbOw+W/wv4" crossorigin="anonymous"></script><!-- Open internal javascript --><script>
-	$(document).ready(function() {
-		// Instructions expand/collapse
-		var content = $('#instructionBody');
-		var trigger = $('#collapseTrigger');
-		content.hide();
-		$('.collapse-text').text('(Click here to expand)');
-		trigger.click(function(){
-			content.toggle();
-			var isVisible = content.is(':visible');
-			if(isVisible){
-				$('.collapse-text').text('(Click here to collapse)');
-			}else{
-				$('.collapse-text').text('(Click here to expand)');
-			}
-		});
-		// end expand/collapse
-	});
-</script><!-- Close internal javascript --><script>
+<!-- End internal style sheet --><!-- External JS references --><script src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" integrity="sha384-s1ITto93iSMDxlp/79qhWHi+LsIi9Gx6yL+cOKDuymvihkfol83TYbLbOw+W/wv4" crossorigin="anonymous"></script><!-- Open internal javascript -->
+
+<script>
 	window.onload = function() {document.getElementById('submitButton').setAttribute('onClick', 'return validateForm()'); }
 
 	function validateForm(){
