@@ -36,7 +36,7 @@ def load_gpt2_predictions(file):
 		for row in csv.reader(fp):
 			context = clean_string(row[1])
 			question = clean_string(row[2])
-			candidates = strip_gpt_endtag([clean_string(c) for c in row[4:]])
+			candidates = [clean_string(c) for c in row[4:]]
 			lines.append((context, question, candidates))
 	return lines
 

@@ -106,19 +106,3 @@ def prune_and_sort_samples(samples):
 	pruned_samples = sorted(pruned_samples, key = lambda x: x[0])
 
 	return pruned_samples
-
-def strip_gpt_endtag(candidates):
-	endtag = '<|endoftext|>'
-	# Enumerates all variations of endtag
-	# e.g. '<', '<|', '<|e' ... in reverse order 
-	endtag_variations = [endtag[:i] for i in reversed(range(1, len(endtag)))]
-
-	if type(candidates) == str:
-		candidates = [candidates]
-
-	for i, c in enumerate(candidates):
-		for e in endtag_variations:
-			c = c.replace(e, '')
-		candidates[i] = c
-
-	return candidates
