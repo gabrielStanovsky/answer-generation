@@ -29,10 +29,10 @@
 }
 
 #tasks .task{
-    display: none;
+	display: none;
 }
 #tasks .task.current{
-    display: block;
+	display: block;
 }
 </style>
 
@@ -273,16 +273,16 @@
 // from: https://stackoverflow.com/questions/28294145/navigate-through-multiple-divs-using-next-prev
 function updateItems(delta)
 {
-    var $items = $('#tasks').children().filter(function(i,b){
+	var $items = $('#tasks').children().filter(function(i,b){
 		return $('#'+b.id).children().find('.question').text()!='none';
 	});
-    var $current = $items.filter('.current');
-    $current = $current.length ? $current : $items.first();
-    var index = $current.index() + delta;
-    // Range check the new index
-    index = (index < 0) ? 0 : ((index > $items.length) ? $items.length : index); 
-    $current.removeClass('current');
-    $current = $items.eq(index).addClass('current');
+	var $current = $items.filter('.current');
+	$current = $current.length ? $current : $items.first();
+	var index = $current.index() + delta;
+	// Range check the new index
+	index = (index < 0) ? 0 : ((index > $items.length) ? $items.length : index); 
+	$current.removeClass('current');
+	$current = $items.eq(index).addClass('current');
 	// Hide/show the next/prev
 	$('#prev').prop('disabled', $current.is($items.first()))
 	$('#next').prop('disabled', $current.is($items.last()))
@@ -315,7 +315,7 @@ var coll = document.getElementsByClassName("collapsible");
 var i;
 
 for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
+	coll[i].addEventListener("click", function() {
 	this.classList.toggle("active");
 	var content = this.nextElementSibling;
 	if (content.style.display === "block") {
@@ -333,22 +333,26 @@ for (i = 0; i < coll.length; i++) {
 	window.onload = function() {document.getElementById('submitButton').setAttribute('onClick', 'return validateForm()'); }
 
 	function validateForm(){
-		var flag = true;
-		ans1_value = document.getElementById('answer0').checked;
-		ans2_value = document.getElementById('answer1').checked;
-		ans3_value = document.getElementById('answer2').checked;
-		ans4_value = document.getElementById('answer3').checked;
-		ans5_value = document.getElementById('answer4').checked;
+		// Returns True if all the tasks have been completed, otherwise throws an alert.
+		var $items = $('#tasks').children().filter(function(i,b){
+			return $('#'+b.id).children().find('.question').text()!='none';
+		});
+		l = $items.length;
+		for (i = 0; i < l; i++) {
+			var checkboxes = $items[i].getElementsByClassName('checkboxes')
+			checkbox1 = checkboxes[0].getElementsByClassName('checkbox')[0].getElementsByTagName('*')[0].checked;
+			checkbox2 = checkboxes[0].getElementsByClassName('checkbox')[1].getElementsByTagName('*')[0].checked;
+			checkbox3 = checkboxes[0].getElementsByClassName('checkbox')[2].getElementsByTagName('*')[0].checked;
+			checkbox4 = checkboxes[0].getElementsByClassName('checkbox')[3].getElementsByTagName('*')[0].checked;
+			checkbox5 = checkboxes[0].getElementsByClassName('checkbox')[4].getElementsByTagName('*')[0].checked;
 
-		if(ans1_value==false && ans2_value==false && ans3_value==false && ans4_value==false && ans5_value==false){
-			alert("Please select ONE answer!!!!")
-			flag = false;
-		}
-		if((ans1_value!=false || ans2_value!=false || ans3_value!=false || ans4_value!=false) && ans5_value!=false){
-			alert("Please don't select both the plausible answers and None of the above !!!!")
-			flag = false;
-		}
-
-		return flag;
+			// This is true if this task wasn't completed
+			not_completed = !checkbox1 && !checkbox2 && !checkbox3 && !checkbox4 && !checkbox5
+			if(not_completed){
+				alert("Please make sure to complete all tasks!")
+				return false;
+			}
+		} 
+		return true;
 	}
 </script>
