@@ -1,7 +1,6 @@
 import csv
 from jsonlines import Reader
 from os.path import join
-import random
 import spacy
 from spacy.lang.en.stop_words import STOP_WORDS 
 import string
@@ -9,7 +8,6 @@ from tqdm import tqdm
 
 nlp = spacy.load('en_core_web_sm', disable=['parser','ner', 'tagger'])	
 STOP_WORDS.update(string.punctuation)
-random.seed(0)
 
 from merge_utils import *
 

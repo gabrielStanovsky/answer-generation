@@ -1,8 +1,7 @@
 import csv
 from jsonlines import Reader
 from os.path import join
-import random
-random.seed(0)
+from tqdm import tqdm
 
 from merge_utils import *
 
@@ -55,7 +54,7 @@ def write_data_to_label(data_dict):
 	samples = []
 
 	# First converts the dictionary to entries in a list
-	for context in data_dict:
+	for context in tqdm(data_dict):
 		for question in data_dict[context]:
 			reference = data_dict[context][question]['reference']
 			candidates = prune_candidates(reference, data_dict[context][question]['candidates'])

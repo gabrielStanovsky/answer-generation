@@ -65,16 +65,16 @@ def match(references, candidate):
 	return False
 
 def prune_candidates(references, candidates):
-	# Prune down the list of candidates by doing pairwise checks to make sure
-	# they aren't the same
+	"""	Prune down the list of candidates by doing pairwise checks to make sure
+		they aren't the same
+	"""
 	unique_candidates = []
 
 	for c in sorted(candidates):
 		has_match = False
 
-		# Skip candidates that are equivalent to the reference
-		# and answers that have a GPT tag
-		if match(references, c) or 'startoftext' in c:
+		# Skip candidates that are equivalent to the references
+		if match(references, c):
 			has_match = True
 
 		# Skip duplicate candidates
