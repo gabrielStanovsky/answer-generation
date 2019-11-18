@@ -51,7 +51,7 @@ def load_narrativeqa_data():
 					data[context] = {}
 				
 				if question not in data[context]:
-					data[context][question] = {'references': references, 'candidates': set()}
+					data[context][question] = {'references': references, 'candidates': {}}
 
 			return data
 
@@ -66,7 +66,7 @@ def load_gpt2_predictions(file):
 		for row in csv.reader(fp):
 			context = clean_string(row[1])
 			question = clean_string(row[2])
-			candidates = [clean_string(c) for c in row[4:]]
+			candidates = {clean_string(c) : 'gpt2' for c in row[4:]}
 			lines.append((context, question, candidates))
 	return lines
 	
@@ -78,7 +78,7 @@ def load_mhpg_predictions(file):
 		candidate = clean_string(line['pred']).replace(" n't", "n't").replace(" 's", "'s")
 
 		if 'UNK' not in candidate:
-			lines.append((context, question, candidate))
+			lines.append((context, question, {candidate: 'mhpg'}))
 			
 	return lines
 
@@ -92,31 +92,32 @@ def write_data_to_label(data_dict):
 			candidates = data_dict[context][question]['candidates']
 
 			if not are_two_answers_the_same(question, references[0], references[1]):
-				candidates.add(references[1])
+				candidates.update({references[1]:'narrativeqa'})
 				references = [references[0]]
 
-			candidates = prune_candidates(references, data_dict[context][question]['candidates'])
+			unique_candidates_keys = prune_candidates(references, candidates)
+
 			# Write out the first reference as the "gold" reference
 			reference = references[0]
 
-			for candidate in candidates:
+			for candidate_key in unique_candidates_keys:
 				# Filter instances that wouldn't fit into BERT
-				if bert_tokenization_length(context, question, reference, candidate) + 4 > 512:
+				if bert_tokenization_length(context, question, reference, candidate_key) + 4 > 512:
 					continue
 
 				# Check the data instances and get a sample hash id
-				hash_id = check_data_and_return_hash(context, question, reference, candidate)
+				hash_id = check_data_and_return_hash(context, question, reference, candidate_key)
 				if hash_id == None:
 					continue
 
-				samples.append([context, question, reference, candidate, hash_id])
+				samples.append([context, question, reference, candidate_key, candidates[candidate_key], hash_id])
 
 	samples = prune_and_sort_samples(samples)
 
 	# Write to CSV file
 	with open('merge_predictions/to_label/narrativeqa.csv', 'w') as csvfile:
 		writer = csv.writer(csvfile)
-		writer.writerow(['context', 'question', 'reference', 'candidate', 'id'])
+		writer.writerow(['context', 'question', 'reference', 'candidate', 'source', 'id'])
 		for line in samples:
 			writer.writerow(line)
 
@@ -140,7 +141,7 @@ def main():
 	for f in MHPG_PREDICTIONS_FILE:
 		for context, question, candidate in load_mhpg_predictions(f):
 			if context in data and question in data[context]:
-				data[context][question]['candidates'].add(candidate)
+				data[context][question]['candidates'].update(candidate)
 
 	write_data_to_label(data)
 
