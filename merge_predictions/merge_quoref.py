@@ -1,7 +1,6 @@
 import csv
 import json
-import random
-random.seed(0)
+from tqdm import tqdm
 
 from merge_utils import *
 
@@ -22,7 +21,7 @@ def load_quoref_data():
 				question = clean_string(question_dict['question'])
 				reference = clean_string(question_dict['answers'][0]['text'])
 
-				data[question_id] = {'context': context, 'question': question, 'reference': reference, 'candidates': set()}
+				data[question_id] = {'context': context, 'question': question, 'reference': reference, 'candidates': {}}
 
 	return data
 
@@ -34,30 +33,31 @@ def write_data_to_label(data_dict):
 	samples = []
 
 	# First converts the dictionary to entries in a list
-	for question_id in data_dict:
+	for question_id in tqdm(data_dict):
 		context = data_dict[question_id]['context']
 		question = data_dict[question_id]['question']
 		reference = data_dict[question_id]['reference']
-		candidates = prune_candidates(reference, data_dict[question_id]['candidates'])
+		candidates = data_dict[question_id]['candidates']
+		unique_candidates_keys = prune_candidates(reference, candidates)
 
-		for candidate in candidates:
+		for candidate_key in unique_candidates_keys:
 			# Filter instances that wouldn't fit into BERT
-			if bert_tokenization_length(context, question, candidate, reference) + 4 > 512:
+			if bert_tokenization_length(context, question, candidate_key, reference) + 4 > 512:
 				continue
 
 			# Check the data instances and get a sample hash id
-			hash_id = check_data_and_return_hash(context, question, reference, candidate)
+			hash_id = check_data_and_return_hash(context, question, reference, candidate_key)
 			if hash_id == None:
 				continue
 
-			samples.append([context, question, reference, candidate, hash_id])
+			samples.append([context, question, reference, candidate_key, candidates[candidate_key], hash_id])
 
 	samples = prune_and_sort_samples(samples)
 
 	# Write to CSV file
 	with open('merge_predictions/to_label/quoref.csv', 'w') as csvfile:
 		writer = csv.writer(csvfile)
-		writer.writerow(['context', 'question', 'reference', 'candidate', 'id'])
+		writer.writerow(['context', 'question', 'reference', 'candidate', 'source', 'id'])
 		for line in samples:
 			writer.writerow(line)
 
@@ -69,7 +69,7 @@ def main():
 	data = load_quoref_data()
 
 	for question_id, candidates in load_predictions(PREDICTION_FILE).items():
-		data[question_id]['candidates'].update(candidates)
+		data[question_id]['candidates'].update({c: 'bert' for c in candidates})
 
 	write_data_to_label(data)
 
