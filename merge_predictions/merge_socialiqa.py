@@ -39,6 +39,18 @@ def load_gpt2_predictions(file):
 			lines.append((context, question, candidates))
 	return lines
 
+def load_backtranslations(file):
+	lines = []
+	with open(file, 'r', encoding='utf8', errors='ignore') as fp:
+		for row in csv.reader(fp):
+			context = clean_string(row[1])
+			question = clean_string(row[2])
+
+			# c[0] because c[1] is the score of the backtranslation
+			candidates = {clean_string(eval(c)[0]) : 'backtranslation' for c in row[4:]}
+			lines.append((context, question, candidates))
+	return lines
+
 def write_data_to_label(data_dict):
 	samples = []
 
@@ -75,6 +87,9 @@ def main():
 	GPT_PREDICTIONS_DIR = '/home/tony/answer-generation/huggingface_gpt2/models/socialiqa'
 	GPT2_PREDICTIONS_FILE = [join(GPT_PREDICTIONS_DIR, 'dev.csv_generation'), join(GPT_PREDICTIONS_DIR, 'test.csv_generation')]
 
+	BACKTRANSLATION_DIR = '/home/tony/answer-generation/backtranslation/socialiqa'
+	BACKTRANSLATION_FILES = [join(BACKTRANSLATION_DIR, 'dev.csv_answers.backtranslations'), 
+							 join(BACKTRANSLATION_DIR, 'test.csv_answers.backtranslations')]
 
 	# Load in data and prediction files 	
 	data = load_socialiqa_data()
@@ -82,6 +97,11 @@ def main():
 	for f in GPT2_PREDICTIONS_FILE:
 		for context, question, candidates in load_gpt2_predictions(f):
 			data[context][question]['candidates'].update(candidates)
+
+	for f in BACKTRANSLATION_FILES:
+		for context, question, candidate in load_backtranslations(f):
+			if context in data and question in data[context]:
+				data[context][question]['candidates'].update(candidate)
 
 	write_data_to_label(data)
 

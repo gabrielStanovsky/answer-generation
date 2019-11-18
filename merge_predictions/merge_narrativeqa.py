@@ -82,6 +82,18 @@ def load_mhpg_predictions(file):
 			
 	return lines
 
+def load_backtranslations(file):
+	lines = []
+	with open(file, 'r', encoding='utf8', errors='ignore') as fp:
+		for row in csv.reader(fp):
+			context = clean_string(row[1])
+			question = clean_string(row[2])
+
+			# c[0] because c[1] is the score of the backtranslation
+			candidates = {clean_string(eval(c)[0]) : 'backtranslation' for c in row[5:]}
+			lines.append((context, question, candidates))
+	return lines
+
 def write_data_to_label(data_dict):
 	samples = []
 
@@ -132,6 +144,10 @@ def main():
 							 join(MHPG_PREDICTIONS_DIR, 'narrative_qa_test.jsonl.merged1'),
 							 join(MHPG_PREDICTIONS_DIR, 'narrative_qa_test.jsonl.merged2')]
 
+	BACKTRANSLATION_DIR = '/home/tony/answer-generation/backtranslation/narrativeqa'
+	BACKTRANSLATION_FILES = [join(BACKTRANSLATION_DIR, 'dev.csv_answers.backtranslations'), 
+							 join(BACKTRANSLATION_DIR, 'test.csv_answers.backtranslations')]
+
 	data = load_narrativeqa_data()
 
 	for f in GPT2_PREDICTIONS_FILE:
@@ -140,6 +156,11 @@ def main():
 
 	for f in MHPG_PREDICTIONS_FILE:
 		for context, question, candidate in load_mhpg_predictions(f):
+			if context in data and question in data[context]:
+				data[context][question]['candidates'].update(candidate)
+
+	for f in BACKTRANSLATION_FILES:
+		for context, question, candidate in load_backtranslations(f):
 			if context in data and question in data[context]:
 				data[context][question]['candidates'].update(candidate)
 
