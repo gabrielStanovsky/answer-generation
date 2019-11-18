@@ -46,10 +46,11 @@ def match(references, candidate):
         references = [references]
 
     for reference in references:
-        # Test for string equivalence of numbers
+        # Test for numerical equivalence
         if is_number(reference) and is_number(candidate) and float(reference) == float(candidate):
             return True
         
+        # Remove stop words in reference and candidate and lowercase
         tokenized_reference 	 = [token.text for token in nlp(reference.lower())]
         tokenized_candidate 	 = [token.text for token in nlp(candidate.lower())]
         tokenized_reference 	  = [token for token in tokenized_reference if token not in STOP_WORDS]
@@ -58,26 +59,22 @@ def match(references, candidate):
         stripped_reference = ''.join(tokenized_reference)
         stripped_candidate = ''.join(tokenized_candidate)
 
-        # Test for string equivalence
+        # Test for string equivalence	
         if stripped_reference == stripped_candidate:
             return True
 
     return False
 
 def prune_candidates(references, candidates):
-	"""	Prune down the list of candidates by doing pairwise checks to make sure
-		they aren't the same
+	"""	
+		Prune down the list of candidates by doing pairwise checks to make sure
+		they aren't the same as the reference or other candidates
 	"""
 	unique_candidates = []
-
+	
+	# Skip candidates that are equivalent to the references or other candidates
 	for c in sorted(candidates):
-		has_match = False
-
-		# Skip candidates that are equivalent to the references
-		if match(references, c) or match(unique_candidates, c):
-			has_match = True
-
-		if has_match == False:
+		if not match(references, c) and not match(unique_candidates, c):
 			unique_candidates.append(c)
 
 	return list(sorted(unique_candidates))
