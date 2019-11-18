@@ -20,7 +20,7 @@ def load_cosmosqa_data():
 					data[context] = {}
 				
 				if question not in data[context]:
-					data[context][question] = {'reference': reference, 'candidates': set()}
+					data[context][question] = {'reference': reference, 'candidates': {}}
 		return data
 
 	data = load_file(COSMOSQA_DEV_FILE)
@@ -33,7 +33,7 @@ def load_gpt2_predictions(file):
 		for row in csv.reader(fp):
 			context = clean_string(row[1])
 			question = clean_string(row[2])
-			candidates = [clean_string(c) for c in row[4:]]
+			candidates = {clean_string(c) : 'gpt2' for c in row[4:]}
 			lines.append((context, question, candidates))
 	return lines
 
@@ -44,26 +44,27 @@ def write_data_to_label(data_dict):
 	for context in tqdm(data_dict):
 		for question in data_dict[context]:
 			reference = data_dict[context][question]['reference']
-			candidates = prune_candidates(reference, data_dict[context][question]['candidates'])
+			candidates = data_dict[context][question]['candidates']
+			unique_candidates_keys = prune_candidates(reference, candidates)
 
-			for candidate in candidates:
+			for candidate_key in unique_candidates_keys:
 				# Filter instances that wouldn't fit into BERT
-				if bert_tokenization_length(context, question, reference, candidate) + 4 > 512:
+				if bert_tokenization_length(context, question, reference, candidate_key) + 4 > 512:
 					continue
 
 				# Check the data instances and get a sample hash id
-				hash_id = check_data_and_return_hash(context, question, reference, candidate)
+				hash_id = check_data_and_return_hash(context, question, reference, candidate_key)
 				if hash_id == None:
 					continue
 
-				samples.append([context, question, reference, candidate, hash_id])
+				samples.append([context, question, reference, candidate_key, candidates[candidate_key], hash_id])
 
 	samples = prune_and_sort_samples(samples)
 
 	# Write to CSV file
 	with open('merge_predictions/to_label/cosmosqa.csv', 'w') as csvfile:
 		writer = csv.writer(csvfile)
-		writer.writerow(['context', 'question', 'reference', 'candidate', 'id'])
+		writer.writerow(['context', 'question', 'reference', 'candidate', 'source', 'id'])
 		for line in samples:
 			writer.writerow(line)
 
