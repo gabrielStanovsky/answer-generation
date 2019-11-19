@@ -70,7 +70,7 @@ def write_data_to_label(data_dict):
 	samples = prune_and_sort_samples(samples)
 
 	# Write to CSV file
-	with open('merge_predictions/to_label/drop.csv', 'w') as csvfile:
+	with open('merge_predictions/merged_datasets/drop.csv', 'w') as csvfile:
 		writer = csv.writer(csvfile)
 		writer.writerow(['context', 'question', 'reference', 'candidate', 'source', 'id'])
 		for line in samples:
