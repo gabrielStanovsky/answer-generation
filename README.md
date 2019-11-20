@@ -105,15 +105,9 @@ which creates backtranslations in the `backtranslation/<dataset>` directory.
 Given that we have candidate answers from many different sources, we now have to merge them together. 
 Each dataset has its own merging file. The run commmand for all datasets is: 
 ```
-python merge_predictions/merge_cosmosqa.py
-python merge_predictions/merge_drop.py
-python merge_predictions/merge_mcscript.py
-python merge_predictions/merge_narrativeqa.py
-python merge_predictions/merge_quoref.py
-python merge_predictions/merge_ropes.py
-python merge_predictions/merge_utils.py
+python merge_predictions/merge_all.py
 ```
-This puts the merged answer candidates into `merge_predictions/to_label`.
+This puts the merged answer candidates into `merge_predictions/merged_datasets`.
 
 # Creating Hits
 To create HITS on the datasets, run the following dataset-specific commands

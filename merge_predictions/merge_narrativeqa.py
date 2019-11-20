@@ -9,7 +9,7 @@ from tqdm import tqdm
 nlp = spacy.load('en_core_web_sm', disable=['parser','ner', 'tagger'])	
 STOP_WORDS.update(string.punctuation)
 
-from merge_utils import *
+from merge_utils import bert_tokenization_length, clean_string, check_data_and_return_hash, prune_and_sort_samples, prune_candidates
 
 def are_two_answers_the_same(question, ref1, ref2):
 	""" 

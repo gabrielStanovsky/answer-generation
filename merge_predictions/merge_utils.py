@@ -2,11 +2,10 @@ import hashlib
 from pytorch_pretrained_bert import BertTokenizer
 import string
 import spacy
-from spacy.lang.en.stop_words import STOP_WORDS 
 import string
 
 nlp = spacy.load('en_core_web_sm', disable=['parser','ner', 'tagger'])	
-STOP_WORDS.update(string.punctuation)
+STOP_WORDS = ['a', 'an', 'the'] + string.punctuation
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
 def bert_tokenization_length(context, question, reference, candidate):
