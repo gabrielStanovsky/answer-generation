@@ -4,18 +4,18 @@ from itertools import chain
 from math import ceil
 from os.path import join
 import random
-random.seed(0)
 
 INPUT_DATA_DIR = 'merge_predictions/merged_datasets'
 OUTPUT_DATA_DIR = 'merge_predictions/sampled_predictions'
-MAX_NUM_SAMPLES = 10000
 MAX_QUESTIONS_PER_HIT = 20
 
 def load_data(data_file):
-	print('sampling ', data_file.split('/')[-1],'...')
+	print('SAMPLING', data_file.split('/')[-1].upper())
+	print('='*40)
 	data = {}
-	skipped = 0
+	num_skipped = 0
 	num_questions = 0
+	num_unique_questions = 0
 	with open(data_file) as f:
 		# Skip header
 		f.readline()
@@ -28,11 +28,12 @@ def load_data(data_file):
 				
 			if question not in data[context]:
 				data[context][question] = {'reference': reference, 'candidates': {}}
+				num_unique_questions += 1
 
 			# We found that DROP has questions with multiple references so 
 			# we just skip the duplicates and log how often they occur
 			if data[context][question]['reference'] != reference:
-				skipped += 1
+				num_skipped += 1
 				continue
 
 			if source not in data[context][question]['candidates']:
@@ -41,13 +42,14 @@ def load_data(data_file):
 			data[context][question]['candidates'][source].append({'candidate': candidate, 'hash_id': hash_id})
 			num_questions += 1
 
-	print('Found ', num_questions, ' questions... Skipped ', skipped, ' candidates because of different questions\n')
+	print('Found', num_questions, 'questions...', num_unique_questions, 'unique questions.... Skipped', num_skipped, 'questions')
 	return data
 
 def write_data(data, output_fn):
 	outfile = open(output_fn, 'w')
 	writer = csv.writer(outfile)
-	
+	num_output_lines = 0
+
 	# Write the header row
 	header_row = ['context', 'id']
 	for i in range(1, MAX_QUESTIONS_PER_HIT+1):
@@ -72,8 +74,10 @@ def write_data(data, output_fn):
 									})
 
 		write_rows(writer, context, questions)
+		num_output_lines += len(questions)
 
 	outfile.close()
+	print('Wrote out', num_output_lines, 'lines...\n')
 	
 def write_rows(writer, context, questions):
 	# For each context, evenly split the number of questions per HIT and write to file
@@ -120,16 +124,20 @@ def check_sampled_data(input_file, output_file):
 					assert sampled_line == [context] + ['none', 'none', 'none', 'none', 'none']
 
 def sample_cosmosqa():
+	random.seed(1)
 	fn = 'cosmosqa.csv'
-	data = load_data(join(INPUT_DATA_DIR, fn))
+	input_fn = join(INPUT_DATA_DIR, fn)
+	output_fn = join(OUTPUT_DATA_DIR, fn)
+	data = load_data(input_fn)
 
-	write_data(data, join(OUTPUT_DATA_DIR, fn))
+	write_data(data, output_fn)
+	check_sampled_data(input_fn, output_fn)
 
 def sample_drop():
+	random.seed(1)
 	fn = 'drop.csv'
 	input_fn = join(INPUT_DATA_DIR, fn)
 	output_fn = join(OUTPUT_DATA_DIR, fn)
-	
 	data = load_data(input_fn)
 	
 	write_data(data, output_fn)
@@ -137,43 +145,72 @@ def sample_drop():
 	check_sampled_data(input_fn, output_fn)
 
 def sample_mcscript():
+	random.seed(1)
 	fn = 'mcscript.csv'
-	data = load_data(join(INPUT_DATA_DIR, fn))
+	input_fn = join(INPUT_DATA_DIR, fn)
+	output_fn = join(OUTPUT_DATA_DIR, fn)
+	data = load_data(input_fn)
 
-	write_data(data, join(OUTPUT_DATA_DIR, fn))
+	write_data(data, output_fn)
+	check_sampled_data(input_fn, output_fn)
 
 def sample_narrativeqa():
+	random.seed(1)
 	fn = 'narrativeqa.csv'
-	data = load_data(join(INPUT_DATA_DIR, fn))
+	input_fn = join(INPUT_DATA_DIR, fn)
+	output_fn = join(OUTPUT_DATA_DIR, fn)
+	data = load_data(input_fn)
 
-	write_data(data, join(OUTPUT_DATA_DIR, fn))
+	write_data(data, output_fn)
+	check_sampled_data(input_fn, output_fn)
 
 def sample_quoref():
+	random.seed(1)
 	fn = 'quoref.csv'
 	input_fn = join(INPUT_DATA_DIR, fn)
 	output_fn = join(OUTPUT_DATA_DIR, fn)
-	
 	data = load_data(input_fn)
 	
 	write_data(data, output_fn)
+	check_sampled_data(input_fn, output_fn)
+	
+def sample_ropes():
+	random.seed(1)
+	fn = 'ropes.csv'
+	input_fn = join(INPUT_DATA_DIR, fn)
+	output_fn = join(OUTPUT_DATA_DIR, fn)
+	data = load_data(input_fn)
 
+	max_num_samples = [2, 3]
+
+	# Sampling a subset of the candidate answers
+	for context in data:
+		for question in data[context]:
+			bert = data[context][question]['candidates']['bert']
+			data[context][question]['candidates']['bert'] = random.sample(bert, min(len(bert), random.choice(max_num_samples)))
+
+	write_data(data, output_fn)
 	check_sampled_data(input_fn, output_fn)
 
-def sample_ropes():
-	fn = 'ropes.csv'
-	data = load_data(join(INPUT_DATA_DIR, fn))
-
-	write_data(data, join(OUTPUT_DATA_DIR, fn))
-
 def sample_socialiqa():
+	random.seed(1)
 	fn = 'socialiqa.csv'
-	data = load_data(join(INPUT_DATA_DIR, fn))
+	input_fn = join(INPUT_DATA_DIR, fn)
+	output_fn = join(OUTPUT_DATA_DIR, fn)
+	data = load_data(input_fn)
 
-	write_data(data, join(OUTPUT_DATA_DIR, fn))
+	write_data(data, output_fn)
+	check_sampled_data(input_fn, output_fn)
 
 def main():
+	print()
+	# sample_cosmosqa()
 	sample_drop()
+	# sample_mcscript()
+	# sample_narrativeqa()
 	sample_quoref()
+	sample_ropes()
+	# sample_socialiqa()
 
 if __name__ == '__main__':
 	main()
