@@ -1,13 +1,12 @@
 import csv
 import hashlib
 from itertools import chain
-from math import ceil
 from os.path import join
 import random
 
 INPUT_DATA_DIR = 'merge_predictions/merged_datasets'
 OUTPUT_DATA_DIR = 'merge_predictions/sampled_predictions'
-MAX_QUESTIONS_PER_HIT = 20
+QUESTIONS_PER_HIT = 10
 
 def load_data(data_file):
 	print('SAMPLING', data_file.split('/')[-1].upper())
@@ -52,15 +51,14 @@ def write_data(data, output_fn):
 
 	# Write the header row
 	header_row = ['context', 'id']
-	for i in range(1, MAX_QUESTIONS_PER_HIT+1):
+	for i in range(1, QUESTIONS_PER_HIT+1):
 		header_row += ['question'+str(i), 'reference'+str(i), 'candidate'+str(i), 'source'+str(i), 'id'+str(i)]
-	
 	writer.writerow(header_row)
-	assert len(header_row) == 5*MAX_QUESTIONS_PER_HIT + 2
+	assert len(header_row) == 5*QUESTIONS_PER_HIT + 2
 
-	# Iterate through contexts, getting questions and writing them out to CSV file
+	# Iterate through contexts, squashing nested dictionaries into a
+	# flat dictionary and writing them out to CSV file
 	for context in data:
-		# Squash nested dictionaries into a flat dictionary
 		questions = []
 		for question in data[context]:
 			reference = data[context][question]['reference']
@@ -70,36 +68,33 @@ def write_data(data, output_fn):
 									  'reference': reference,
 									  'candidate': candidate_dict['candidate'],
 									  'source': source,
-									  'hash_id': candidate_dict['hash_id']
-									})
+									  'hash_id': candidate_dict['hash_id']})
 
-		num_output_lines += len(questions)
-		write_rows(writer, context, questions)
-
+		num_output_lines += write_rows(writer, context, questions)
 	outfile.close()
 	print('Wrote out', num_output_lines, 'lines...\n')
 	
 def write_rows(writer, context, questions):
-	# For each context, evenly split the number of questions per HIT and write to file
-	num_hits_needed = ceil(len(questions)/MAX_QUESTIONS_PER_HIT)
-	num_questions_per_hit = ceil(len(questions)/num_hits_needed)
+	# For each context, calculate the number of hits needed (getting rid of remainders)
+	num_hits_needed = len(questions)//QUESTIONS_PER_HIT
+	random.shuffle(questions)
 
-	for i in range(0, len(questions), num_questions_per_hit):
-		current_questions = questions[i:i+num_questions_per_hit]
-		num_current_questions = len(current_questions)
-		
-		# Turn list of dictionaries into a list of dictionary values
+	for i in range(0, num_hits_needed):
+		current_questions = questions[i*QUESTIONS_PER_HIT:(i+1)*QUESTIONS_PER_HIT]
+
+		# Turn list of dictionaries into a list of the dictionary values
 		current_questions = list(chain(*[[q['question'], q['reference'], q['candidate'], q['source'], q['hash_id']] for q in current_questions]))
-		assert len(current_questions)/5 == num_current_questions
+		assert len(current_questions) == 5*QUESTIONS_PER_HIT
 
 		# MD5 hash of the current questions
 		hash_object = hashlib.md5(current_questions.__repr__().encode())
 		row_id = hash_object.hexdigest()
 
-		row = [context, row_id] + current_questions + ['none']*max(0, (5*(MAX_QUESTIONS_PER_HIT-num_current_questions)))
-		assert len(row) == 5*MAX_QUESTIONS_PER_HIT + 2
-
+		row = [context, row_id] + current_questions
 		writer.writerow(row)
+
+	# Return the number of questions we wrote out
+	return num_hits_needed*QUESTIONS_PER_HIT
 
 def check_sampled_data(input_file, output_file):
 	# Check that each sampled question was present in the input file.
@@ -112,16 +107,15 @@ def check_sampled_data(input_file, output_file):
 	seen_lines = set()
 	with open(output_file) as f:
 		header = f.readline().strip().split(',')
-		assert len(header) == MAX_QUESTIONS_PER_HIT*5+2
+		assert len(header) == QUESTIONS_PER_HIT*5+2
 		for line in csv.reader(f):
 			context, row_id = line[0], line[1]
-			for i in range(2, MAX_QUESTIONS_PER_HIT*5+2, 5):
+			# Start loop at 2 b/c first 2 elements are the context and row_id
+			for i in range(2, QUESTIONS_PER_HIT*5+2, 5):
 				sampled_line = [context]+line[i:i+5]
-				if sampled_line.__repr__() in input_lines:
-					assert sampled_line.__repr__() not in seen_lines
-					seen_lines.add(sampled_line.__repr__())
-				else:
-					assert sampled_line == [context] + ['none', 'none', 'none', 'none', 'none']
+				assert sampled_line.__repr__() in input_lines
+				assert sampled_line.__repr__() not in seen_lines
+				seen_lines.add(sampled_line.__repr__())
 
 def sample_cosmosqa():
 	random.seed(1)
@@ -141,7 +135,6 @@ def sample_drop():
 	data = load_data(input_fn)
 	
 	write_data(data, output_fn)
-
 	check_sampled_data(input_fn, output_fn)
 
 def sample_mcscript():
@@ -219,13 +212,13 @@ def sample_ropes():
 	output_fn = join(OUTPUT_DATA_DIR, fn)
 	data = load_data(input_fn)
 
-	max_samples = [2, 3]
+	max_samples = 3
 
 	# Sampling a subset of the candidate answers
 	for context in data:
 		for question in data[context]:
 			bert = data[context][question]['candidates']['bert']
-			data[context][question]['candidates']['bert'] = random.sample(bert, min(len(bert), random.choice(max_samples)))
+			data[context][question]['candidates']['bert'] = random.sample(bert, min(len(bert), max_samples))
 
 	write_data(data, output_fn)
 	check_sampled_data(input_fn, output_fn)
@@ -245,7 +238,7 @@ def main():
 	# sample_cosmosqa()
 	sample_drop()
 	# sample_mcscript()
-	sample_narrativeqa()
+	# sample_narrativeqa()
 	sample_quoref()
 	sample_ropes()
 	# sample_socialiqa()
