@@ -73,8 +73,8 @@ def write_data(data, output_fn):
 									  'hash_id': candidate_dict['hash_id']
 									})
 
-		write_rows(writer, context, questions)
 		num_output_lines += len(questions)
+		write_rows(writer, context, questions)
 
 	outfile.close()
 	print('Wrote out', num_output_lines, 'lines...\n')
@@ -161,6 +161,44 @@ def sample_narrativeqa():
 	output_fn = join(OUTPUT_DATA_DIR, fn)
 	data = load_data(input_fn)
 
+	max_samples = 4
+	max_bt = 1
+	max_gpt2 = 3
+
+	n_questions = 0
+	# Sampling a subset of the candidate answers
+	for context in data:
+		for question in data[context]:
+			# print(data[context][question]['candidates'].keys())
+			cur_count = 0
+			if 'narrativeqa' in data[context][question]['candidates']:
+				cur_count += 1
+
+			if 'mhpg' in data[context][question]['candidates']:
+				mhpg = data[context][question]['candidates']['mhpg']
+				data[context][question]['candidates']['mhpg'] = random.sample(mhpg, 1)
+				cur_count += 1
+
+			if 'gpt2' in data[context][question]['candidates']:
+				gpt2 = data[context][question]['candidates']['gpt2']
+				sample_size = min([len(gpt2), max_gpt2, max_samples-cur_count])
+				cur_count += sample_size
+				if sample_size > 0:
+					data[context][question]['candidates']['gpt2'] = random.sample(gpt2, sample_size)
+				else:
+					del data[context][question]['candidates']['gpt2']
+
+			if 'backtranslation' in data[context][question]['candidates']:
+				backtranslation = data[context][question]['candidates']['backtranslation']
+				sample_size = min([max_bt, max_samples-cur_count, len(backtranslation)])
+				cur_count += sample_size
+				if sample_size > 0:
+					data[context][question]['candidates']['backtranslation'] = random.sample(backtranslation, sample_size)
+				else:
+					del data[context][question]['candidates']['backtranslation']
+
+			n_questions += cur_count
+	print(n_questions)
 	write_data(data, output_fn)
 	check_sampled_data(input_fn, output_fn)
 
@@ -181,13 +219,13 @@ def sample_ropes():
 	output_fn = join(OUTPUT_DATA_DIR, fn)
 	data = load_data(input_fn)
 
-	max_num_samples = [2, 3]
+	max_samples = [2, 3]
 
 	# Sampling a subset of the candidate answers
 	for context in data:
 		for question in data[context]:
 			bert = data[context][question]['candidates']['bert']
-			data[context][question]['candidates']['bert'] = random.sample(bert, min(len(bert), random.choice(max_num_samples)))
+			data[context][question]['candidates']['bert'] = random.sample(bert, min(len(bert), random.choice(max_samples)))
 
 	write_data(data, output_fn)
 	check_sampled_data(input_fn, output_fn)
@@ -207,7 +245,7 @@ def main():
 	# sample_cosmosqa()
 	sample_drop()
 	# sample_mcscript()
-	# sample_narrativeqa()
+	sample_narrativeqa()
 	sample_quoref()
 	sample_ropes()
 	# sample_socialiqa()
