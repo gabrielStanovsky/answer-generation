@@ -69,7 +69,6 @@ def write_data(data, output_fn):
 									  'candidate': candidate_dict['candidate'],
 									  'source': source,
 									  'hash_id': candidate_dict['hash_id']})
-
 		num_output_lines += write_rows(writer, context, questions)
 	outfile.close()
 	print('Wrote out', num_output_lines, 'lines...\n')
@@ -153,45 +152,66 @@ def sample_narrativeqa():
 	input_fn = join(INPUT_DATA_DIR, fn)
 	output_fn = join(OUTPUT_DATA_DIR, fn)
 	data = load_data(input_fn)
-
-	max_samples = 4
-	max_bt = 1
 	max_gpt2 = 3
 
-	n_questions = 0
 	# Sampling a subset of the candidate answers
+	# Need to make sure to pad number of questions per context with backtranslations to ensure
+	# that the number of questions per hit is divisible by `NUM_QUESTIONS_PER_HIT` 
 	for context in data:
+		cur_count = 0
+
 		for question in data[context]:
-			# print(data[context][question]['candidates'].keys())
-			cur_count = 0
 			if 'narrativeqa' in data[context][question]['candidates']:
 				cur_count += 1
 
+		for question in data[context]:
 			if 'mhpg' in data[context][question]['candidates']:
 				mhpg = data[context][question]['candidates']['mhpg']
 				data[context][question]['candidates']['mhpg'] = random.sample(mhpg, 1)
 				cur_count += 1
 
+		for question in data[context]:
 			if 'gpt2' in data[context][question]['candidates']:
 				gpt2 = data[context][question]['candidates']['gpt2']
-				sample_size = min([len(gpt2), max_gpt2, max_samples-cur_count])
+				sample_size = min(len(gpt2), max_gpt2)
+				data[context][question]['candidates']['gpt2'] = random.sample(gpt2, sample_size)
 				cur_count += sample_size
-				if sample_size > 0:
-					data[context][question]['candidates']['gpt2'] = random.sample(gpt2, sample_size)
-				else:
-					del data[context][question]['candidates']['gpt2']
 
+		# Here, we sample backtranslations to ensure that we can pad our number of questions
+		# We want to average at least one backtranslation per questions
+		remainder = QUESTIONS_PER_HIT - cur_count%QUESTIONS_PER_HIT
+		num_bt_to_sample = remainder if remainder >= len(data[context]) else remainder + QUESTIONS_PER_HIT
+		
+		# Sample backtranslations
+		sampled_bts = []
+		for _ in range(3):
+			for question in data[context]:
+				if len(sampled_bts) == num_bt_to_sample:
+					break
+
+				if 'backtranslation' in data[context][question]['candidates']:
+					bt = random.choice(data[context][question]['candidates']['backtranslation'])
+					data[context][question]['candidates']['backtranslation'].remove(bt)
+					sampled_bts.append((question, bt))
+
+					if len(data[context][question]['candidates']['backtranslation']) == 0:
+						del data[context][question]['candidates']['backtranslation']
+
+		# If we don't have enough to sample but we have more than remainder, sample down to remainder
+		if len(sampled_bts) < num_bt_to_sample and len(sampled_bts) > remainder:
+			sampled_bts = random.sample(sampled_bts, remainder)
+
+		# Delete the original backtranslations
+		for question in data[context]:
 			if 'backtranslation' in data[context][question]['candidates']:
-				backtranslation = data[context][question]['candidates']['backtranslation']
-				sample_size = min([max_bt, max_samples-cur_count, len(backtranslation)])
-				cur_count += sample_size
-				if sample_size > 0:
-					data[context][question]['candidates']['backtranslation'] = random.sample(backtranslation, sample_size)
-				else:
-					del data[context][question]['candidates']['backtranslation']
+				del data[context][question]['candidates']['backtranslation']
 
-			n_questions += cur_count
-	print(n_questions)
+		# Add sampled backtranslations back into data
+		for question, bt in sampled_bts:
+			if 'backtranslation' not in data[context][question]['candidates']:
+				data[context][question]['candidates']['backtranslation'] = []
+			data[context][question]['candidates']['backtranslation'].append(bt)
+
 	write_data(data, output_fn)
 	check_sampled_data(input_fn, output_fn)
 
@@ -238,7 +258,7 @@ def main():
 	# sample_cosmosqa()
 	sample_drop()
 	# sample_mcscript()
-	# sample_narrativeqa()
+	sample_narrativeqa()
 	sample_quoref()
 	sample_ropes()
 	# sample_socialiqa()
