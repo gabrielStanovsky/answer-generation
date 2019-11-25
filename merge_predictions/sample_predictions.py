@@ -3,7 +3,9 @@ import hashlib
 from itertools import chain
 from os.path import join
 import random
+import spacy
 
+nlp = spacy.load('en_core_web_sm', disable=['parser','ner', 'tagger'])
 INPUT_DATA_DIR = 'merge_predictions/merged_datasets'
 OUTPUT_DATA_DIR = 'merge_predictions/sampled_predictions'
 QUESTIONS_PER_HIT = 10
@@ -116,6 +118,32 @@ def check_sampled_data(input_file, output_file):
 				assert sampled_line.__repr__() not in seen_lines
 				seen_lines.add(sampled_line.__repr__())
 
+def sample_gpt2(reference, candidates, sample_size):
+    best_score = 0
+    best_candidate = None
+    sampled_candidates = []
+    
+    tokenized_reference = set([token.lemma_ for token in nlp(reference.lower())])
+    
+    # Get highest overlap candidate
+    for c in candidates:
+        tokenized_c = set([token.lemma_ for token in nlp(c['candidate'].lower())])
+        overlap = len(tokenized_c.intersection(tokenized_reference))
+        
+        if overlap > best_score:
+            best_score = overlap
+            best_candidate = c
+            
+    # Remove best candidate from candidates
+    if best_candidate != None:
+        sampled_candidates.append(best_candidate)
+        candidates.remove(best_candidate)
+    
+    # Sample from the remaining candidates    
+    sampled_candidates += random.sample(candidates, sample_size-len(sampled_candidates))
+    
+    return sampled_candidates
+
 def sample_cosmosqa():
 	random.seed(1)
 	fn = 'cosmosqa.csv'
@@ -171,10 +199,11 @@ def sample_narrativeqa():
 				cur_count += 1
 
 		for question in data[context]:
+			reference = data[context][question]['reference']
 			if 'gpt2' in data[context][question]['candidates']:
 				gpt2 = data[context][question]['candidates']['gpt2']
 				sample_size = min(len(gpt2), max_gpt2)
-				data[context][question]['candidates']['gpt2'] = random.sample(gpt2, sample_size)
+				data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, sample_size)
 				cur_count += sample_size
 
 		# Here, we sample backtranslations to ensure that we can pad our number of questions
