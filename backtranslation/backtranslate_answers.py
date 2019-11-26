@@ -49,35 +49,43 @@ def backtranslate_file(DATA_DIR, ANSWER_FILE, OUTPUT_DIR):
 
 def backtranslate_cosmosqa():
 	DATA_DIR = '/home/tony/answer-generation/data/cosmosqa/'
+	TRAIN_ANSWERS = join(DATA_DIR, 'train.csv_answers') 
 	DEV_ANSWERS = join(DATA_DIR, 'dev.csv_answers')
 	OUTPUT_DIR = 'backtranslation/cosmosqa/'
 
+	backtranslate_file(DATA_DIR, TRAIN_ANSWERS, OUTPUT_DIR)
 	backtranslate_file(DATA_DIR, DEV_ANSWERS, OUTPUT_DIR)
 
 def backtranslate_socialiqa():
 	DATA_DIR = '/home/tony/answer-generation/data/socialiqa/'
+	TRAIN_ANSWERS = join(DATA_DIR, 'train.csv_answers') 
 	DEV_ANSWERS = join(DATA_DIR, 'dev.csv_answers')
 	TEST_ANSWERS = join(DATA_DIR, 'test.csv_answers')
 	OUTPUT_DIR = 'backtranslation/socialiqa/'
 
+	backtranslate_file(DATA_DIR, TRAIN_ANSWERS, OUTPUT_DIR)
 	backtranslate_file(DATA_DIR, DEV_ANSWERS, OUTPUT_DIR)
 	backtranslate_file(DATA_DIR, TEST_ANSWERS, OUTPUT_DIR)
 
 def backtranslate_narrativeqa():
 	DATA_DIR = '/home/tony/answer-generation/data/narrativeqa/'
+	TRAIN_ANSWERS = join(DATA_DIR, 'train.csv_answers') 
 	DEV_ANSWERS = join(DATA_DIR, 'dev.csv_answers')
 	TEST_ANSWERS = join(DATA_DIR, 'test.csv_answers')
 	OUTPUT_DIR = 'backtranslation/narrativeqa/'
 
+	backtranslate_file(DATA_DIR, TRAIN_ANSWERS, OUTPUT_DIR)
 	backtranslate_file(DATA_DIR, DEV_ANSWERS, OUTPUT_DIR)
 	backtranslate_file(DATA_DIR, TEST_ANSWERS, OUTPUT_DIR)
 
 def backtranslate_mcscript():
 	DATA_DIR = '/home/tony/answer-generation/data/mcscript/'
+	TRAIN_ANSWERS = join(DATA_DIR, 'train.csv_answers') 
 	DEV_ANSWERS = join(DATA_DIR, 'dev.csv_answers')
 	TEST_ANSWERS = join(DATA_DIR, 'test.csv_answers')
 	OUTPUT_DIR = 'backtranslation/mcscript/'
 
+	backtranslate_file(DATA_DIR, TRAIN_ANSWERS, OUTPUT_DIR)
 	backtranslate_file(DATA_DIR, DEV_ANSWERS, OUTPUT_DIR)
 	backtranslate_file(DATA_DIR, TEST_ANSWERS, OUTPUT_DIR)
 

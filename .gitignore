@@ -6,6 +6,8 @@ __pycache__/
 *.th
 apex/
 answer-generation-env/
+csv_answers
+data/*/*.csv_answers.*
 models/
 notebooks/
 pytorch-pretrained-BERT/

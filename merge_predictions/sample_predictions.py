@@ -46,7 +46,7 @@ def load_data(data_file):
 	return data
 
 def write_data(data, output_fn):
-	outfile = open(output_fn, 'w')
+	outfile = open(output_fn, 'w', encoding='utf-8')
 	writer = csv.writer(outfile)
 	num_output_lines = 0
 
@@ -319,7 +319,7 @@ def sample_narrativeqa():
 ################## COSMOSQA and SOCIALIQA have separate writing functions
 ################## because each line has multiple context file
 def write_cosmosqa_socialiqa_data(data, output_fn, questions_per_hit):
-	outfile = open(output_fn, 'w')
+	outfile = open(output_fn, 'w', encoding='utf-8')
 	writer = csv.writer(outfile)
 	num_output_lines = 0
 

@@ -29,7 +29,18 @@ def check_data_and_return_hash(context, question, reference, candidate):
 	return hash_id
 
 def clean_string(s):
-	return s.replace('\n', ' ').strip()
+	s = s.replace('\n', ' ').strip()
+
+	# Replace some unicode characters with what they look like in string repr
+	s = s.replace(u'\xa0', u' ').replace(u'\xad', u'-').replace(u'\x92', u"'").replace(u'â\x80\x93', u'-').replace(u'â\x80\x94', u'-').replace(u'â\x80\x99', u"'")
+# 
+	# for char in s:
+		# if repr(char).startswith("'\\x"):
+			# print(char, repr(char))
+
+	# Remove characters that cannot be shown (AWS throws errors when encountering these characters)
+	s = ''.join(char for char in s if not repr(char).startswith("'\\x"))
+	return s
 	
 def is_number(s):
 	try:
