@@ -42,8 +42,7 @@ def load_data(data_file):
 			
 			data[context][question]['candidates'][source].append({'candidate': candidate, 'hash_id': hash_id})
 			num_questions += 1
-	print(len(data))
-	print('Found', num_questions, 'questions...', num_unique_questions, 'unique questions.... Skipped', num_skipped, 'questions')
+	print('Found', num_questions, 'candidate answers.', num_unique_questions, 'unique questions. Skipped', num_skipped, 'questions')
 	return data
 
 def write_data(data, output_fn):
@@ -143,36 +142,6 @@ def sample_gpt2(reference, candidates, sample_size):
     sampled_candidates += random.sample(candidates, sample_size-len(sampled_candidates))
     
     return sampled_candidates
-
-def sample_cosmosqa():
-	random.seed(1)
-	fn = 'cosmosqa.csv'
-	input_fn = join(INPUT_DATA_DIR, fn)
-	output_fn = join(OUTPUT_DATA_DIR, fn)
-	data = load_data(input_fn)
-	max_gpt2 = 3
-	max_bt = 2
-	total = max_bt + max_gpt2
-	# Sampling a subset of the candidate answers
-	for context in data:
-		for question in data[context]:
-			reference = data[context][question]['reference']
-
-			gpt2 = data[context][question]['candidates']['gpt2']
-			if 'backtranslation' in data[context][question]['candidates']:
-				bt = data[context][question]['candidates']['backtranslation']
-				if len(gpt2) <= max_gpt2:
-					data[context][question]['candidates']['backtranslation'] = random.sample(bt, total-len(gpt2))
-				elif len(bt) <= max_bt:
-					data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, total-len(bt))
-				else:
-					data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, max_gpt2)
-					data[context][question]['candidates']['backtranslation'] = random.sample(bt, max_bt)
-			else:
-				data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, total)
-
-	write_data(data, output_fn)
-	check_sampled_data(input_fn, output_fn)
 
 def sample_drop():
 	random.seed(1)
@@ -347,14 +316,85 @@ def sample_ropes():
 	write_data(data, output_fn)
 	check_sampled_data(input_fn, output_fn)
 
-def sample_socialiqa():
+################## COSMOSQA and SOCIALIQA have separate writing functions
+################## because each line has multiple context file
+def write_cosmosqa_socialiqa_data(data, output_fn, questions_per_hit):
+	outfile = open(output_fn, 'w')
+	writer = csv.writer(outfile)
+	num_output_lines = 0
+
+	# Write the header row
+	header_row = ['id']
+	for i in range(1, questions_per_hit+1):
+		header_row += ['context'+str(i), 'question'+str(i), 'reference'+str(i), 'candidate'+str(i), 'source'+str(i), 'id'+str(i)]
+	writer.writerow(header_row)
+	assert len(header_row) == 6*questions_per_hit + 1
+
+	# Iterate through contexts, squashing nested dictionaries into a
+	# flat dictionary and writing them out to CSV file
+	entries = []
+	for context in data:
+		questions = []
+		for question in data[context]:
+			reference = data[context][question]['reference']
+			for source in data[context][question]['candidates']:
+				for candidate_dict in data[context][question]['candidates'][source]:
+					entries.append({'context': context,
+									'question': question,
+									'reference': reference,
+									'candidate': candidate_dict['candidate'],
+									'source': source,
+									'hash_id': candidate_dict['hash_id']})
+
+					if len(entries) % questions_per_hit == 0:
+						write_cosmosqa_socialiqa_rows(writer, entries, questions_per_hit)
+						num_output_lines += questions_per_hit
+						entries = []
+	outfile.close()
+	print('Wrote out', num_output_lines, 'lines...\n')
+
+def write_cosmosqa_socialiqa_rows(writer, entries, questions_per_hit):
+	# Turn list of dictionaries into a list of the dictionary values
+	entries = list(chain(*[[q['context'], q['question'], q['reference'], q['candidate'], q['source'], q['hash_id']] for q in entries]))
+	assert len(entries) == 6*questions_per_hit
+
+	# MD5 hash of the current questions
+	hash_object = hashlib.md5(entries.__repr__().encode())
+	row_id = hash_object.hexdigest()
+
+	row = [row_id] + entries
+	writer.writerow(row)
+
+def check_cosmosqa_socialiqa_data(input_file, output_file, questions_per_hit):
+	# Check that each sampled question was present in the input file.
+	# Also check that we haven't written out a sampled question twice.
+	# This checks that we wrote out our sampled lines correctly
+	input_lines = set()
+	for line in csv.reader(open(input_file)):
+		input_lines.add(line.__repr__())
+
+	seen_lines = set()
+	with open(output_file) as f:
+		header = f.readline().strip().split(',')
+		assert len(header) == questions_per_hit*6+1
+		for line in csv.reader(f):
+			row_id = line[0]
+			# Start loop at 1 b/c first element is the row_id
+			for i in range(1, QUESTIONS_PER_HIT*6+1, 6):
+				sampled_line = line[i:i+6]
+				assert sampled_line.__repr__() in input_lines
+				assert sampled_line.__repr__() not in seen_lines
+				seen_lines.add(sampled_line.__repr__())
+
+def sample_cosmosqa():
 	random.seed(1)
-	fn = 'socialiqa.csv'
+	fn = 'cosmosqa.csv'
 	input_fn = join(INPUT_DATA_DIR, fn)
 	output_fn = join(OUTPUT_DATA_DIR, fn)
 	data = load_data(input_fn)
-	max_gpt2 = 2
-	max_bt = 1
+	questions_per_hit = 20
+	max_gpt2 = 3
+	max_bt = 2
 	total = max_bt + max_gpt2
 	# Sampling a subset of the candidate answers
 	for context in data:
@@ -374,18 +414,50 @@ def sample_socialiqa():
 			else:
 				data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, total)
 
-	write_data(data, output_fn)
-	check_sampled_data(input_fn, output_fn)
+	write_cosmosqa_socialiqa_data(data, output_fn, questions_per_hit)
+	check_cosmosqa_socialiqa_data(input_fn, output_fn, questions_per_hit)
+
+def sample_socialiqa():
+	random.seed(1)
+	fn = 'socialiqa.csv'
+	input_fn = join(INPUT_DATA_DIR, fn)
+	output_fn = join(OUTPUT_DATA_DIR, fn)
+	data = load_data(input_fn)
+	questions_per_hit = 24
+	max_gpt2 = 2
+	max_bt = 1
+	total = max_bt + max_gpt2
+
+	# Sampling a subset of the candidate answers
+	for context in data:
+		for question in data[context]:
+			reference = data[context][question]['reference']
+
+			gpt2 = data[context][question]['candidates']['gpt2']
+			if 'backtranslation' in data[context][question]['candidates']:
+				bt = data[context][question]['candidates']['backtranslation']
+				if len(gpt2) <= max_gpt2:
+					data[context][question]['candidates']['backtranslation'] = random.sample(bt, total-len(gpt2))
+				elif len(bt) <= max_bt:
+					data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, total-len(bt))
+				else:
+					data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, max_gpt2)
+					data[context][question]['candidates']['backtranslation'] = random.sample(bt, max_bt)
+			else:
+				data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, total)
+
+	write_cosmosqa_socialiqa_data(data, output_fn, questions_per_hit)
+	check_cosmosqa_socialiqa_data(input_fn, output_fn, questions_per_hit)
 
 def main():
 	print()
-	# sample_cosmosqa()
-	# sample_drop()
+	sample_cosmosqa()
+	sample_socialiqa()
 	sample_mcscript()
 	sample_narrativeqa()
-	# sample_quoref()
-	# sample_ropes()
-	# sample_socialiqa()
+	sample_drop()
+	sample_quoref()
+	sample_ropes()
 
 if __name__ == '__main__':
 	main()
