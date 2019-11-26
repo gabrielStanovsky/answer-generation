@@ -5,7 +5,7 @@ import spacy
 import string
 
 nlp = spacy.load('en_core_web_sm', disable=['parser','ner', 'tagger'])	
-STOP_WORDS = ['a', 'an', 'the'] + string.punctuation
+STOP_WORDS = ['a', 'an', 'the'] + list(string.punctuation)
 tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
 def bert_tokenization_length(context, question, reference, candidate):

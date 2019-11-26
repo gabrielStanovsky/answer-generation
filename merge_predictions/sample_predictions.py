@@ -42,7 +42,7 @@ def load_data(data_file):
 			
 			data[context][question]['candidates'][source].append({'candidate': candidate, 'hash_id': hash_id})
 			num_questions += 1
-
+	print(len(data))
 	print('Found', num_questions, 'questions...', num_unique_questions, 'unique questions.... Skipped', num_skipped, 'questions')
 	return data
 
@@ -150,6 +150,26 @@ def sample_cosmosqa():
 	input_fn = join(INPUT_DATA_DIR, fn)
 	output_fn = join(OUTPUT_DATA_DIR, fn)
 	data = load_data(input_fn)
+	max_gpt2 = 3
+	max_bt = 2
+	total = max_bt + max_gpt2
+	# Sampling a subset of the candidate answers
+	for context in data:
+		for question in data[context]:
+			reference = data[context][question]['reference']
+
+			gpt2 = data[context][question]['candidates']['gpt2']
+			if 'backtranslation' in data[context][question]['candidates']:
+				bt = data[context][question]['candidates']['backtranslation']
+				if len(gpt2) <= max_gpt2:
+					data[context][question]['candidates']['backtranslation'] = random.sample(bt, total-len(gpt2))
+				elif len(bt) <= max_bt:
+					data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, total-len(bt))
+				else:
+					data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, max_gpt2)
+					data[context][question]['candidates']['backtranslation'] = random.sample(bt, max_bt)
+			else:
+				data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, total)
 
 	write_data(data, output_fn)
 	check_sampled_data(input_fn, output_fn)
@@ -170,6 +190,61 @@ def sample_mcscript():
 	input_fn = join(INPUT_DATA_DIR, fn)
 	output_fn = join(OUTPUT_DATA_DIR, fn)
 	data = load_data(input_fn)
+	max_gpt2 = 3
+
+	# Sampling a subset of the candidate answers
+	# Need to make sure to pad number of questions per context with backtranslations to ensure
+	# that the number of questions per hit is divisible by `NUM_QUESTIONS_PER_HIT` 
+	for context in data:
+		cur_count = 0
+
+		for question in data[context]:
+			if 'mhpg' in data[context][question]['candidates']:
+				if random.random() < 0.5:
+					cur_count += 1
+				else:
+					del data[context][question]['candidates']['mhpg']
+
+		for question in data[context]:
+			reference = data[context][question]['reference']
+			if 'gpt2' in data[context][question]['candidates']:
+				gpt2 = data[context][question]['candidates']['gpt2']
+				sample_size = min(len(gpt2), max_gpt2)
+				data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, sample_size)
+				cur_count += sample_size
+
+		# Here, we sample backtranslations to ensure that we can pad our number of questions
+		# We want to average at least one backtranslation per questions
+		remainder = QUESTIONS_PER_HIT - cur_count%QUESTIONS_PER_HIT
+		num_bt_to_sample = 0 if remainder == QUESTIONS_PER_HIT else remainder
+		if num_bt_to_sample > len(data[context]) or num_bt_to_sample >= 5:
+			num_bt_to_sample = 0
+
+		# Sample backtranslations
+		sampled_bts = []
+		for _ in range(3):
+			for question in data[context]:
+				if len(sampled_bts) == num_bt_to_sample:
+					break
+
+				if 'backtranslation' in data[context][question]['candidates']:
+					bt = random.choice(data[context][question]['candidates']['backtranslation'])
+					data[context][question]['candidates']['backtranslation'].remove(bt)
+					sampled_bts.append((question, bt))
+
+					if len(data[context][question]['candidates']['backtranslation']) == 0:
+						del data[context][question]['candidates']['backtranslation']
+
+		# Delete the original backtranslations
+		for question in data[context]:
+			if 'backtranslation' in data[context][question]['candidates']:
+				del data[context][question]['candidates']['backtranslation']
+
+		# Add sampled backtranslations back into data
+		for question, bt in sampled_bts:
+			if 'backtranslation' not in data[context][question]['candidates']:
+				data[context][question]['candidates']['backtranslation'] = []
+			data[context][question]['candidates']['backtranslation'].append(bt)
 
 	write_data(data, output_fn)
 	check_sampled_data(input_fn, output_fn)
@@ -278,6 +353,26 @@ def sample_socialiqa():
 	input_fn = join(INPUT_DATA_DIR, fn)
 	output_fn = join(OUTPUT_DATA_DIR, fn)
 	data = load_data(input_fn)
+	max_gpt2 = 2
+	max_bt = 1
+	total = max_bt + max_gpt2
+	# Sampling a subset of the candidate answers
+	for context in data:
+		for question in data[context]:
+			reference = data[context][question]['reference']
+
+			gpt2 = data[context][question]['candidates']['gpt2']
+			if 'backtranslation' in data[context][question]['candidates']:
+				bt = data[context][question]['candidates']['backtranslation']
+				if len(gpt2) <= max_gpt2:
+					data[context][question]['candidates']['backtranslation'] = random.sample(bt, total-len(gpt2))
+				elif len(bt) <= max_bt:
+					data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, total-len(bt))
+				else:
+					data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, max_gpt2)
+					data[context][question]['candidates']['backtranslation'] = random.sample(bt, max_bt)
+			else:
+				data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, total)
 
 	write_data(data, output_fn)
 	check_sampled_data(input_fn, output_fn)
@@ -285,11 +380,11 @@ def sample_socialiqa():
 def main():
 	print()
 	# sample_cosmosqa()
-	sample_drop()
-	# sample_mcscript()
+	# sample_drop()
+	sample_mcscript()
 	sample_narrativeqa()
-	sample_quoref()
-	sample_ropes()
+	# sample_quoref()
+	# sample_ropes()
 	# sample_socialiqa()
 
 if __name__ == '__main__':
