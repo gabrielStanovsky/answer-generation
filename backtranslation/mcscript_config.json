@@ -1,0 +1,62 @@
+{	
+	"random_seed": 13372,
+	"pytorch_seed": 1339,
+	"numpy_seed": 44,
+	"datasets_for_vocab_creation": [],
+	"dataset_reader": {
+		"type": "paraphrase",
+		"num_generated_samples": 2,
+		"max_lines": 2000,
+		"token_indexers": {
+			"bert": {
+				"type": "bert-pretrained",
+				"pretrained_model": "https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-vocab.txt",
+			},
+		},
+		"tokenizer": {
+			"type": "word",
+			"word_splitter": {
+				"type": "bert-basic",
+			},
+		}, 
+	},
+	"train_data_path": "/home/tony/answer-generation/backtranslation/mcscript/train.csv_answers.backtranslations",
+	"validation_data_path": "/home/tony/answer-generation/backtranslation/mcscript/dev.csv_answers.backtranslations",
+	"model": {
+		"type": "bert",
+		"text_field_embedder": {
+			"allow_unmatched_keys": true,
+	        "embedder_to_indexer_map": { 
+	        	"bert": ["bert", "bert-offsets", "token_type_ids"] 
+	        },
+     		"token_embedders":{
+				"bert": {
+					"type": "bert-pretrained",
+					"pretrained_model": "https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased.tar.gz",
+					"requires_grad": true,
+					"top_layer_only": true,
+				},
+			},
+		},
+		"score_weight":{
+			"input_dim": 768,
+			"num_layers": 1,
+			"hidden_dims": 1,  
+			"activations": ["linear"],
+		},
+	},
+	"iterator": {
+		"type": "basic",
+		"batch_size" : 8, 	
+	},
+	"trainer": {
+		"num_epochs": 1,
+		"validation_metric": "+accuracy",
+		"num_serialized_models_to_keep": 1,
+		"cuda_device": 0,
+		"optimizer": {
+			"type": "adam",
+			"lr": 5e-5,
+		},
+	},
+}

@@ -6,6 +6,7 @@ __pycache__/
 *.th
 apex/
 answer-generation-env/
+backtranslation/*_discriminator/
 csv_answers
 data/*/*.csv_answers.*
 models/
