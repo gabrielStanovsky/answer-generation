@@ -14,7 +14,19 @@ def main():
 	# Train MCScript Discriminator
 	cmd = 'cd ' + discriminator_filtering_dirname + ' ;  \
 		   allennlp train /home/tony/answer-generation/backtranslation/mcscript_config.json \
-		   --include-package files -s /home/tony/answer-generation/backtranslation/mscript_discriminator/'
+		   --include-package files -s /home/tony/answer-generation/backtranslation/mcscript_discriminator/'
+	os.system(cmd)
+
+	# Train SocialIQA Discriminator
+	cmd = 'cd ' + discriminator_filtering_dirname + ' ;  \
+		   allennlp train /home/tony/answer-generation/backtranslation/socialiqa_config.json \
+		   --include-package files -s /home/tony/answer-generation/backtranslation/socialiqa_discriminator/'
+	os.system(cmd)
+
+	# Train CosmosQA Discriminator
+	cmd = 'cd ' + discriminator_filtering_dirname + ' ;  \
+		   allennlp train /home/tony/answer-generation/backtranslation/cosmosqa_config.json \
+		   --include-package files -s /home/tony/answer-generation/backtranslation/cosmosqa_discriminator/'
 	os.system(cmd)
 
 if __name__ == '__main__':

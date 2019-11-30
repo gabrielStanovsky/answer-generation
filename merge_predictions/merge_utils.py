@@ -33,11 +33,7 @@ def clean_string(s):
 
 	# Replace some unicode characters with what they look like in string repr
 	s = s.replace(u'\xa0', u' ').replace(u'\xad', u'-').replace(u'\x92', u"'").replace(u'â\x80\x93', u'-').replace(u'â\x80\x94', u'-').replace(u'â\x80\x99', u"'")
-# 
-	# for char in s:
-		# if repr(char).startswith("'\\x"):
-			# print(char, repr(char))
-
+	
 	# Remove characters that cannot be shown (AWS throws errors when encountering these characters)
 	s = ''.join(char for char in s if not repr(char).startswith("'\\x"))
 	return s
