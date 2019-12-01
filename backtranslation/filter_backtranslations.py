@@ -194,7 +194,7 @@ def filter_socialiqa():
 def main():
 	filter_narrativeqa()
 	filter_mcscript()
-	# filter_cosmosqa()
+	filter_cosmosqa()
 	filter_socialiqa()
 	
 if __name__ == '__main__':

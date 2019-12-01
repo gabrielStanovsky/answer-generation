@@ -6,7 +6,7 @@
 	"dataset_reader": {
 		"type": "paraphrase",
 		"num_generated_samples": 2,
-		"max_lines": 2000,
+		"max_lines": 3000,
 		"token_indexers": {
 			"bert": {
 				"type": "bert-pretrained",
