@@ -397,13 +397,14 @@ def sample_cosmosqa_socialiqa_data(data, max_gpt2, max_bt):
 			gpt2 = data[context][question]['candidates']['gpt2']
 			if 'backtranslation' in data[context][question]['candidates']:
 				bt = data[context][question]['candidates']['backtranslation']
+
 				if len(gpt2) <= max_gpt2:
-					data[context][question]['candidates']['backtranslation'] = random.sample(bt, total-len(gpt2))
+					data[context][question]['candidates']['backtranslation'] = random.sample(bt, min(len(bt), total-len(gpt2)))
 				elif len(bt) <= max_bt:
 					data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, total-len(bt))
 				else:
 					data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, max_gpt2)
-					data[context][question]['candidates']['backtranslation'] = random.sample(bt, max_bt)
+					data[context][question]['candidates']['backtranslation'] = random.sample(bt, min(len(bt), max_bt))
 			else:
 				data[context][question]['candidates']['gpt2'] = sample_gpt2(reference, gpt2, total)
 
