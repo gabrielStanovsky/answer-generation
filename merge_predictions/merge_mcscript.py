@@ -58,7 +58,7 @@ def load_backtranslations(file):
 			question = clean_string(row[2])
 
 			# c[0] because c[1] is the score of the backtranslation
-			candidates = {clean_string(eval(c)[0]) : 'backtranslation' for c in row[4:]}
+			candidates = {clean_string(c) : 'backtranslation' for c in row[4:]}
 			lines.append((context, question, candidates))
 	return lines
 
@@ -103,8 +103,8 @@ def main():
 							 join(MHPG_PREDICTIONS_DIR, 'mcscript_test.jsonl.merged1')]
 
 	BACKTRANSLATION_DIR = '/home/tony/answer-generation/backtranslation/mcscript'
-	BACKTRANSLATION_FILES = [join(BACKTRANSLATION_DIR, 'dev.csv_answers.backtranslations'), 
-							 join(BACKTRANSLATION_DIR, 'test.csv_answers.backtranslations')]
+	BACKTRANSLATION_FILES = [join(BACKTRANSLATION_DIR, 'dev.csv_answers.backtranslations.filtered'), 
+							 join(BACKTRANSLATION_DIR, 'test.csv_answers.backtranslations.filtered')]
 
 	# Load in data and prediction files 	
 	data = load_mcscript_data()
