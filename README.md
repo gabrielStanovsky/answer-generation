@@ -1,6 +1,6 @@
-# Candidate answer generation
+# Candidate Answer Generation
 
-### Training Models for Answer generation
+### Answer Generation
 
 ##### Training
 
@@ -94,14 +94,14 @@ To get predictions on DROP from a trained NABERT+ model, run:
 python nabert/drop_predict.py -d <device_num> -w <weights_file>
 ```
 
-### Backtranslation
+##### Backtranslation
 To create backtranslations of the generative QA datasets (COSMOSQA, NarrativeQA, MCScript, and SocialIQA), run
 ```
 python backtranslation/backtranslate_answers.py
 ```
 which creates backtranslations in the `backtranslation/<dataset>` directory. 
 
-# Merging answer candidate sources
+### Merging answer candidate sources and sampling
 Given that we have candidate answers from many different sources, we now have to merge them together. 
 Each dataset has its own merging file. The run commmand for all datasets is: 
 ```
@@ -109,20 +109,21 @@ python merge_predictions/merge_all.py
 ```
 This puts the merged answer candidates into `merge_predictions/merged_datasets`.
 
-# Creating Hits
+Now that we have merged all the answer candidates into a single file (per dataset), we now need
+to sample the answer candidates we are going to label. The run command for all datasets for sampling is:
+```
+python merge_predictions/sample_predictions.py
+```
+This puts the merged answer candidates into `merge_predictions/sampled_predictions`.
+
+### Creating Hits
 To create HITS on the datasets, run the following dataset-specific commands
 
 ```
 python mt_html/create_hits.py \
     --html mt_html/narrativeqa.html \
-    --csv merge_predictions/to_label/narrativeqa.csv \
+    --csv merge_predictions/sampled_predictions/narrativeqa.csv \
     --out mt_html/narrativeqa/ \
-    --num_hits 10 
-
-python mt_html/create_hits.py \
-    --html mt_html/mcscript.html \
-    --csv merge_predictions/to_label/mcscript.csv \
-    --out mt_html/mcscript/ \
     --num_hits 10 
 ```
 
