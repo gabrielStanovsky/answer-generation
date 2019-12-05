@@ -10,7 +10,7 @@ backtranslation/*_discriminator/
 csv_answers
 data/*/*.csv_answers.*
 models/
-notebooks/
+# notebooks/
 pytorch-pretrained-BERT/
 raw_data/
 samples/

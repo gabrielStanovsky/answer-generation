@@ -4,28 +4,19 @@
 
 ##### Training
 
-To train a GPT2 model on MCScript, NarrativeQA, SocialIQA, and COSMOSQA, run:
-```
-python gpt2/train_gpt2.py
-```
-
-To train the Huggingfaces GPT2 models where we only calculate the loss on the answer tokens, run:
+To train GPT2 models, run:
 ```
 allennlp train huggingface_gpt2/narrativeqa_config.json \
-    --include-package huggingface_gpt2\
-    -s huggingface_gpt2/models/narrativeqa
+    --include-package huggingface_gpt2 -s huggingface_gpt2/models/narrativeqa
 
 allennlp train huggingface_gpt2/mcscript_config.json \
-    --include-package huggingface_gpt2\
-    -s huggingface_gpt2/models/mcscript
+    --include-package huggingface_gpt2 -s huggingface_gpt2/models/mcscript
 
 allennlp train huggingface_gpt2/socialiqa_config.json \
-    --include-package huggingface_gpt2\
-    -s huggingface_gpt2/models/socialiqa
+    --include-package huggingface_gpt2 -s huggingface_gpt2/models/socialiqa
 
 allennlp train huggingface_gpt2/cosmosqa_config.json \
-    --include-package huggingface_gpt2\
-    -s huggingface_gpt2/models/cosmosqa
+    --include-package huggingface_gpt2 -s huggingface_gpt2/models/cosmosqa
 ```
 
 To train a BERT model on QUOREF, run:
@@ -61,7 +52,7 @@ allennlp train nabert/drop_config.json --include-package nabert -s nabert/models
 ##### Predictions
 To get predictions on MCScript, NarrativeQA, SocialIQA, and COSMOSQA from a trained GPT2 model run:
 ```
-python gpt2/generate_gpt2.py
+python huggingface_gpt2/generate_gpt2_for_dataset.py
 ```
 
 To get predictions on QUOREF from a trained BERT model, run :
