@@ -51,11 +51,11 @@ def write_data(data, output_fn):
 	num_output_lines = 0
 
 	# Write the header row
-	header_row = ['context', 'id']
+	header_row = ['id']
 	for i in range(1, QUESTIONS_PER_HIT+1):
-		header_row += ['question'+str(i), 'reference'+str(i), 'candidate'+str(i), 'source'+str(i), 'id'+str(i)]
+		header_row += ['context'+str(i), 'question'+str(i), 'reference'+str(i), 'candidate'+str(i), 'source'+str(i), 'id'+str(i)]
 	writer.writerow(header_row)
-	assert len(header_row) == 5*QUESTIONS_PER_HIT + 2
+	assert len(header_row) == 6*QUESTIONS_PER_HIT + 1
 
 	# Iterate through contexts, squashing nested dictionaries into a
 	# flat dictionary and writing them out to CSV file
@@ -83,20 +83,20 @@ def write_rows(writer, context, questions):
 		current_questions = questions[i*QUESTIONS_PER_HIT:(i+1)*QUESTIONS_PER_HIT]
 
 		# Turn list of dictionaries into a list of the dictionary values
-		current_questions = list(chain(*[[q['question'], q['reference'], q['candidate'], q['source'], q['hash_id']] for q in current_questions]))
-		assert len(current_questions) == 5*QUESTIONS_PER_HIT
+		current_questions = list(chain(*[[context, q['question'], q['reference'], q['candidate'], q['source'], q['hash_id']] for q in current_questions]))
+		assert len(current_questions) == 6*QUESTIONS_PER_HIT
 
 		# MD5 hash of the current questions
 		hash_object = hashlib.md5(current_questions.__repr__().encode())
 		row_id = hash_object.hexdigest()
 
-		row = [context, row_id] + current_questions
+		row = [row_id] + current_questions
 		writer.writerow(row)
 
 	# Return the number of questions we wrote out
 	return num_hits_needed*QUESTIONS_PER_HIT
 
-def check_sampled_data(input_file, output_file):
+def check_sampled_data(input_file, output_file, questions_per_hit):
 	# Check that each sampled question was present in the input file.
 	# Also check that we haven't written out a sampled question twice.
 	# This checks that we wrote out our sampled lines correctly
@@ -107,12 +107,12 @@ def check_sampled_data(input_file, output_file):
 	seen_lines = set()
 	with open(output_file) as f:
 		header = f.readline().strip().split(',')
-		assert len(header) == QUESTIONS_PER_HIT*5+2
+		assert len(header) == questions_per_hit*6+1
 		for line in csv.reader(f):
-			context, row_id = line[0], line[1]
-			# Start loop at 2 b/c first 2 elements are the context and row_id
-			for i in range(2, QUESTIONS_PER_HIT*5+2, 5):
-				sampled_line = [context]+line[i:i+5]
+			row_id = line[0]
+			# Start loop at 1 b/c first element is the row_id
+			for i in range(1, questions_per_hit*6+1, 6):
+				sampled_line = line[i:i+6]
 				assert sampled_line.__repr__() in input_lines
 				assert sampled_line.__repr__() not in seen_lines
 				seen_lines.add(sampled_line.__repr__())
@@ -151,7 +151,7 @@ def sample_drop():
 	data = load_data(input_fn)
 	
 	write_data(data, output_fn)
-	check_sampled_data(input_fn, output_fn)
+	check_sampled_data(input_fn, output_fn, QUESTIONS_PER_HIT)
 
 def sample_quoref():
 	random.seed(1)
@@ -161,7 +161,7 @@ def sample_quoref():
 	data = load_data(input_fn)
 	
 	write_data(data, output_fn)
-	check_sampled_data(input_fn, output_fn)
+	check_sampled_data(input_fn, output_fn, QUESTIONS_PER_HIT)
 	
 def sample_ropes():
 	random.seed(1)
@@ -179,7 +179,7 @@ def sample_ropes():
 			data[context][question]['candidates']['bert'] = random.sample(bert, min(len(bert), max_samples))
 
 	write_data(data, output_fn)
-	check_sampled_data(input_fn, output_fn)
+	check_sampled_data(input_fn, output_fn, QUESTIONS_PER_HIT)
 
 def sample_mcscript():
 	random.seed(1)
@@ -244,7 +244,7 @@ def sample_mcscript():
 			data[context][question]['candidates']['backtranslation'].append(bt)
 
 	write_data(data, output_fn)
-	check_sampled_data(input_fn, output_fn)
+	check_sampled_data(input_fn, output_fn, QUESTIONS_PER_HIT)
 
 def sample_narrativeqa():
 	random.seed(1)
@@ -314,7 +314,7 @@ def sample_narrativeqa():
 			data[context][question]['candidates']['backtranslation'].append(bt)
 
 	write_data(data, output_fn)
-	check_sampled_data(input_fn, output_fn)
+	check_sampled_data(input_fn, output_fn, QUESTIONS_PER_HIT)
 
 ################## COSMOSQA and SOCIALIQA have separate writing functions
 ################## because each line has multiple context file
@@ -365,27 +365,6 @@ def write_cosmosqa_socialiqa_rows(writer, entries, questions_per_hit):
 	row = [row_id] + entries
 	writer.writerow(row)
 
-def check_cosmosqa_socialiqa_data(input_file, output_file, questions_per_hit):
-	# Check that each sampled question was present in the input file.
-	# Also check that we haven't written out a sampled question twice.
-	# This checks that we wrote out our sampled lines correctly
-	input_lines = set()
-	for line in csv.reader(open(input_file)):
-		input_lines.add(line.__repr__())
-
-	seen_lines = set()
-	with open(output_file) as f:
-		header = f.readline().strip().split(',')
-		assert len(header) == questions_per_hit*6+1
-		for line in csv.reader(f):
-			row_id = line[0]
-			# Start loop at 1 b/c first element is the row_id
-			for i in range(1, QUESTIONS_PER_HIT*6+1, 6):
-				sampled_line = line[i:i+6]
-				assert sampled_line.__repr__() in input_lines
-				assert sampled_line.__repr__() not in seen_lines
-				seen_lines.add(sampled_line.__repr__())
-
 def sample_cosmosqa_socialiqa_data(data, max_gpt2, max_bt):
 	total = max_bt + max_gpt2
 	
@@ -421,7 +400,7 @@ def sample_cosmosqa():
 	
 	data = sample_cosmosqa_socialiqa_data(data, max_gpt2=3, max_bt=2)
 	write_cosmosqa_socialiqa_data(data, output_fn, questions_per_hit)
-	check_cosmosqa_socialiqa_data(input_fn, output_fn, questions_per_hit)
+	check_sampled_data(input_fn, output_fn, questions_per_hit)
 
 def sample_socialiqa():
 	random.seed(1)
@@ -434,7 +413,7 @@ def sample_socialiqa():
 
 	data = sample_cosmosqa_socialiqa_data(data, max_gpt2=2, max_bt=1)
 	write_cosmosqa_socialiqa_data(data, output_fn, questions_per_hit)
-	check_cosmosqa_socialiqa_data(input_fn, output_fn, questions_per_hit)
+	check_sampled_data(input_fn, output_fn, questions_per_hit)
 
 def main():
 	print()
