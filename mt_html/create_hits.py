@@ -36,8 +36,8 @@ if __name__ == "__main__":
     template_html = open(html_fn).read()
     keys = df.keys()
 
-    for hit_index, row in df.iterrows():        
-        hit_fn = os.path.join(out_fn, "{}.html".format(hit_index))
+    for hit_index, row in df.iterrows():   
+        hit_fn = os.path.join(out_fn, "{}.html".format(row['id']))
         logging.info("Writing {}".format(hit_fn))
         with open(hit_fn, "w") as fout:
             out_str = template_html

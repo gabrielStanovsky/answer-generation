@@ -117,8 +117,3 @@ python mt_html/create_hits.py \
     --out mt_html/narrativeqa/ \
     --num_hits 10 
 ```
-
-Then merge the links into a single file
-```
-python mt_html/generate_html_links.py
-```
