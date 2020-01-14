@@ -71,12 +71,21 @@
 	<div class="content">
 
 	<h4><strong><span style="color:blue;">(Completely Right)</span> Predicted answers that should recieve a <span style="color:red;">5</span>:</strong><br /></h4>
+		<div style="padding-left: .1em; border:solid #000; border-width: 1px;">&nbsp;
+		Some ways a predicted answer can get a score of 5.
+
+		<ul>
+			<li> It is clear that that the predicted and correct answers refer to the same person, place, or object.</li>
+			<li> The predicted and correct answers are synonyms. </li>
+		</ul> 
+		</div>&nbsp;
+
 		<div style="padding-left: 3em;">
 			<strong>Passage:</strong> &hellip;He goes to prison to serve out a five years' sentence, but after three years have passed is pardoned out through the efforts of Maria Wyndham, Mr. Fletcher's granddaughter, whom he has loved for years&hellip; <br />
 			<strong>Question:</strong> What is the relationship of Maria Wyndham to Mr. Fletcher? <br />
 			<strong>Correct Answer:</strong> grandaughter<br />
 			<strong>Predicted Answer:</strong> Maria is Mr. Fletcher's granddaughter. <br />
-			<strong>Justification:</strong> The predicted answer captures the same information as the correct answer when taking into account the passage and question. <br />
+			<strong><span style="color:purple;">Justification:</span></strong> The predicted answer captures the same information as the correct answer when taking into account the passage and question. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -84,15 +93,7 @@
 			<strong>Question:</strong> Who comes to pick up the package the next day ? <br />
 			<strong>Correct Answer:</strong> Drug Dealers  <br />
 			<strong>Predicted Answer:</strong> Jim and John <br />
-			<strong>Justification:</strong> In this case, John and Jim are the drug dealers so this is completely correct. More generally, if the correct answer and the predicted answer both refer to the same <strong>entity</strong>, then the predicted answer is correct, even if it is written differently.<br />
-		</div><br />
-
-		<div style="padding-left: 3em;">
-			<strong>Passage:</strong> In Tom's boyhood, his father wants his to be educated in the North and sent him back to Rivermouth to live with his grandfather.<br />
-			<strong>Question:</strong> Where does Tom's dad send him to study? <br />
-			<strong>Correct Answer:</strong> Rivermouth  <br />
-			<strong>Predicted Answer:</strong> The North <br />
-			<strong>Justification:</strong> In the passage, Rivermouth is a city in the North, and so we consider this a correct answer. <br />
+			<strong><span style="color:purple;">Justification:</span></strong> In this case, John and Jim are the drug dealers so this is completely correct. More generally, if the correct answer and the predicted answer both refer to the same <strong>entity</strong>, then the predicted answer is correct, even if it is written differently.<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -100,7 +101,7 @@
 			<strong>Question:</strong> Tom and three other friends put their money together to buy what?<br />
 			<strong>Correct Answer:</strong> A boat<br />
 			<strong>Predicted Answer:</strong> A boat named Dolphin <br />
-			<strong>Justification:</strong> Similar to above, since "a boat named Dolphin" and "a boat" both refer to the same entity.<br />
+			<strong><span style="color:purple;">Justification:</span></strong> Similar to above, since "a boat named Dolphin" and "a boat" both refer to the same entity.<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -108,7 +109,7 @@
 			<strong>Question:</strong> What kind of things happen in Monte Carlo?<br />
 			<strong>Correct Answer:</strong> In Monte Carlo thrilling things happen.<br />
 			<strong>Predicted Answer:</strong> Fun and exciting.<br />
-			<strong>Justification:</strong> Fun and exciting is synonymous with "thrilling", and so we give this a <strong>5</strong>. More generally, it is important to look out for synonyms when scoring answers.<br />
+			<strong><span style="color:purple;">Justification:</span></strong> Fun and exciting is synonymous with "thrilling", and so we give this a <strong>5</strong>. More generally, it is important to look out for synonyms when scoring answers.<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -116,16 +117,26 @@
 			<strong>Question:</strong> Who does Mr. Hillard dine with in New York?<br />
 			<strong>Correct Answer:</strong> The Singer. <br />
 			<strong>Predicted Answer:</strong> The lady from the window of the hotel in New York. <br />
-			<strong>Justification:</strong> Similar to above, "the singer" and "the lady from the window" refer to the same person.<br />
+			<strong><span style="color:purple;">Justification:</span></strong> Similar to above, "the singer" and "the lady from the window" refer to the same person.<br />
 		</div><br />
 
 	<h4><strong><span style="color:blue;">(Mostly Right)</span> Predicted answers that should recieve a <span style="color:red;">4</span>:</strong><br /></h4>
+		<div style="padding-left: .1em; border:solid #000; border-width: 1px;">&nbsp;
+		A score of 4 means that there is a minor detail wrong with the predicted answer, but otherwise, is a perfect answer. Some ways a predicted answer can get a score of 4.
+		<ul>
+			<li> The predicted answer is a little ungrammatical.</li>
+			<li> The predicted answer is a <strong>little</strong> unspecific (e.g. the correct answer is the city but the predicted answer is the country of the city).</li>
+			<li> The predicted answer gets the gender wrong (e.g. he vs she, him vs her).</li>
+			<li> The predicted answer gets the plurality wrong (e.g. he vs they, policeman vs policemen).</li>
+		</ul> 
+		</div>&nbsp;
+
 		<div style="padding-left: 3em;">
 			<strong>Passage:</strong> &hellip;The next day, two men, John and Jim (who are drug dealers), arrive at the apartment to pick up the package&hellip;<br />
 			<strong>Question:</strong> Who comes to pick up the package the next day ?<br />
 			<strong>Correct Answer:</strong> Drug Dealers<br />
 			<strong>Predicted Answer:</strong> the drug drug dealers <br />
-			<strong>Justification:</strong> This answer is mostly correct, but a little ungrammatical with the extra "drug". Cases where the predicted answer is understandable and correct but a little ungrammatical should receive a <strong>4</strong>. <br />
+			<strong><span style="color:purple;">Justification:</span></strong> This answer is mostly correct, but a little ungrammatical with the extra "drug". Cases where the predicted answer is understandable and correct but a little ungrammatical should receive a <strong>4</strong>. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -133,7 +144,15 @@
 			<strong>Question:</strong> How is James related to Sibyl?<br />
 			<strong>Correct Answer:</strong>  He is her brother<br />
 			<strong>Predicted Answer:</strong> He is his brother<br />
-			<strong>Justification:</strong> The predicted answer is mostly correct. However, "her" is changed to "his" (meaning Sibyl is male), making the answer slighly incorrect. In general, if a pronoun is the wrong gender, then you can deduct a point. For example, a sister is referenced as a "he".<br />
+			<strong><span style="color:purple;">Justification:</span></strong> The predicted answer is mostly correct. However, "her" is changed to "his" (meaning Sibyl is male), making the answer slighly incorrect. In general, if a pronoun is the wrong gender, then you can deduct a point. For example, a sister is referenced as a "he".<br />
+		</div><br />
+
+		<div style="padding-left: 3em;">
+			<strong>Passage:</strong> In Tom's boyhood, his father wants his to be educated in the North and sent him back to Rivermouth to live with his grandfather.<br />
+			<strong>Question:</strong> Where does Tom's dad send him to study? <br />
+			<strong>Correct Answer:</strong> Rivermouth  <br />
+			<strong>Predicted Answer:</strong> The North <br />
+			<strong><span style="color:purple;">Justification:</span></strong> In the passage, Rivermouth is a city in the North, but the North is a fairly large area and Rivermouth is more specific, so we will say this is mostly correct. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -141,16 +160,27 @@
 			<strong>Question:</strong> Who is the only person on the street when Hillard finally makes it down? <br />
 			<strong>Correct Answer:</strong> A policeman is the only one there. <br />
 			<strong>Predicted Answer:</strong> The police <br />
-			<strong>Justification:</strong> Policeman is singular while "the police" generally evokes the imagery of multiple policemen. Therefore we say this prediction is mostly correct but not completely correct. <br />
+			<strong><span style="color:purple;">Justification:</span></strong> Policeman is singular while "the police" generally evokes the imagery of multiple policemen. Therefore we say this prediction is mostly correct but not completely correct. <br />
 		</div><br />
 
 	<h4><strong><span style="color:blue;">(Half Right)</span> Predicted answers that should recieve a <span style="color:red;">3</span>:</strong><br /></h4>
+		<div style="padding-left: .1em; border:solid #000; border-width: 1px;">&nbsp;
+		Some ways a predicted answer can get a score of 3.
+		<ul>
+			<li> The prediction gets half of the details right (see example 1). </li>
+			<li> The prediction gets the details right, but is quite unspecific (see example 2) </li>
+			<li> The correct answer is a list but the prediction only gets some of the elements of the list.</li>
+			<li> The correct answer is a single item (person, object, etc) but the prediction adds some extra items.</li>
+			<li> The predicted answer gets the first name right but the last name wrong (or vice versa).</li>
+		</ul> 
+		</div>&nbsp;
+
 		<div style="padding-left: 3em;">
 			<strong>Passage:</strong> &hellip;Then the scene shifts to Italy, with the shifting fortunes of an American comic opera company, stranded at Venice. The beautiful singer becomes the prima donna of this company. The soubrette is one Kitty Killigrew&hellip;<br />
 			<strong>Question:</strong>  Who is Kitty Killigrew?<br />
 			<strong>Correct Answer:</strong>  The soubrette of the American Opera Company.<br />
 			<strong>Predicted Answer:</strong> The singer of the Italian comic opera company, the soubrette. <br />
-			<strong>Justification:</strong> The predicted answer gets the fact that Kitty is a singer (a soubrette) of an opera company correct. However, it says that the company is Italian, which is wrong. We therefore consider this answer half correct. <br />
+			<strong><span style="color:purple;">Justification:</span></strong> The predicted answer gets the fact that Kitty is a singer (a soubrette) of an opera company correct. However, it says that the company is Italian, which is wrong. We therefore consider this answer half correct. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -158,7 +188,7 @@
 			<strong>Question:</strong> Which suspicion does Dr. Merkel confirm?<br />
 			<strong>Correct Answer:</strong> That Charity is pregnant.<br />
 			<strong>Predicted Answer:</strong> That she is pregnant <br />
-			<strong>Justification:</strong> In the predicted answer "she" is undefined. It could be Charity, Dr. Merkle, or Bethany. Because we do not know who "she" is, we cannot say this answer is completely correct. The predicted answer does mention the pregnancy, so we will say this is half correct. More generally, if a predicted answer has some ambuiguity, it cannot be completely correct.<br />
+			<strong><span style="color:purple;">Justification:</span></strong> In the predicted answer "she" is undefined. It could be Charity, Dr. Merkle, or Bethany. Because we do not know who "she" is, we cannot say this answer is completely correct. The predicted answer does mention the pregnancy, so we will say this is half correct. More generally, if a predicted answer has some ambuiguity, it cannot be completely correct.<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -166,24 +196,7 @@
 			<strong>Question:</strong>Who was playing in the World Series? <br />
 			<strong>Correct Answer:</strong> Red Sox and the Mets<br />
 			<strong>Predicted Answer:</strong> Red Sox <br />
-			<strong>Justification:</strong> In cases where the correct answer is a list of <strong>nouns</strong> and the prediction only has a part of the list, we generally give it a <strong>3</strong>. <br />
-		</div><br />
-
-	<h4><strong><span style="color:blue;">(Mostly Wrong)</span> Predicted answers that should recieve a <span style="color:red;">2</span>:</strong><br /></h4>
-		<div style="padding-left: 3em;">
-			<strong>Passage:</strong> "Tom Bailey" is born in the fictitious town of Rivermouth, New Hampshire, but moves to New Orleans with his family when he is 18 months old.&hellip;<br />
-			<strong>Question:</strong> How old was Tom Bailey when he moves from New Hampshire to New Orleans? <br />
-			<strong>Correct Answer:</strong> 18 months old<br />
-			<strong>Predicted Answer:</strong> 18 <br />
-			<strong>Justification:</strong> The predicted answer makes it seem like Tom is 18 <em>years old </em> which is completely wrong. However, because the predicted and correct answer both have "18", which is meaningful, we will give it a <strong>2</strong> instead of a <strong>1</strong>. <br />
-		</div><br />
-
-		<div style="padding-left: 3em;">
-			<strong>Passage:</strong> In Tom's boyhood, his father wants his to be educated in the North and sent him back to Rivermouth to live with his grandfather, Captain Nutter.<br />
-			<strong>Question:</strong> Who does Tom live with up north?<br />
-			<strong>Correct Answer:</strong> His grandfather, Captain Nutter. <br />
-			<strong>Predicted Answer:</strong> His grandmother, Captain William Nutter. <br />
-			<strong>Justification:</strong> This prediction gets two things wrong. It first makes Captain Nutter a female. It then adds a first name (William) which we do not know to be true. It does get the last name correct, so we will say this answer is not completely wrong and give it a <strong>2</strong>.<br />
+			<strong><span style="color:purple;">Justification:</span></strong> In cases where the correct answer is a list of <strong>nouns</strong> and the prediction only has a part of the list, we generally give it a <strong>3</strong>. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -191,16 +204,52 @@
 			<strong>Question:</strong> What do the boys do in winter? <br />
 			<strong>Correct Answer:</strong> They build a fort on Slatter's Hill. <br />
 			<strong>Predicted Answer:</strong> They create a sun castle on Slatter's Hill.<br />
-			<strong>Justification:</strong> The predicted answer gets the location correct (Slater's Hill). However <em>what</em> is build is equally important and the predicted answer says "sun castle", which is nonsensical. <br />
+			<strong><span style="color:purple;">Justification:</span></strong> The predicted answer gets the location correct (Slater's Hill). However <em>what</em> is build is equally important and the predicted answer says "sun castle", which is nonsensical. <br />
+		</div><br />
+
+	<h4><strong><span style="color:blue;">(Mostly Wrong)</span> Predicted answers that should recieve a <span style="color:red;">2</span>:</strong><br /></h4>
+		<div style="padding-left: .1em; border:solid #000; border-width: 1px;">&nbsp;
+		A score of 2 means that the predicted answer is incorrect, but there is some slight redeemable quality to it.
+		<ul>
+			<li> The predicted answer is clearly wrong, but there is some word overlap between the correct and predicted answer that makes it seem slighly correct and the predicted answer is grammatical. (See example 1) </li>
+			<li> The prediction gets one thing correct, but more than one thing wrong. (See example 2)</li>
+			<li> The predicted gets a detail wrong that significantly affects the meaning, but still gets some minor details correct.</li>
+		</ul> 
+		</div>&nbsp;
+
+		<div style="padding-left: 3em;">
+			<strong>Passage:</strong> "Tom Bailey" is born in the fictitious town of Rivermouth, New Hampshire, but moves to New Orleans with his family when he is 18 months old.&hellip;<br />
+			<strong>Question:</strong> How old was Tom Bailey when he moves from New Hampshire to New Orleans? <br />
+			<strong>Correct Answer:</strong> 18 months old<br />
+			<strong>Predicted Answer:</strong> 18 <br />
+			<strong><span style="color:purple;">Justification:</span></strong> The predicted answer makes it seem like Tom is 18 <em>years old </em> which is completely wrong. However, because the predicted and correct answer both have "18", which is meaningful, we will give it a <strong>2</strong> instead of a <strong>1</strong>. <br />
+		</div><br />
+
+		<div style="padding-left: 3em;">
+			<strong>Passage:</strong> In Tom's boyhood, his father wants his to be educated in the North and sent him back to Rivermouth to live with his grandfather, Captain Nutter.<br />
+			<strong>Question:</strong> Who does Tom live with up north?<br />
+			<strong>Correct Answer:</strong> His grandfather, Captain Nutter. <br />
+			<strong>Predicted Answer:</strong> His grandmother, Captain William Nutter. <br />
+			<strong><span style="color:purple;">Justification:</span></strong> This prediction gets two things wrong. It first makes Captain Nutter a female. It then adds a first name (William) which we do not know to be true. It does get the last name correct, so we will say this answer is not completely wrong and give it a <strong>2</strong>.<br />
 		</div><br />
 
 	<h4><strong><span style="color:blue;">(Completely Wrong)</span> Predicted answers that should recieve a <span style="color:red;">1</span>:</strong><br /></h4>
+		<div style="padding-left: .1em; border:solid #000; border-width: 1px;">&nbsp;
+		There are a number of ways a predicted answer can get a score of 1.
+		<ul>
+			<li> <strong>TRICKY!!!</strong> A predicted answer can technically be a correct answer to the question, but if it does not have the same meaning as the correct answer, it is a score of 1 for this task. (see example 1) </li>
+			<li> The predicted doesn't make any sense or is very ungrammatical.</li>
+			<li> The answer gets all details wrong (e..g the name(s) are completely wrong, places are completely wrong, etc). </li>
+			<li> The predicted answer is opposite of the correct answer (e.g. yes vs no, hot vs cold, etc.)
+		</ul> 
+		</div>&nbsp;
+
 		<div style="padding-left: 3em;">
 			<strong>Passage:</strong> Mr. Hillard hears from his window a woman's voice singing divinely. He falls in love with it and falls down the stairs running to her. But by the time her reaches the street she has vanished.<br />
 			<strong>Question:</strong> What happens when Hillard hurries to find the singer? <br />
 			<strong>Correct Answer:</strong> He falls down the stairs. <br />
 			<strong>Predicted Answer:</strong> She vanished. <br />
-			<strong>Justification:</strong> While "she vanished" is technically a correct answer to the question, for a predicted answer to be "right" in this task, it must also be EQUIVALENT (have the same meaning) to the correct answer. "Mr Hillard falling" is a completely different from "the singer vanishing". We therefore score the predicted answer <strong>1</strong>.<br />
+			<strong><span style="color:purple;">Justification:</span></strong> While "she vanished" is technically a correct answer to the question, for a predicted answer to be "right" in this task, it must also be EQUIVALENT (have the same meaning) to the correct answer. "Mr Hillard falling" is a completely different from "the singer vanishing". We therefore score the predicted answer <strong>1</strong>.<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -208,7 +257,7 @@
 			<strong>Question:</strong> What is the relationship of Maria Wyndham to Mr. Fletcher? <br />
 			<strong>Correct Answer:</strong> grandaughter <br />
 			<strong>Predicted Answer:</strong> maria is maria 's granddaughter  <br />
-			<strong>Justification:</strong> While the "granddaughter" is present in the predicted answer, the rest is completely nonsensical as someone cannot be their own grandmother. For nonsensical answers, we assign a score of <strong>1</strong>, even if there is word overlap between the predicted answer and the correct answer. <br />
+			<strong><span style="color:purple;">Justification:</span></strong> While the "granddaughter" is present in the predicted answer, the rest is completely nonsensical as someone cannot be their own grandmother. For nonsensical answers, we assign a score of <strong>1</strong>, even if there is word overlap between the predicted answer and the correct answer. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -216,7 +265,7 @@
 			<strong>Question:</strong> Who comes to pick up the package the next day ? <br />
 			<strong>Correct Answer:</strong> Drug Dealers  <br />
 			<strong>Predicted Answer:</strong> Peter and Michael <br />
-			<strong>Justification:</strong> The drug dealers are John and Jim. The predicted answer gets the names of the drug dealers completely wrong.<br />
+			<strong><span style="color:purple;">Justification:</span></strong> The drug dealers are John and Jim. The predicted answer gets the names of the drug dealers completely wrong.<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -224,7 +273,7 @@
 			<strong>Question:</strong> What does Hillard hear through his window? <br />
 			<strong>Correct Answer:</strong> He hears a woman's beautiful singing. <br />
 			<strong>Predicted Answer:</strong> he hears a beautiful single girl's Lady <br />
-			<strong>Justification:</strong> This predicted answer doesn't make sense, and so we assign it a <strong>1</strong>. <br />
+			<strong><span style="color:purple;">Justification:</span></strong> This predicted answer doesn't make sense, and so we assign it a <strong>1</strong>. <br />
 		</div><br />
 
 	</div>
