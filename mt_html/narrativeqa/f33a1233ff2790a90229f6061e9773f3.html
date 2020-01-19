@@ -45,19 +45,19 @@
 <button type="button" class="collapsible">Click to Expand Instructions. PLEASE READ IF THIS IS YOUR FIRST HIT FOR THIS TASK.</button>
 <div class="content">
 	<h5>In this task, you are given a passage, a question, a correct answer, and a predicted answer.
-	The task is to <span style="color:#FF0000;"><em>score how closely a predicted answer captures the same information (i.e. have the same meaning) as a correct answer</em></span> using the <em><strong><u>passage</u></strong></em>, <em><strong><u>question</u></strong></em>, and human <em><strong><u>commonsense knowledge</u></strong></em>. 
+	The task is to <font color="#FF0000"><em>score how closely a predicted answer captures the same information (i.e. have the same meaning) as a correct answer</em></font> using the <em><strong><u>passage</u></strong></em>, <em><strong><u>question</u></strong></em>, and human <em><strong><u>commonsense knowledge</u></strong></em>. 
 	<br /> <br /> 
-	Scoring is on a scale <span style="color:#FF0000;"><em> from 1 to 5 </em></span>. 
+	Scoring is on a scale <font color="#FF0000"><em> from 1 to 5 </em></font>. 
 	<br />
-	A <span style="color:#FF0000;"><em>1</em></span> score means the predicted answer captures none of the information of the correct answer, and thus is a completely wrong answer.
+	A <font color="#FF0000"><em>1</em></font> score means the predicted answer captures none of the information of the correct answer, and thus is a completely wrong answer.
 	<br /> 
-	A <span style="color:#FF0000;"><em>5</em></span> score means the predicted answer captures the same information as the correct answer, and thus is a completely right answer.<br />
+	A <font color="#FF0000"><em>5</em></font> score means the predicted answer captures the same information as the correct answer, and thus is a completely right answer.<br />
 
 	<!-- Each HIT will contain multiple questions and predictions for the same context so it needs to only be read once per HIT. -->
 	<br /> 
 
 	<br /><br />
-	<u>Note:</u> A predicted answer may answer the question correctly, but to be given a score of 5, <span style="color:#FF0000;"><b>it must be equivalent to the correct answer</b></span>. An example is provided below of this case. <br/><br/>
+	<u>Note:</u> A predicted answer may answer the question correctly, but to be given a score of 5, <font color="#FF0000;"><b>it must be equivalent to the correct answer</b></font>. An example is provided below of this case. <br/><br/>
 	<u>Note:</u> The score you give should not depend on the capitalization of the correct and predicted answer.<br/><br/>
 	<u>Note:</u> A helpful tip for searching for the correct answer in the passage is using Control+F to search for it.<br/><br/>
 	</h5>
@@ -70,7 +70,7 @@
 	<button type="button" class="collapsible">Click to Expand Examples. PLEASE READ IF THIS IS YOUR FIRST HIT FOR THIS TASK.</button>
 	<div class="content">
 
-	<h4><strong><span style="color:blue;">(Completely Right)</span> Predicted answers that should recieve a <span style="color:red;">5</span>:</strong><br /></h4>
+	<h4><strong><font color="blue">(Completely Right)</font> Predicted answers that should recieve a <font color="red">5</font>:</strong><br /></h4>
 		<div style="padding-left: .1em; border:solid #000; border-width: 1px;">&nbsp;
 		Some ways a predicted answer can get a score of 5.
 
@@ -85,7 +85,7 @@
 			<strong>Question:</strong> What is the relationship of Maria Wyndham to Mr. Fletcher? <br />
 			<strong>Correct Answer:</strong> grandaughter<br />
 			<strong>Predicted Answer:</strong> Maria is Mr. Fletcher's granddaughter. <br />
-			<strong><span style="color:purple;">Justification:</span></strong> The predicted answer captures the same information as the correct answer when taking into account the passage and question. <br />
+			<strong><font color="purple">Justification:</font></strong> The predicted answer captures the same information as the correct answer when taking into account the passage and question. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -93,7 +93,7 @@
 			<strong>Question:</strong> Who comes to pick up the package the next day ? <br />
 			<strong>Correct Answer:</strong> Drug Dealers  <br />
 			<strong>Predicted Answer:</strong> Jim and John <br />
-			<strong><span style="color:purple;">Justification:</span></strong> In this case, John and Jim are the drug dealers so this is completely correct. More generally, if the correct answer and the predicted answer both refer to the same <strong>entity</strong>, then the predicted answer is correct, even if it is written differently.<br />
+			<strong><font color="purple">Justification:</font></strong> In this case, John and Jim are the drug dealers so this is completely correct. More generally, if the correct answer and the predicted answer both refer to the same <strong>entity</strong>, then the predicted answer is correct, even if it is written differently.<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -101,7 +101,7 @@
 			<strong>Question:</strong> Tom and three other friends put their money together to buy what?<br />
 			<strong>Correct Answer:</strong> A boat<br />
 			<strong>Predicted Answer:</strong> A boat named Dolphin <br />
-			<strong><span style="color:purple;">Justification:</span></strong> Similar to above, since "a boat named Dolphin" and "a boat" both refer to the same entity.<br />
+			<strong><font color="purple">Justification:</font></strong> Similar to above, since "a boat named Dolphin" and "a boat" both refer to the same entity.<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -109,7 +109,7 @@
 			<strong>Question:</strong> What kind of things happen in Monte Carlo?<br />
 			<strong>Correct Answer:</strong> In Monte Carlo thrilling things happen.<br />
 			<strong>Predicted Answer:</strong> Fun and exciting.<br />
-			<strong><span style="color:purple;">Justification:</span></strong> Fun and exciting is synonymous with "thrilling", and so we give this a <strong>5</strong>. More generally, it is important to look out for synonyms when scoring answers.<br />
+			<strong><font color="purple">Justification:</font></strong> Fun and exciting is synonymous with "thrilling", and so we give this a <strong>5</strong>. More generally, it is important to look out for synonyms when scoring answers.<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -117,10 +117,10 @@
 			<strong>Question:</strong> Who does Mr. Hillard dine with in New York?<br />
 			<strong>Correct Answer:</strong> The Singer. <br />
 			<strong>Predicted Answer:</strong> The lady from the window of the hotel in New York. <br />
-			<strong><span style="color:purple;">Justification:</span></strong> Similar to above, "the singer" and "the lady from the window" refer to the same person.<br />
+			<strong><font color="purple">Justification:</font></strong> Similar to above, "the singer" and "the lady from the window" refer to the same person.<br />
 		</div><br />
 
-	<h4><strong><span style="color:blue;">(Mostly Right)</span> Predicted answers that should recieve a <span style="color:red;">4</span>:</strong><br /></h4>
+	<h4><strong><font color="blue">(Mostly Right)</font> Predicted answers that should recieve a <font color="red">4</font>:</strong><br /></h4>
 		<div style="padding-left: .1em; border:solid #000; border-width: 1px;">&nbsp;
 		A score of 4 means that there is a minor detail wrong with the predicted answer, but otherwise, is a perfect answer. Some ways a predicted answer can get a score of 4.
 		<ul>
@@ -136,7 +136,7 @@
 			<strong>Question:</strong> Who comes to pick up the package the next day ?<br />
 			<strong>Correct Answer:</strong> Drug Dealers<br />
 			<strong>Predicted Answer:</strong> the drug drug dealers <br />
-			<strong><span style="color:purple;">Justification:</span></strong> This answer is mostly correct, but a little ungrammatical with the extra "drug". Cases where the predicted answer is understandable and correct but a little ungrammatical should receive a <strong>4</strong>. <br />
+			<strong><font color="purple">Justification:</font></strong> This answer is mostly correct, but a little ungrammatical with the extra "drug". Cases where the predicted answer is understandable and correct but a little ungrammatical should receive a <strong>4</strong>. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -144,7 +144,7 @@
 			<strong>Question:</strong> How is James related to Sibyl?<br />
 			<strong>Correct Answer:</strong>  He is her brother<br />
 			<strong>Predicted Answer:</strong> He is his brother<br />
-			<strong><span style="color:purple;">Justification:</span></strong> The predicted answer is mostly correct. However, "her" is changed to "his" (meaning Sibyl is male), making the answer slighly incorrect. In general, if a pronoun is the wrong gender, then you can deduct a point. For example, a sister is referenced as a "he".<br />
+			<strong><font color="purple">Justification:</font></strong> The predicted answer is mostly correct. However, "her" is changed to "his" (meaning Sibyl is male), making the answer slighly incorrect. In general, if a pronoun is the wrong gender, then you can deduct a point. For example, a sister is referenced as a "he".<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -152,7 +152,7 @@
 			<strong>Question:</strong> Where does Tom's dad send him to study? <br />
 			<strong>Correct Answer:</strong> Rivermouth  <br />
 			<strong>Predicted Answer:</strong> The North <br />
-			<strong><span style="color:purple;">Justification:</span></strong> In the passage, Rivermouth is a city in the North, but the North is a fairly large area and Rivermouth is more specific, so we will say this is mostly correct. <br />
+			<strong><font color="purple">Justification:</font></strong> In the passage, Rivermouth is a city in the North, but the North is a fairly large area and Rivermouth is more specific, so we will say this is mostly correct. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -160,10 +160,10 @@
 			<strong>Question:</strong> Who is the only person on the street when Hillard finally makes it down? <br />
 			<strong>Correct Answer:</strong> A policeman is the only one there. <br />
 			<strong>Predicted Answer:</strong> The police <br />
-			<strong><span style="color:purple;">Justification:</span></strong> Policeman is singular while "the police" generally evokes the imagery of multiple policemen. Therefore we say this prediction is mostly correct but not completely correct. <br />
+			<strong><font color="purple">Justification:</font></strong> Policeman is singular while "the police" generally evokes the imagery of multiple policemen. Therefore we say this prediction is mostly correct but not completely correct. <br />
 		</div><br />
 
-	<h4><strong><span style="color:blue;">(Half Right)</span> Predicted answers that should recieve a <span style="color:red;">3</span>:</strong><br /></h4>
+	<h4><strong><font color="blue">(Half Right)</font> Predicted answers that should recieve a <font color="red">3</font>:</strong><br /></h4>
 		<div style="padding-left: .1em; border:solid #000; border-width: 1px;">&nbsp;
 		Some ways a predicted answer can get a score of 3.
 		<ul>
@@ -180,7 +180,7 @@
 			<strong>Question:</strong>  Who is Kitty Killigrew?<br />
 			<strong>Correct Answer:</strong>  The soubrette of the American Opera Company.<br />
 			<strong>Predicted Answer:</strong> The singer of the Italian comic opera company, the soubrette. <br />
-			<strong><span style="color:purple;">Justification:</span></strong> The predicted answer gets the fact that Kitty is a singer (a soubrette) of an opera company correct. However, it says that the company is Italian, which is wrong. We therefore consider this answer half correct. <br />
+			<strong><font color="purple">Justification:</font></strong> The predicted answer gets the fact that Kitty is a singer (a soubrette) of an opera company correct. However, it says that the company is Italian, which is wrong. We therefore consider this answer half correct. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -188,7 +188,7 @@
 			<strong>Question:</strong> Which suspicion does Dr. Merkel confirm?<br />
 			<strong>Correct Answer:</strong> That Charity is pregnant.<br />
 			<strong>Predicted Answer:</strong> That she is pregnant <br />
-			<strong><span style="color:purple;">Justification:</span></strong> In the predicted answer "she" is undefined. It could be Charity, Dr. Merkle, or Bethany. Because we do not know who "she" is, we cannot say this answer is completely correct. The predicted answer does mention the pregnancy, so we will say this is half correct. More generally, if a predicted answer has some ambuiguity, it cannot be completely correct.<br />
+			<strong><font color="purple">Justification:</font></strong> In the predicted answer "she" is undefined. It could be Charity, Dr. Merkle, or Bethany. Because we do not know who "she" is, we cannot say this answer is completely correct. The predicted answer does mention the pregnancy, so we will say this is half correct. More generally, if a predicted answer has some ambuiguity, it cannot be completely correct.<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -196,7 +196,7 @@
 			<strong>Question:</strong>Who was playing in the World Series? <br />
 			<strong>Correct Answer:</strong> Red Sox and the Mets<br />
 			<strong>Predicted Answer:</strong> Red Sox <br />
-			<strong><span style="color:purple;">Justification:</span></strong> In cases where the correct answer is a list of <strong>nouns</strong> and the prediction only has a part of the list, we generally give it a <strong>3</strong>. <br />
+			<strong><font color="purple">Justification:</font></strong> In cases where the correct answer is a list of <strong>nouns</strong> and the prediction only has a part of the list, we generally give it a <strong>3</strong>. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -204,10 +204,10 @@
 			<strong>Question:</strong> What do the boys do in winter? <br />
 			<strong>Correct Answer:</strong> They build a fort on Slatter's Hill. <br />
 			<strong>Predicted Answer:</strong> They create a sun castle on Slatter's Hill.<br />
-			<strong><span style="color:purple;">Justification:</span></strong> The predicted answer gets the location correct (Slater's Hill). However <em>what</em> is build is equally important and the predicted answer says "sun castle", which is nonsensical. <br />
+			<strong><font color="purple">Justification:</font></strong> The predicted answer gets the location correct (Slater's Hill). However <em>what</em> is build is equally important and the predicted answer says "sun castle", which is nonsensical. <br />
 		</div><br />
 
-	<h4><strong><span style="color:blue;">(Mostly Wrong)</span> Predicted answers that should recieve a <span style="color:red;">2</span>:</strong><br /></h4>
+	<h4><strong><font color="blue">(Mostly Wrong)</font> Predicted answers that should recieve a <font color="red">2</font>:</strong><br /></h4>
 		<div style="padding-left: .1em; border:solid #000; border-width: 1px;">&nbsp;
 		A score of 2 means that the predicted answer is incorrect, but there is some slight redeemable quality to it.
 		<ul>
@@ -222,7 +222,7 @@
 			<strong>Question:</strong> How old was Tom Bailey when he moves from New Hampshire to New Orleans? <br />
 			<strong>Correct Answer:</strong> 18 months old<br />
 			<strong>Predicted Answer:</strong> 18 <br />
-			<strong><span style="color:purple;">Justification:</span></strong> The predicted answer makes it seem like Tom is 18 <em>years old </em> which is completely wrong. However, because the predicted and correct answer both have "18", which is meaningful, we will give it a <strong>2</strong> instead of a <strong>1</strong>. <br />
+			<strong><font color="purple">Justification:</font></strong> The predicted answer makes it seem like Tom is 18 <em>years old </em> which is completely wrong. However, because the predicted and correct answer both have "18", which is meaningful, we will give it a <strong>2</strong> instead of a <strong>1</strong>. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -230,10 +230,10 @@
 			<strong>Question:</strong> Who does Tom live with up north?<br />
 			<strong>Correct Answer:</strong> His grandfather, Captain Nutter. <br />
 			<strong>Predicted Answer:</strong> His grandmother, Captain William Nutter. <br />
-			<strong><span style="color:purple;">Justification:</span></strong> This prediction gets two things wrong. It first makes Captain Nutter a female. It then adds a first name (William) which we do not know to be true. It does get the last name correct, so we will say this answer is not completely wrong and give it a <strong>2</strong>.<br />
+			<strong><font color="purple">Justification:</font></strong> This prediction gets two things wrong. It first makes Captain Nutter a female. It then adds a first name (William) which we do not know to be true. It does get the last name correct, so we will say this answer is not completely wrong and give it a <strong>2</strong>.<br />
 		</div><br />
 
-	<h4><strong><span style="color:blue;">(Completely Wrong)</span> Predicted answers that should recieve a <span style="color:red;">1</span>:</strong><br /></h4>
+	<h4><strong><font color="blue">(Completely Wrong)</font> Predicted answers that should recieve a <font color="red">1</font>:</strong><br /></h4>
 		<div style="padding-left: .1em; border:solid #000; border-width: 1px;">&nbsp;
 		There are a number of ways a predicted answer can get a score of 1.
 		<ul>
@@ -249,7 +249,7 @@
 			<strong>Question:</strong> What happens when Hillard hurries to find the singer? <br />
 			<strong>Correct Answer:</strong> He falls down the stairs. <br />
 			<strong>Predicted Answer:</strong> She vanished. <br />
-			<strong><span style="color:purple;">Justification:</span></strong> While "she vanished" is technically a correct answer to the question, for a predicted answer to be "right" in this task, it must also be EQUIVALENT (have the same meaning) to the correct answer. "Mr Hillard falling" is a completely different from "the singer vanishing". We therefore score the predicted answer <strong>1</strong>.<br />
+			<strong><font color="purple">Justification:</font></strong> While "she vanished" is technically a correct answer to the question, for a predicted answer to be "right" in this task, it must also be EQUIVALENT (have the same meaning) to the correct answer. "Mr Hillard falling" is a completely different from "the singer vanishing". We therefore score the predicted answer <strong>1</strong>.<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -257,7 +257,7 @@
 			<strong>Question:</strong> What is the relationship of Maria Wyndham to Mr. Fletcher? <br />
 			<strong>Correct Answer:</strong> grandaughter <br />
 			<strong>Predicted Answer:</strong> maria is maria 's granddaughter  <br />
-			<strong><span style="color:purple;">Justification:</span></strong> While the "granddaughter" is present in the predicted answer, the rest is completely nonsensical as someone cannot be their own grandmother. For nonsensical answers, we assign a score of <strong>1</strong>, even if there is word overlap between the predicted answer and the correct answer. <br />
+			<strong><font color="purple">Justification:</font></strong> While the "granddaughter" is present in the predicted answer, the rest is completely nonsensical as someone cannot be their own grandmother. For nonsensical answers, we assign a score of <strong>1</strong>, even if there is word overlap between the predicted answer and the correct answer. <br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -265,7 +265,7 @@
 			<strong>Question:</strong> Who comes to pick up the package the next day ? <br />
 			<strong>Correct Answer:</strong> Drug Dealers  <br />
 			<strong>Predicted Answer:</strong> Peter and Michael <br />
-			<strong><span style="color:purple;">Justification:</span></strong> The drug dealers are John and Jim. The predicted answer gets the names of the drug dealers completely wrong.<br />
+			<strong><font color="purple">Justification:</font></strong> The drug dealers are John and Jim. The predicted answer gets the names of the drug dealers completely wrong.<br />
 		</div><br />
 
 		<div style="padding-left: 3em;">
@@ -273,7 +273,7 @@
 			<strong>Question:</strong> What does Hillard hear through his window? <br />
 			<strong>Correct Answer:</strong> He hears a woman's beautiful singing. <br />
 			<strong>Predicted Answer:</strong> he hears a beautiful single girl's Lady <br />
-			<strong><span style="color:purple;">Justification:</span></strong> This predicted answer doesn't make sense, and so we assign it a <strong>1</strong>. <br />
+			<strong><font color="purple">Justification:</font></strong> This predicted answer doesn't make sense, and so we assign it a <strong>1</strong>. <br />
 		</div><br />
 
 	</div>
@@ -297,19 +297,19 @@
 			<h7>&nbsp;</h7>
 		</div>
 
-		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
+		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</strong></h4>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">What does Gurov do at night time once returning to Moscow?</span> </span></div>
+			<span style="color:#FF8C00;" class="question">What does Gurov do at night time once returning to Moscow?</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">He attends night clubs</span> </span></div>
+			<span style="color:green;">He attends night clubs</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">he expects to soon forget by day and clubbing</span> </span></div>
+			<span style="color:red;">he expects to soon forget by day and clubbing</span></div>
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
@@ -336,15 +336,15 @@
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">Why did Anna have to go home?</span> </span></div>
+			<span style="color:#FF8C00;" class="question">Why did Anna have to go home?</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">Anna's husband sent for her because he was having a medical problem.</span> </span></div>
+			<span style="color:green;">Anna's husband sent for her because he was having a medical problem.</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">She was haunted by Anna's memory.</span> </span></div>
+			<span style="color:red;">She was haunted by Anna's memory.</span></div>
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
@@ -371,15 +371,15 @@
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">How does Gurav find Anna's home address?</span> </span></div>
+			<span style="color:#FF8C00;" class="question">How does Gurav find Anna's home address?</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">A hotelporter gives Gurav that information.</span> </span></div>
+			<span style="color:green;">A hotelporter gives Gurav that information.</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">Porter</span> </span></div>
+			<span style="color:red;">Porter</span></div>
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
@@ -406,15 +406,15 @@
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">Why does Anna's husband request that she returns home?</span> </span></div>
+			<span style="color:#FF8C00;" class="question">Why does Anna's husband request that she returns home?</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">He has something wrong with his eyes</span> </span></div>
+			<span style="color:green;">He has something wrong with his eyes</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">he has something wrong in the eyes .</span> </span></div>
+			<span style="color:red;">he has something wrong in the eyes .</span></div>
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
@@ -441,15 +441,15 @@
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">How did Dimitri find Anna?</span> </span></div>
+			<span style="color:#FF8C00;" class="question">How did Dimitri find Anna?</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">He went to the theatre where he thought Anna may attend.</span> </span></div>
+			<span style="color:green;">He went to the theatre where he thought Anna may attend.</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">He went to the theater.</span> </span></div>
+			<span style="color:red;">He went to the theater.</span></div>
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
@@ -476,15 +476,15 @@
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">Why do you think Anna's husband was suspicious about her trip to Moscow to see a doctor?</span> </span></div>
+			<span style="color:#FF8C00;" class="question">Why do you think Anna's husband was suspicious about her trip to Moscow to see a doctor?</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">The story suggests that Anna's husband "believed and did not believe" Anna.</span> </span></div>
+			<span style="color:green;">The story suggests that Anna's husband "believed and did not believe" Anna.</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">he doesn't believe a doctor</span> </span></div>
+			<span style="color:red;">he doesn't believe a doctor</span></div>
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
@@ -511,15 +511,15 @@
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">Why does Anna's husband request that she returns home?</span> </span></div>
+			<span style="color:#FF8C00;" class="question">Why does Anna's husband request that she returns home?</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">He has something wrong with his eyes</span> </span></div>
+			<span style="color:green;">He has something wrong with his eyes</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">To care for some business after leaving St. Petersburg.</span> </span></div>
+			<span style="color:red;">To care for some business after leaving St. Petersburg.</span></div>
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
@@ -546,15 +546,15 @@
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">Why do you think Anna ran from Gurov at the theatre in Yalta?</span> </span></div>
+			<span style="color:#FF8C00;" class="question">Why do you think Anna ran from Gurov at the theatre in Yalta?</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">Anna ran from Gurov at the theatre because she was probably surprised to see him and reacted by running away from him.</span> </span></div>
+			<span style="color:green;">Anna ran from Gurov at the theatre because she was probably surprised to see him and reacted by running away from him.</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">To see a doctor</span> </span></div>
+			<span style="color:red;">To see a doctor</span></div>
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
@@ -581,15 +581,15 @@
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">What do you think Gurov should do about his dilemma?</span> </span></div>
+			<span style="color:#FF8C00;" class="question">What do you think Gurov should do about his dilemma?</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">Gurov should confront his wife about the love affair and be honest.</span> </span></div>
+			<span style="color:green;">Gurov should confront his wife about the love affair and be honest.</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">Leave Yalta</span> </span></div>
+			<span style="color:red;">Leave Yalta</span></div>
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
@@ -616,15 +616,15 @@
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">What does Anna's husband do during the first internval of the performance?</span> </span></div>
+			<span style="color:#FF8C00;" class="question">What does Anna's husband do during the first internval of the performance?</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">He steps outside to smoke a cigarette.</span> </span></div>
+			<span style="color:green;">He steps outside to smoke a cigarette.</span></div>
 		<h7>&nbsp;</h7>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">He goes out for smoke.</span> </span></div>
+			<span style="color:red;">He goes out for smoke.</span></div>
 		<h7>&nbsp;</h7>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
