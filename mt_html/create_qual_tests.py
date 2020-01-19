@@ -45,8 +45,8 @@ def main():
 			pprint(response['ResponseMetadata'])
 		else:
 			print('Successfully created', name.upper(), 'qual')
-		print('\n')
+		print()
 
 if __name__ == '__main__':
-	print('\n')
+	print()
 	main()

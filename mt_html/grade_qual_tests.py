@@ -10,42 +10,53 @@ client = boto3.client('mturk', endpoint_url=endpoint_url,
 					  aws_secret_access_key=config['aws_secret_access_key'])
 
 ACCURACY_THRESHOLD = 0.7 # If turkers get >= than 70% of quals right, accept them
-DATASETS = ['cosmosqa', 'drop', 'mcscript', 'narrativeqa', 'quoref', 'ropes', 'socialiqa']
+
+# Answer key for the quals. 
+ANSWER_DICT = {'cosmosqa': {}, 
+			   'drop': {},
+			   'mcscript': {},
+			   'narrativeqa': {'1': [2, 3], '2': [4, 5],
+							   '3': [4], 	'4': [5],
+							   '5': [1], 	'6': [5],
+							   '7': [1, 2], '8': [3],
+							   '9': [2, 3], '10': [5]},
+			   'quoref': {},
+			   'ropes': {},
+			   'socialiqa': {}}
 
 def get_qual_requests(qual_id):
 	response = client.list_qualification_requests(QualificationTypeId=qual_id)
 	assert response['ResponseMetadata']['HTTPStatusCode'] == 200
 	return response['QualificationRequests']
 
-def grade_qual_requests(qual_id, qual_requests, answer_dict):
+def grade_qual_requests(qual_requests, answer_dict):
+	""" 
+	Iterates through the qualification requests for a qualification type,
+	scoring the answers for each request.
+
+	Passes the qualification request if it has an accuracy >= `ACCURACY_THRESHOLD`.
+	"""
 	for request in qual_requests:
-	    worker_id = request['WorkerId']
-	    answer_dict = xmltodict.parse(request['Answer'])['QuestionFormAnswers']['Answer']
-	    question_id = answer_dict['QuestionIdentifier']
-	    answer_selection = int(answer_dict['SelectionIdentifier'])
+		# Grab elements from the request
+		request_id = request['QualificationRequestId']
+		worker_id = request['WorkerId']
+		guesses = xmltodict.parse(request['Answer'])['QuestionFormAnswers']['Answer']
 
-def test_cosmosqa(qual_id):
-	pass
+		# Check that all questions in test are answered
+		assert len(guesses) == len(answer_dict)
 
-def test_drop(qual_id):
-	pass
+		# Compute accuracy for that request
+		num_correct = len([1 for g in guesses if int(g['SelectionIdentifier']) in answer_dict[g['QuestionIdentifier']]])
+		accuracy = num_correct/len(guesses)
+		print(accuracy)
 
-def test_mcscript(qual_id):
-	pass
-
-def test_narrativeqa(qual_id):
-	answer_dict = {'1': [1, 2]}
-	qual_requests = get_qual_requests(qual_id)
-	grade_qual_requests(qual_id, qual_requests, answer_dict)
-
-def test_quoref(qual_id):
-	pass
-
-def test_ropes(qual_id):
-	pass
-
-def test_socialiqa(qual_id):
-	pass
+		# Approve or reject the request based on the accuracy
+		if accuracy >= ACCURACY_THRESHOLD:
+			print('worker', worker_id, 'passed!')
+			client.accept_qualification_request(QualificationRequestId=request_id)
+		else:
+			print('worker', worker_id, 'rejected!')
+			client.reject_qualification_request(QualificationRequestId=request_id)
 
 def main():
 	# First get a list of all the qualifications
@@ -53,25 +64,16 @@ def main():
 	assert response['ResponseMetadata']['HTTPStatusCode'] == 200
 	qual_dict = {d['Name']:d['QualificationTypeId'] for d in response['QualificationTypes']}
 
-	# For the qualifications in `DATASETS`, assess the test
+	# For each qualification, get all requests for that qual
 	for qual_name, qual_id in qual_dict.items():
-		assert qual_name in DATASETS
-		if qual_name == 'cosmosqa':
-			test_cosmosqa(qual_id)
-		elif qual_name == 'drop':
-			test_drop(qual_id)
-		elif qual_name == 'mcscript':
-			test_mcscript(qual_id)
-		elif qual_name == 'narrativeqa':
-			test_narrativeqa(qual_id)
-		elif qual_name == 'quoref':
-			test_quoref(qual_id)
-		elif qual_name == 'ropes':
-			test_ropes(qual_id)
-		elif qual_name == 'socialiqa':
-			test_socialiqa(qual_id)
-		else:
-			print('error')
+		assert qual_name in ANSWER_DICT
+
+		qual_requests = get_qual_requests(qual_id)
+		
+		if len(qual_requests) > 0:
+			print('Grading requests for ', qual_name.upper(), 'qual...')
+			grade_qual_requests(qual_requests, ANSWER_DICT[qual_name])
+			print()
 
 if __name__ == '__main__':
 	main()
