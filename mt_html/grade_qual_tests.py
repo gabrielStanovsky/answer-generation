@@ -38,24 +38,23 @@ def grade_qual_requests(qual_requests, answer_dict):
 	"""
 	for request in qual_requests:
 		# Grab elements from the request
-		request_id = request['QualificationRequestId']
-		worker_id = request['WorkerId']
-		guesses = xmltodict.parse(request['Answer'])['QuestionFormAnswers']['Answer']
+		request_id 	= request['QualificationRequestId']
+		worker_id 	= request['WorkerId']
+		guesses 	= xmltodict.parse(request['Answer'])['QuestionFormAnswers']['Answer']
 
 		# Check that all questions in test are answered
 		assert len(guesses) == len(answer_dict)
 
 		# Compute accuracy for that request
 		num_correct = len([1 for g in guesses if int(g['SelectionIdentifier']) in answer_dict[g['QuestionIdentifier']]])
-		accuracy = num_correct/len(guesses)
-		print(accuracy)
+		accuracy 	= num_correct/len(guesses)
 
 		# Approve or reject the request based on the accuracy
 		if accuracy >= ACCURACY_THRESHOLD:
-			print('worker', worker_id, 'passed!')
+			print('worker', worker_id, 'passed with accuracy', accuracy, '!')
 			client.accept_qualification_request(QualificationRequestId=request_id)
 		else:
-			print('worker', worker_id, 'rejected!')
+			print('worker', worker_id, 'rejected with accuracy', accuracy, '!')
 			client.reject_qualification_request(QualificationRequestId=request_id)
 
 def main():
