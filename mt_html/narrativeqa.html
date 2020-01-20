@@ -1,41 +1,45 @@
 <!-- HIT template: DataCollection-v3.0 --><!-- The following snippet enables the 'responsive' behavior on smaller screens -->
-<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" rel="stylesheet" /><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js">
-	</style>
-</script>
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <meta content="width=device-width,initial-scale=1" name="viewport" />
-<section class="container" id="DataCollection"><!-- Instructions -->
+
 <style>
-.collapsible {
-  background-color: #777;
-  color: white;
-  cursor: pointer;
-  padding: 11px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 11px;
-}
+	.collapsible {
+	  background-color: #777;
+	  color: white;
+	  cursor: pointer;
+	  padding: 11px;
+	  width: 100%;
+	  border: none;
+	  text-align: left;
+	  outline: none;
+	  font-size: 11px;
+	}
 
-.active, .collapsible:hover {
-  background-color: #555;
-}
+	.active, .collapsible:hover {
+	  background-color: #555;
+	}
 
-.content {
-  padding: 0 10px;
-  display: none;
-  overflow: hidden;
-  background-color: #f1f1f1;
-}
+	.content {
+	  padding: 0 10px;
+	  display: none;
+	  overflow: hidden;
+	  background-color: #f1f1f1;
+	}
 
-#tasks .task{
-	display: none;
-}
-#tasks .task.current{
-	display: block;
-}
+	#tasks .task{
+		display: none;
+	}
+	#tasks .task.current{
+		display: block;
+	}
+	#submitButton{
+		white-space: normal;
+	}
 </style>
 
+<section class="container" id="DataCollection"><!-- Instructions -->
 
 <div style="padding-left: 3em; border:solid #000; border-width: 1px;">&nbsp;
 <!--*********************************
@@ -278,7 +282,7 @@
 		</div><br />
 
 	</div>
-<h7>&nbsp;</h7>
+<br/>
 </div> 
 
 <!--*********************************
@@ -295,23 +299,23 @@
 		<div id="context">
 			<h4><strong>Part 1. Read the following passage: </strong></h4>
 			<p style="font-size: 12pt;font-family:Verdana;color: black;">${context1}</p>
-			<h7>&nbsp;</h7>
+			<br/>
 		</div>
 
 		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</strong></h4>
-		<h7>&nbsp;</h7>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">${question1}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:#FF8C00;" class="question">${question1}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">${reference1}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:green;">${reference1}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">${candidate1}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:red;">${candidate1}</span></span></div>
+		<br/>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
 		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
@@ -330,23 +334,23 @@
 		<div id="context">
 			<h4><strong>Part 1. Read the following passage: </strong></h4>
 			<p style="font-size: 12pt;font-family:Verdana;color: black;">${context2}</p>
-			<h7>&nbsp;</h7>
+			<br/>
 		</div>
 
-		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
-		<h7>&nbsp;</h7>
+		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</strong></h4>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">${question2}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:#FF8C00;" class="question">${question2}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">${reference2}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:green;">${reference2}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">${candidate2}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:red;">${candidate2}</span></span></div>
+		<br/>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
 		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
@@ -365,23 +369,23 @@
 		<div id="context">
 			<h4><strong>Part 1. Read the following passage: </strong></h4>
 			<p style="font-size: 12pt;font-family:Verdana;color: black;">${context3}</p>
-			<h7>&nbsp;</h7>
+			<br/>
 		</div>
 
-		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
-		<h7>&nbsp;</h7>
+		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</strong></h4>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">${question3}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:#FF8C00;" class="question">${question3}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">${reference3}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:green;">${reference3}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">${candidate3}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:red;">${candidate3}</span></span></div>
+		<br/>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
 		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
@@ -400,23 +404,23 @@
 		<div id="context">
 			<h4><strong>Part 1. Read the following passage: </strong></h4>
 			<p style="font-size: 12pt;font-family:Verdana;color: black;">${context4}</p>
-			<h7>&nbsp;</h7>
+			<br/>
 		</div>
 
-		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
-		<h7>&nbsp;</h7>
+		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</strong></h4>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">${question4}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:#FF8C00;" class="question">${question4}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">${reference4}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:green;">${reference4}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">${candidate4}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:red;">${candidate4}</span></span></div>
+		<br/>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
 		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
@@ -435,23 +439,23 @@
 		<div id="context">
 			<h4><strong>Part 1. Read the following passage: </strong></h4>
 			<p style="font-size: 12pt;font-family:Verdana;color: black;">${context5}</p>
-			<h7>&nbsp;</h7>
+			<br/>
 		</div>
 
-		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
-		<h7>&nbsp;</h7>
+		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</strong></h4>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">${question5}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:#FF8C00;" class="question">${question5}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">${reference5}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:green;">${reference5}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">${candidate5}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:red;">${candidate5}</span></span></div>
+		<br/>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
 		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
@@ -470,23 +474,23 @@
 		<div id="context">
 			<h4><strong>Part 1. Read the following passage: </strong></h4>
 			<p style="font-size: 12pt;font-family:Verdana;color: black;">${context6}</p>
-			<h7>&nbsp;</h7>
+			<br/>
 		</div>
 
-		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
-		<h7>&nbsp;</h7>
+		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</strong></h4>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">${question6}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:#FF8C00;" class="question">${question6}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">${reference6}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:green;">${reference6}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">${candidate6}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:red;">${candidate6}</span></span></div>
+		<br/>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
 		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
@@ -505,23 +509,23 @@
 		<div id="context">
 			<h4><strong>Part 1. Read the following passage: </strong></h4>
 			<p style="font-size: 12pt;font-family:Verdana;color: black;">${context7}</p>
-			<h7>&nbsp;</h7>
+			<br/>
 		</div>
 
-		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
-		<h7>&nbsp;</h7>
+		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</strong></h4>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">${question7}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:#FF8C00;" class="question">${question7}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">${reference7}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:green;">${reference7}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">${candidate7}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:red;">${candidate7}</span></span></div>
+		<br/>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
 		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
@@ -540,23 +544,23 @@
 		<div id="context">
 			<h4><strong>Part 1. Read the following passage: </strong></h4>
 			<p style="font-size: 12pt;font-family:Verdana;color: black;">${context8}</p>
-			<h7>&nbsp;</h7>
+			<br/>
 		</div>
 
-		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
-		<h7>&nbsp;</h7>
+		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</strong></h4>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">${question8}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:#FF8C00;" class="question">${question8}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">${reference8}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:green;">${reference8}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">${candidate8}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:red;">${candidate8}</span></span></div>
+		<br/>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
 		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
@@ -575,23 +579,23 @@
 		<div id="context">
 			<h4><strong>Part 1. Read the following passage: </strong></h4>
 			<p style="font-size: 12pt;font-family:Verdana;color: black;">${context9}</p>
-			<h7>&nbsp;</h7>
+			<br/>
 		</div>
 
-		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
-		<h7>&nbsp;</h7>
+		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</strong></h4>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">${question9}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:#FF8C00;" class="question">${question9}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">${reference9}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:green;">${reference9}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">${candidate9}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:red;">${candidate9}</span></span></div>
+		<br/>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
 		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
@@ -610,23 +614,23 @@
 		<div id="context">
 			<h4><strong>Part 1. Read the following passage: </strong></h4>
 			<p style="font-size: 12pt;font-family:Verdana;color: black;">${context10}</p>
-			<h7>&nbsp;</h7>
+			<br/>
 		</div>
 
-		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</span></strong></h4>
-		<h7>&nbsp;</h7>
+		<h4><strong>Part 2. Read the following question, correct answer, and predicted answer:</strong></h4>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Question: 
-			<span style="color:#FF8C00;" class="question">${question10}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:#FF8C00;" class="question">${question10}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Correct Answer:
-			<span style="color:green;">${reference10}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:green;">${reference10}</span></span></div>
+		<br/>
 
 		<div style="padding-left: 3em;"><span style="font-size: 12pt;font-family:Verdana,cursive;">Predicted Answer:
-			<span style="color:red;">${candidate10}</span></div>
-		<h7>&nbsp;</h7>
+			<span style="color:red;">${candidate10}</span></span></div>
+		<br/>
 
 		<h4><strong>Part 3. Select the score that best reflects <span style="color:#0000FF">how closely a predicted answer captures the same information as the correct answer.</span></strong></h4>
 		<div class="checkboxes" style="padding-left: 2em;font-size: 12pt;">
@@ -646,7 +650,7 @@
 <!-- Comments -->
 <div>
 	<h4><strong>(Optional) Comments about the task or the examples. </strong></h4>
-	<input id="comment" name="comment" size="100%" type="text" />
+	<input id="comment" name="comment" size="100" type="text" />
 	<br /><br /><br />
 </div>
 
@@ -657,18 +661,6 @@
 
 <!-- End Data Collection Layout --><!-- Please note that Bootstrap CSS/JS and JQuery are 3rd party libraries that may update their url/code at any time. Amazon Mechanical Turk (MTurk) is including these libraries as a default option for you, but is not responsible for any changes to the external libraries --><!-- External CSS references -->
 <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" integrity="sha384-IS73LIqjtYesmURkDE9MXKbXqYA8rvKEp/ghicjem7Vc3mGRdQRptJSz60tvrB6+" rel="stylesheet" /><!-- Open internal style sheet -->
-<style type="text/css">#collapseTrigger{
-	color:#fff;
-	display: block;
-	text-decoration: none;
-}
-#submitButton{
-	white-space: normal;
-}
-.image{
-	margin-bottom: 15px;
-}
-</style>
 
 <!--*********************************
 			Scripts

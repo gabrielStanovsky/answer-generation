@@ -51,10 +51,10 @@ def grade_qual_requests(qual_requests, answer_dict):
 
 		# Approve or reject the request based on the accuracy
 		if accuracy >= ACCURACY_THRESHOLD:
-			print('worker', worker_id, 'passed with accuracy', accuracy, '!')
+			print('\tWorker', worker_id, 'passed with accuracy', accuracy, '!')
 			client.accept_qualification_request(QualificationRequestId=request_id)
 		else:
-			print('worker', worker_id, 'rejected with accuracy', accuracy, '!')
+			print('\tWorker', worker_id, 'rejected with accuracy', accuracy, '!')
 			client.reject_qualification_request(QualificationRequestId=request_id)
 
 def main():

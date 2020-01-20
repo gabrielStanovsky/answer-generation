@@ -36,9 +36,8 @@ def main():
 		response = client.create_qualification_type(Name=name, 
 													Test=open(test_file).read(),
 													Description='Good at ' + name,
-													QualificationTypeStatus='Active', 
-													TestDurationInSeconds=TEST_DURATION,
-													RetryDelayInSeconds=1)
+													QualificationTypeStatus='Active',
+													TestDurationInSeconds=TEST_DURATION)
 
 		if response['ResponseMetadata']['HTTPStatusCode'] != 200:
 			print('Could not create qual. Response metadata:')
