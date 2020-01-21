@@ -15,21 +15,35 @@ ACCURACY_THRESHOLD = 0.7 # If turkers get >= than 70% of quals right, accept the
 ANSWER_DICT = {'cosmosqa': {}, 
 			   'drop': {},
 			   'mcscript': {},
-			   'narrativeqa': {'1': [2, 3], '2': [4, 5],
+			   'narrativeqa': {'1': [2, 3], '2': [3, 4],
 							   '3': [4], 	'4': [5],
 							   '5': [1], 	'6': [5],
 							   '7': [1, 2], '8': [3],
-							   '9': [2, 3], '10': [5]},
+							   '9': [2, 3, 4], '10': [5]},
 			   'quoref': {},
 			   'ropes': {},
 			   'socialiqa': {}}
 
-def get_qual_requests(qual_id):
+def get_qual_types():
+	response = client.list_qualification_types(MustBeRequestable=True, MustBeOwnedByCaller=True)
+	assert response['ResponseMetadata']['HTTPStatusCode'] == 200
+	return response['QualificationTypes']
+
+def get_qual_requests(qual_id: str):
 	response = client.list_qualification_requests(QualificationTypeId=qual_id)
 	assert response['ResponseMetadata']['HTTPStatusCode'] == 200
 	return response['QualificationRequests']
 
-def grade_qual_requests(qual_requests, answer_dict):
+def accept_request(request_id: str, worker_id: str, accuracy: float):
+	if accuracy >= ACCURACY_THRESHOLD:
+		print('\tWorker', worker_id, 'passed with accuracy', accuracy, '!')
+		response = client.accept_qualification_request(QualificationRequestId=request_id)
+	else:
+		print('\tWorker', worker_id, 'rejected with accuracy', accuracy, '!')
+		response = client.reject_qualification_request(QualificationRequestId=request_id)
+	assert response['ResponseMetadata']['HTTPStatusCode'] == 200
+
+def grade_qual_requests(qual_requests: list, answer_dict: dict):
 	""" 
 	Iterates through the qualification requests for a qualification type,
 	scoring the answers for each request.
@@ -37,25 +51,17 @@ def grade_qual_requests(qual_requests, answer_dict):
 	Passes the qualification request if it has an accuracy >= `ACCURACY_THRESHOLD`.
 	"""
 	for request in qual_requests:
-		# Grab elements from the request
-		request_id 	= request['QualificationRequestId']
-		worker_id 	= request['WorkerId']
 		guesses 	= xmltodict.parse(request['Answer'])['QuestionFormAnswers']['Answer']
+		assert len(guesses) == len(answer_dict) # Check that all questions in test are answered
 
-		# Check that all questions in test are answered
-		assert len(guesses) == len(answer_dict)
-
-		# Compute accuracy for that request
-		num_correct = len([1 for g in guesses if int(g['SelectionIdentifier']) in answer_dict[g['QuestionIdentifier']]])
+		# Compute accuracy for the current request
+		choices 	= {g['QuestionIdentifier']: int(g['SelectionIdentifier']) for g in guesses}
+		is_correct 	= {qid: (1 if choice in answer_dict[qid] else 0) for qid, choice in choices.items()}
+		num_correct = sum(is_correct.values())
 		accuracy 	= num_correct/len(guesses)
 
 		# Approve or reject the request based on the accuracy
-		if accuracy >= ACCURACY_THRESHOLD:
-			print('\tWorker', worker_id, 'passed with accuracy', accuracy, '!')
-			client.accept_qualification_request(QualificationRequestId=request_id)
-		else:
-			print('\tWorker', worker_id, 'rejected with accuracy', accuracy, '!')
-			client.reject_qualification_request(QualificationRequestId=request_id)
+		accept_request(request['QualificationRequestId'], request['WorkerId'], accuracy)
 
 def main():
 	# First get a list of all the qualifications
