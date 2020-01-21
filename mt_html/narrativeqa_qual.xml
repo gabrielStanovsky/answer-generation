@@ -1,7 +1,7 @@
 <QuestionForm xmlns="http://mechanicalturk.amazonaws.com/AWSMechanicalTurkDataSchemas/2017-11-06/QuestionForm.xsd"> 
 	<Overview>
 		<FormattedContent><![CDATA[
-			<h2><u><strong>Task Instruction:</strong></u></h2>
+			<h2><u>Task Instructions:</u></h2>
 			<p>
 				In this task, you are given a passage, a question, a correct answer, and a predicted answer.
 				The task is to <font color="red"><em>score how closely a predicted answer captures the same information (i.e. have the same meaning) as a correct answer</em></font> using the <em><strong><u>passage</u></strong></em>, <em><strong><u>question</u></strong></em>, and human <em><strong><u>commonsense knowledge</u></strong></em>. 
@@ -19,7 +19,7 @@
 		]]></FormattedContent>
 
 		<FormattedContent><![CDATA[
-			<h2><u><strong>Examples (Sorted by Scores):</strong></u><br/></h2>
+			<h2><u>Examples (Sorted by Scores):</u><br/></h2>
 
 			<h3><strong><font size="4"><font color="blue">(Completely Right)</font> Predicted answers that should recieve a <font color="red">5</font>:</font></strong><br/></h3>
 				Some ways a predicted answer can get a score of 5.
