@@ -4,7 +4,7 @@ import os
 from pprint import pprint
 
 config = json.load(open('/home/tony/.aws/mycredentials'))
-endpoint_url = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
+# endpoint_url = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
 client = boto3.client('mturk', endpoint_url=endpoint_url, 
 					  region_name=config['region_name'],
                       aws_access_key_id=config['aws_access_key_id'],

@@ -1,31 +1,21 @@
+from bs4 import BeautifulSoup
 import boto3
 import json
 from jsonlines import Reader
 from os.path import isfile
 from pprint import pprint
 import xmltodict
+import time
 
 config = json.load(open('/home/tony/.aws/mycredentials'))
-endpoint_url = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
+# endpoint_url = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
 client = boto3.client('mturk', endpoint_url=endpoint_url, 
 					  region_name=config['region_name'],
 					  aws_access_key_id=config['aws_access_key_id'],
 					  aws_secret_access_key=config['aws_secret_access_key'])
 
 ACCURACY_THRESHOLD = 0.7 # If turkers get >= than 70% of quals right, accept them
-
-# Answer key for the quals. 
-ANSWER_DICT = {'cosmosqa': {}, 
-			   'drop': {},
-			   'mcscript': {},
-			   'narrativeqa': {'1': [2, 3], '2': [3, 4],
-							   '3': [4], 	'4': [5],
-							   '5': [1], 	'6': [5],
-							   '7': [1, 2], '8': [3],
-							   '9': [2, 3, 4], '10': [5]},
-			   'quoref': {},
-			   'ropes': {},
-			   'socialiqa': {}}
+ANSWER_DICT = json.load(open('mt_html/qual_answers.json'))
 
 # File to store worker choices, scores, and whether they passed or not
 WORKER_OUTPUT_FILE = 'worker_scores.jsonl'
@@ -52,6 +42,44 @@ def accept_request(request_id: str, worker_id: str, accuracy: float):
 		assert response['ResponseMetadata']['HTTPStatusCode'] == 200
 		return False
 
+def construct_email(qual_name, request, worker_id, choices, is_correct, answer_dict):
+	subject = 'Results on test for qualification ' + qual_name.upper()
+	num_wrong = len(is_correct.values()) - sum(is_correct.values())
+
+	email = 'Congratulations! You passed the qualification exam! You got ' + str(sum(is_correct.values())) + \
+		' questions right out of ' + str(len(is_correct)) + '\n\n'
+
+	if num_wrong != 0:
+		email += 'Thanks for doing our task!\n'
+		email += 'Please read see further emails to see what you got wrong and why.'.upper() + '\n\n'
+		client.notify_workers(Subject=subject, MessageText=email, WorkerIds=[worker_id])
+		
+
+		wrong_question_ids = [key for key in is_correct if is_correct[key] == 0]
+		for question_id in wrong_question_ids:
+			# Send a separate email for each question wrong b/c there is a limit per email of 4096 characters
+			cur_email = ''
+			question_dict = xmltodict.parse(request['Test'])['QuestionForm']['Question'][int(question_id)-1]
+			assert question_dict['QuestionIdentifier'] == question_id
+
+			parsed_html = BeautifulSoup(question_dict['QuestionContent']['FormattedContent'], features="lxml")
+			for entry_num, entry in enumerate(parsed_html.find_all('p')):
+				if entry_num == 0:
+					cur_email += 'Passage: ' + entry.text.strip() + '\n\n'
+				else:
+					cur_email += entry.text.strip() + '\n'
+			
+			cur_email += 'Your score: ' + str(choices[question_id]) + '\n'
+			cur_email += 'Correct scores: ' + ' or '.join(str(e) for e in answer_dict[question_id]['label']) + '\n'
+			cur_email += 'Justification: ' + answer_dict[question_id]['justification'] + '\n'
+
+			if len(email) < 4096:
+				client.notify_workers(Subject=subject, MessageText=cur_email, WorkerIds=[worker_id])
+				email += cur_email
+				time.sleep(2)
+
+	return email
+
 def grade_qual_requests(qual_name: str, qual_id: str, qual_requests: list, writer, seen: set):
 	""" 
 	Iterates through the qualification requests for a qualification type,
@@ -69,13 +97,14 @@ def grade_qual_requests(qual_name: str, qual_id: str, qual_requests: list, write
 
 		# Compute accuracy for the current request
 		choices 	= {g['QuestionIdentifier']: int(g['SelectionIdentifier']) for g in guesses}
-		is_correct 	= {qid: (1 if choice in current_qual_answer_dict[qid] else 0) for qid, choice in choices.items()}
+		is_correct 	= {qid: (1 if choice in current_qual_answer_dict[qid]['label'] else 0) for qid, choice in choices.items()}
 		num_correct = sum(is_correct.values())
 		accuracy 	= num_correct/len(guesses)
 
 		if (worker_id, qual_id) not in seen:
 			# Approve or reject the request based on the accuracy
 			accepted = accept_request(request_id, worker_id, accuracy)
+			email = construct_email(qual_name, request, worker_id, choices, is_correct, current_qual_answer_dict) if accepted else None
 
 			output_dict = {'worker_id': worker_id,
 						   'request_id': request_id,
@@ -85,10 +114,10 @@ def grade_qual_requests(qual_name: str, qual_id: str, qual_requests: list, write
 						   'choices': choices,
 						   'choices_correctness': is_correct,
 						   'accuracy': accuracy,
+						   'email': email,
 						   'accepted': accepted}
 
 			writer.write(json.dumps(output_dict) + '\n')
-			
 		else:
 			print('\tAlready seen worker id:', worker_id, 'with id', qual_id)
 
