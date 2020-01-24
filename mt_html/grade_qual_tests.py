@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-import boto3
+from safe_client import SafeClient
 import json
 from jsonlines import Reader
 from os.path import isfile
@@ -9,10 +9,11 @@ import time
 
 config = json.load(open('/home/tony/.aws/mycredentials'))
 # endpoint_url = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
-client = boto3.client('mturk', endpoint_url=endpoint_url, 
-					  region_name=config['region_name'],
-					  aws_access_key_id=config['aws_access_key_id'],
-					  aws_secret_access_key=config['aws_secret_access_key'])
+client = SafeClient(service_name = 'mturk',
+                    endpoint_url = endpoint_url, 
+		    region_name = config['region_name'],
+		    aws_access_key_id = config['aws_access_key_id'],
+		    aws_secret_access_key = config['aws_secret_access_key'])
 
 ACCURACY_THRESHOLD = 0.7 # If turkers get >= than 70% of quals right, accept them
 ANSWER_DICT = json.load(open('mt_html/qual_answers.json'))

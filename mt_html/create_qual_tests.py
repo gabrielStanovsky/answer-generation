@@ -1,14 +1,15 @@
-import boto3
+from safe_client import SafeClient
 import json
 import os
 from pprint import pprint
 
 config = json.load(open('/home/tony/.aws/mycredentials'))
 # endpoint_url = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
-client = boto3.client('mturk', endpoint_url=endpoint_url, 
-					  region_name=config['region_name'],
-                      aws_access_key_id=config['aws_access_key_id'],
-                      aws_secret_access_key=config['aws_secret_access_key'])
+client = SafeClient(service_name = 'mturk',
+                    endpoint_url=endpoint_url, 
+		    region_name=config['region_name'],
+                    aws_access_key_id=config['aws_access_key_id'],
+                    aws_secret_access_key=config['aws_secret_access_key'])
 
 DATASETS = ['cosmosqa', 'drop', 'mcscript', 'narrativeqa', 'quoref', 'ropes', 'socialiqa']
 TEST_DURATION = 3600 # 60 minutes to do test
@@ -34,10 +35,10 @@ def main():
 
 		print('Attemping to create', name.upper(), 'qual')
 		response = client.create_qualification_type(Name=name, 
-													Test=open(test_file).read(),
-													Description='Good at ' + name,
-													QualificationTypeStatus='Active',
-													TestDurationInSeconds=TEST_DURATION)
+							    Test=open(test_file).read(),
+							    Description='Good at ' + name,
+							    QualificationTypeStatus='Active',
+							    TestDurationInSeconds=TEST_DURATION)
 
 		if response['ResponseMetadata']['HTTPStatusCode'] != 200:
 			print('Could not create qual. Response metadata:')
